@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kajetan Neweś - Data Science & AI Portfolio</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;700;800&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(135, 206, 250, 0.2);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #87CEEB;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        /* Diagonal separator in nav */
+        nav .container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #87CEEB, transparent);
+            transform: translateX(-50%) skewX(-20deg);
+            opacity: 0.5;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #87CEEB;
+            transition: width 0.3s;
+            transform: skewX(-20deg);
+        }
+
+        nav a:hover {
+            color: #87CEEB;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Diagonal Section Base */
+        section {
+            position: relative;
+            padding: 150px 0;
+        }
+
+        section::before,
+        section::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: inherit;
+        }
+
+        section::before {
+            top: -50px;
+            clip-path: polygon(0 50px, 100% 0, 100% 50px, 0 100%);
+        }
+
+        section::after {
+            bottom: -50px;
+            clip-path: polygon(0 0, 100% 50px, 100% 100%, 0 50px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #000000 0%, #0a0a1a 100%);
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%);
+        }
+
+        .hero::before {
+            display: none;
+        }
+
+        .hero::after {
+            display: none;
+        }
+
+        .perlin-waves {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(ellipse 600px 300px at 15% 20%, rgba(135, 206, 250, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 500px 250px at 85% 75%, rgba(135, 206, 250, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse 550px 280px at 50% 50%, rgba(135, 206, 250, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 450px 220px at 30% 70%, rgba(135, 206, 250, 0.09) 0%, transparent 60%),
+                radial-gradient(ellipse 520px 260px at 70% 30%, rgba(135, 206, 250, 0.11) 0%, transparent 60%);
+            filter: blur(60px);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .hero-bg {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(135, 206, 250, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #87CEEB, #ffffff, #87CEEB, #5F9FDB);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            filter: drop-shadow(0 0 30px rgba(135, 206, 250, 0.4));
+            font-family: 'Manrope', sans-serif;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+            font-weight: 300;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #87CEEB;
+            color: #000000;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(135, 206, 250, 0.5);
+        }
+
+        /* About Section */
+        .about {
+            background: #0f0f1e;
+            clip-path: polygon(0 80px, 100% 0, 100% calc(100% - 80px), 0 100%);
+            padding: 180px 0;
+        }
+
+        .about::before,
+        .about::after {
+            display: none;
+        }
+
+        h2 {
+            font-size: 48px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: #87CEEB;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%) skewX(-20deg);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #87CEEB, transparent);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Skills Section */
+        .skills {
+            background: linear-gradient(135deg, #000000 0%, #1a0a1e 100%);
+            clip-path: polygon(0 80px, 100% 0, 100% calc(100% - 80px), 0 100%);
+            padding: 180px 0;
+        }
+
+        .skills::before,
+        .skills::after {
+            display: none;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 90px);
+            justify-content: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            row-gap: 0;
+            column-gap: 0;
+        }
+
+        .skill-card {
+            width: 180px;
+            height: 208px;
+            position: relative;
+        }
+
+        /* Row 1 - 3 hexagons */
+        .skill-card:nth-child(1) {
+            grid-column: 2 / span 2;
+            grid-row: 1;
+        }
+
+        .skill-card:nth-child(2) {
+            grid-column: 4 / span 2;
+            grid-row: 1;
+        }
+
+        .skill-card:nth-child(3) {
+            grid-column: 6 / span 2;
+            grid-row: 1;
+        }
+
+        /* Row 2 - 4 hexagons, offset down and right */
+        .skill-card:nth-child(4) {
+            grid-column: 1 / span 2;
+            grid-row: 2;
+            margin-top: -52px;
+        }
+
+        .skill-card:nth-child(5) {
+            grid-column: 3 / span 2;
+            grid-row: 2;
+            margin-top: -52px;
+        }
+
+        .skill-card:nth-child(6) {
+            grid-column: 5 / span 2;
+            grid-row: 2;
+            margin-top: -52px;
+        }
+
+        .skill-card:nth-child(7) {
+            grid-column: 7 / span 2;
+            grid-row: 2;
+            margin-top: -52px;
+        }
+
+        /* Row 3 - 3 hexagons, aligned with row 1 */
+        .skill-card:nth-child(8) {
+            grid-column: 2 / span 2;
+            grid-row: 3;
+            margin-top: -52px;
+        }
+
+        .skill-card:nth-child(9) {
+            grid-column: 4 / span 2;
+            grid-row: 3;
+            margin-top: -52px;
+        }
+
+        .skill-card:nth-child(10) {
+            grid-column: 6 / span 2;
+            grid-row: 3;
+            margin-top: -52px;
+        }
+
+        /* Row 4 - 2 hexagons, centered */
+        .skill-card:nth-child(11) {
+            grid-column: 3 / span 2;
+            grid-row: 4;
+            margin-top: -52px;
+        }
+
+        .skill-card:nth-child(12) {
+            grid-column: 5 / span 2;
+            grid-row: 4;
+            margin-top: -52px;
+        }
+
+        .hexagon-shape {
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: rgba(135, 206, 250, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+        }
+
+        .hexagon-shape::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: rgba(135, 206, 250, 0.3);
+            z-index: -1;
+        }
+
+        .skill-card:hover .hexagon-shape {
+            background: rgba(135, 206, 250, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(135, 206, 250, 0.3);
+        }
+
+        .skill-card:hover .hexagon-shape::before {
+            background: rgba(135, 206, 250, 0.6);
+        }
+
+        .hexagon-shape h3,
+        .hexagon-shape p {
+            position: relative;
+            z-index: 1;
+        }
+
+        .skill-card h3 {
+            color: #87CEEB;
+            margin-bottom: 8px;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .skill-card p {
+            font-size: 13px;
+            color: #cccccc;
+            line-height: 1.3;
+        }
+
+        /* Projects Section */
+        .projects {
+            background: #0a0a1a;
+            clip-path: polygon(0 80px, 100% 0, 100% calc(100% - 80px), 0 100%);
+            padding: 180px 0;
+        }
+
+        .projects::before,
+        .projects::after {
+            display: none;
+        }
+
+        .project-category {
+            margin-bottom: 80px;
+        }
+
+        .project-category h3 {
+            font-size: 36px;
+            color: #87CEEB;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+        }
+
+        .project-category h3::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) skewX(-20deg);
+            bottom: -15px;
+            width: 80px;
+            height: 2px;
+            background: #87CEEB;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 300px;
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.8) 0%, rgba(26, 10, 30, 0.8) 100%);
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid rgba(135, 206, 250, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: calc(50% - 15px);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #87CEEB, transparent);
+            transform: translateX(-50%) rotate(5.7deg);
+            transform-origin: center;
+            z-index: 5;
+        }
+
+        .project-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(135, 206, 250, 0.3);
+            border-color: #87CEEB;
+        }
+
+        .project-image {
+            background: linear-gradient(135deg, #16213e 0%, #0f1624 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            color: rgba(135, 206, 250, 0.3);
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, calc(100% - 30px) 100%, 0 100%);
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(135, 206, 250, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+
+        .project-card:hover .project-image::before {
+            left: 100%;
+        }
+
+        .project-content {
+            padding: 30px;
+            padding-left: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            clip-path: polygon(30px 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .project-content h4 {
+            color: #87CEEB;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+        }
+
+        .project-content p {
+            margin-bottom: 15px;
+            color: #cccccc;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: rgba(135, 206, 250, 0.1);
+            color: #87CEEB;
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-size: 12px;
+            border: 1px solid rgba(135, 206, 250, 0.3);
+            transform: skewX(-5deg);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #000000 0%, #0f0f1e 100%);
+            text-align: center;
+            clip-path: polygon(0 80px, 100% 0, 100% 100%, 0 100%);
+            padding: 180px 0 100px 0;
+        }
+
+        .contact::before,
+        .contact::after {
+            display: none;
+        }
+
+        .contact-info {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: inline-block;
+            padding: 15px 30px;
+            background: rgba(135, 206, 250, 0.05);
+            color: #87CEEB;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid rgba(135, 206, 250, 0.3);
+            transition: all 0.3s;
+            transform: skewX(-5deg);
+        }
+
+        .contact-link:hover {
+            transform: skewX(0deg) translateY(-3px);
+            border-color: #87CEEB;
+            background: rgba(135, 206, 250, 0.1);
+            box-shadow: 0 10px 25px rgba(135, 206, 250, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: #000000;
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid rgba(135, 206, 250, 0.2);
+        }
+
+        /* Project Modal */
+        .project-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            max-width: 900px;
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid rgba(135, 206, 250, 0.3);
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(135, 206, 250, 0.1);
+            border: 1px solid rgba(135, 206, 250, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #87CEEB;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: rgba(135, 206, 250, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            padding: 40px 40px 20px;
+        }
+
+        .modal-header h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 36px;
+            color: #87CEEB;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .modal-header h2::after {
+            display: none;
+        }
+
+        .modal-image-large {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #16213e 0%, #0f1624 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: rgba(135, 206, 250, 0.3);
+            border-bottom: 1px solid rgba(135, 206, 250, 0.2);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-section {
+            margin-bottom: 30px;
+        }
+
+        .modal-section h3 {
+            font-family: 'Manrope', sans-serif;
+            color: #87CEEB;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal-section p {
+            color: #cccccc;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .modal-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .modal-section li {
+            color: #cccccc;
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .modal-section li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #87CEEB;
+        }
+
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-tag {
+            background: rgba(135, 206, 250, 0.15);
+            color: #87CEEB;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+            border: 1px solid rgba(135, 206, 250, 0.3);
+        }
+
+        .modal-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .modal-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(135, 206, 250, 0.1);
+            color: #87CEEB;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid rgba(135, 206, 250, 0.3);
+            transition: all 0.3s;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+        }
+
+        .modal-link:hover {
+            background: rgba(135, 206, 250, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.2);
+        }
+
+        /* Decorative Diagonal Lines */
+        .diagonal-line {
+            position: absolute;
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(to bottom, transparent, rgba(135, 206, 250, 0.3), transparent);
+            transform: rotate(30deg);
+            opacity: 0.3;
+        }
+
+        .diagonal-line:nth-child(1) {
+            top: 20%;
+            left: 10%;
+        }
+
+        .diagonal-line:nth-child(2) {
+            top: 50%;
+            right: 15%;
+        }
+
+        .diagonal-line:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            h2 {
+                font-size: 36px;
+            }
+
+            .skills-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .skill-card {
+                width: 100%;
+                height: auto;
+                min-height: 160px;
+                margin: 0;
+            }
+
+            .skill-card:nth-child(n) {
+                margin-left: 0;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .project-card::before {
+                display: none;
+            }
+
+            .project-image {
+                clip-path: none;
+                height: 200px;
+                font-size: 48px;
+            }
+
+            .project-content {
+                clip-path: none;
+                padding: 25px;
+            }
+
+            section {
+                padding: 100px 0;
+            }
+
+            .about,
+            .skills,
+            .projects,
+            .contact {
+                padding: 120px 0;
+                clip-path: polygon(0 40px, 100% 0, 100% calc(100% - 40px), 0 100%);
+            }
+
+            .hero {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 40px));
+            }
+
+            .contact {
+                padding: 120px 0 80px 0;
+                clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">Kajetan Neweś</div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="perlin-waves"></div>
+        <div class="hero-content">
+            <h1>Kajetan Neweś</h1>
+            <p>Data Science & AI Freelancer</p>
+            <a href="#projects" class="cta-button">View My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p>I am a third-year student specializing in Data Science and AI. I have a strong foundation in machine learning, deep learning, and data analysis, and I pride myself on my ability to tackle complex problems with speed. In addition to my studies, I am also already working in the field as a freelancer. I am currently seeking an internship in the field starting February 2026.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>Machine Learning</h3>
+                        <p>Supervised & Unsupervised</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>Deep Learning</h3>
+                        <p>Neural Networks, CNNs</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>Computer Vision</h3>
+                        <p>Object Detection</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>Python</h3>
+                        <p>Pandas, NumPy, TensorFlow</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>Power BI</h3>
+                        <p>Data Visualization</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>SQL</h3>
+                        <p>Database Management</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>MLOps</h3>
+                        <p>Model Deployment</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>Cloud Platforms</h3>
+                        <p>AWS, Azure, GCP</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>NLP</h3>
+                        <p>Text Analysis</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>API Development</h3>
+                        <p>RESTful APIs</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>Power Apps</h3>
+                        <p>Low-Code Development</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="hexagon-shape">
+                        <h3>Data Analysis</h3>
+                        <p>Statistical Analysis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>Projects</h2>
+
+
+
+            <!-- Work Projects -->
+            <div class="project-category">
+                <h3>Professional Work</h3>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">💊</div>
+                        <div class="project-content">
+                            <h4>Invoice PDF Processing System</h4>
+                            <p>Developed automated system to extract data from invoice PDFs and integrate with Excel and Power BI dashboards for Ceban Pharmaceuticals.</p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">PDF Processing</span>
+                                <span class="tag">Power BI</span>
+                                <span class="tag">Automation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">📋</div>
+                        <div class="project-content">
+                            <h4>AI-Supported Quality Report Generator</h4>
+                            <p>Created AI-powered template generation system for product quality reports at Ceban Pharmaceuticals, streamlining documentation processes.</p>
+                            <div class="project-tags">
+                                <span class="tag">AI</span>
+                                <span class="tag">NLP</span>
+                                <span class="tag">Automation</span>
+                                <span class="tag">Python</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">🔍</div>
+                        <div class="project-content">
+                            <h4>Review Comment Clustering</h4>
+                            <p>Implemented machine learning algorithms to cluster and analyze review comments, providing actionable insights for decision-making.</p>
+                            <div class="project-tags">
+                                <span class="tag">Machine Learning</span>
+                                <span class="tag">Clustering</span>
+                                <span class="tag">NLP</span>
+                                <span class="tag">Python</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">⏱️</div>
+                        <div class="project-content">
+                            <h4>Lab Time Logging Application</h4>
+                            <p>Built Power Apps solution for efficient lab time tracking and management, improving workflow and data collection.</p>
+                            <div class="project-tags">
+                                <span class="tag">Power Apps</span>
+                                <span class="tag">Low-Code</span>
+                                <span class="tag">Workflow Automation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="project-card">
+                        <div class="project-image">📄</div>
+                        <div class="project-content">
+                            <h4>Mass Document Data Extraction</h4>
+                            <p>Developed automated pipelines for extracting and processing large volumes of data from various document formats.</p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Data Extraction</span>
+                                <span class="tag">Automation</span>
+                                <span class="tag">OCR</span>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="project-card">
+                        <div class="project-image">💰</div>
+                        <div class="project-content">
+                            <h4>Automated Accounting Data Integration</h4>
+                            <p>Created API-based solution to automatically connect accounting data to Power BI dashboards for FreshBrains, enabling real-time financial insights.</p>
+                            <div class="project-tags">
+                                <span class="tag">API</span>
+                                <span class="tag">Power BI</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Automation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- University Projects -->
+            <div class="project-category">
+                <h3>University Projects</h3>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">📊</div>
+                        <div class="project-content">
+                            <h4>Business Intelligence & Data Analysis</h4>
+                            <p>Applied CRISP-DM methodology to analyze business data, create visualizations in Power BI, and deliver data-driven insights to stakeholders.</p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Power BI</span>
+                                <span class="tag">CRISP-DM</span>
+                                <span class="tag">Data Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">⚽</div>
+                        <div class="project-content">
+                            <h4>Data Science for NAC Football Club</h4>
+                            <p>Developed machine learning solutions to improve business processes for NAC Football Club, focusing on data-driven decision making.</p>
+                            <div class="project-tags">
+                                <span class="tag">Machine Learning</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Business Analytics</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">🖼️</div>
+                        <div class="project-content">
+                            <h4>Deep Learning Image Classification</h4>
+                            <p>Created a custom deep learning model for image classification with real-world business applications, including dataset creation and model deployment.</p>
+                            <div class="project-tags">
+                                <span class="tag">Deep Learning</span>
+                                <span class="tag">Computer Vision</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">CNN</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">📑</div>
+                        <div class="project-content">
+                            <h4>AI Impact Research for SMEs</h4>
+                            <p>Conducted mixed-method research study combining surveys and interviews to analyze AI adoption, attitudes, and impact on small and medium enterprises.</p>
+                            <div class="project-tags">
+                                <span class="tag">Research</span>
+                                <span class="tag">Data Analysis</span>
+                                <span class="tag">Mixed Methods</span>
+                                <span class="tag">Policy Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">🤖</div>
+                        <div class="project-content">
+                            <h4>Computer Vision & Robotics</h4>
+                            <p>Implemented traditional computer vision methods, object detection, image segmentation models, and reinforcement learning for robotic control.</p>
+                            <div class="project-tags">
+                                <span class="tag">Computer Vision</span>
+                                <span class="tag">Object Detection</span>
+                                <span class="tag">Reinforcement Learning</span>
+                                <span class="tag">Robotics</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">💬</div>
+                        <div class="project-content">
+                            <h4>NLP Video Processing Pipeline</h4>
+                            <p>Built an end-to-end pipeline for video transcription, translation to English, and emotion tagging using traditional NLP methods.</p>
+                            <div class="project-tags">
+                                <span class="tag">NLP</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Transcription</span>
+                                <span class="tag">Emotion Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">☁️</div>
+                        <div class="project-content">
+                            <h4>MLOps & Cloud Model Deployment</h4>
+                            <p>Developed production-grade ML models with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.</p>
+                            <div class="project-tags">
+                                <span class="tag">MLOps</span>
+                                <span class="tag">Cloud</span>
+                                <span class="tag">CI/CD</span>
+                                <span class="tag">Model Monitoring</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">🚗</div>
+                        <div class="project-content">
+                            <h4>Road Safety Application</h4>
+                            <p>Designed a road safety app concept based on street data analysis, utilizing SQL for data management and analysis.</p>
+                            <div class="project-tags">
+                                <span class="tag">SQL</span>
+                                <span class="tag">Data Analysis</span>
+                                <span class="tag">App Development</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-info">
+                <p>I am always open to discussing new projects, opportunities, or collaborations.<br>
+                I am also currently looking for internship opportunities in the field of Data Science and AI. Please feel free to contact me through one of the following channels:</p>
+            </div>
+            <div class="contact-links">
+                <a href="tel:+31 6 57108322" class="contact-link">✆ +31 6 57108322</a>
+                <a href="mailto:kajetan.newes@gmail.com" class="contact-link">Email</a>
+                <a href="https://linkedin.com/in/kajetan-newes" target="_blank" class="contact-link">LinkedIn</a>
+                <a href="https://github.com/yourusername" target="_blank" class="contact-link">GitHub</a>
+                <a href="documents/cv-kajetan-newes.pdf" target="_blank" class="contact-link">Download CV</a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Kajetan Neweś. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div class="project-modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal()">×</div>
+            <div class="modal-image-large" id="modalImage"></div>
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Overview</h3>
+                    <p id="modalDescription"></p>
+                </div>
+                <div class="modal-section" id="modalDetailsSection">
+                    <h3>Project Details</h3>
+                    <p id="modalDetails"></p>
+                </div>
+                <div class="modal-section" id="modalChallengesSection">
+                    <h3>Key Challenges & Solutions</h3>
+                    <ul id="modalChallenges"></ul>
+                </div>
+                <div class="modal-section" id="modalResultsSection">
+                    <h3>Results & Impact</h3>
+                    <p id="modalResults"></p>
+                </div>
+                <div class="modal-section">
+                    <h3>Technologies Used</h3>
+                    <div class="modal-tags" id="modalTags"></div>
+                </div>
+                <div class="modal-links" id="modalLinks"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Project Modal Functionality
+        const projectData = {
+    'business-intelligence': {
+        title: 'SDG Data Analysis',
+        image: '📊',
+        description: 'Created interactive dashboard analyzing correlation between SDG (Sustainable Development Goals)-related metrics.',
+        details: 'This project involved the complete data science lifecycle from understanding business requirements to delivering actionable insights. I worked with multiple data sources, performed comprehensive data cleaning and transformation, and built an interactive Power BI dashboard.',
+        challenges: [
+            'Integrating data from multiple disparate sources with inconsistent formats',
+            'Identifying the most relevant metrics related to my research questions',
+            'Building a dashboard that was both comprehensive and intuitive for non-technical users',
+        ],
+        results: 'Successfully delivered a comprehensive BI solution that showcased the correlations between various SDG-related metrics. The dashboard enabled stakeholders to explore the data interactively and derive insights that informed strategic decisions. I received a grade of 9.2 for the project.',
+        tags: ['Python', 'Power BI', 'Data Analysis', 'Data Visualization'],
+        links: []
+    },
+    'nac-football': {
+        title: 'Machine Learning Predictions for NAC Breda',
+        image: '⚽',
+        description: 'Developed a machine learning solution to help improve the player scouting process for NAC Breda.',
+        details: 'Used ML techniques to create an ML prediction model based on player data. The project involved data collection, cleaning, feature engineering, model training, and evaluation in order to provide actionable insights for NAC Breda\'s player scouting strategy.',
+        challenges: [
+            'Working with limited and unstructured sports business data',
+            'Balancing technical complexity with stakeholder understanding',
+            'Ensuring the model provided actionable insights rather than just predictions',
+        ],
+        results: 'Created a functional ML model that predicted a player\'s value for money (calculated through comparing market value with performance metrics). I received a grade of 8.3 for the project.',
+        tags: ['Python', 'Machine Learning', 'Business Analytics'],
+        links: []
+    },
+    'image-classification': {
+        title: 'Deep Learning Image Classification',
+        image: '🖼️',
+        description: 'Created a custom deep learning model for image classification with a real-world business application.',
+        details: 'Developed an end-to-end deep learning solution for a kitchen cleanliness monitoring system. This included creating a custom image dataset, designing and training a CNN architecture, and building a user-centered prototype application. Additionally, Explainable AI techniques were applied to enhance model interpretability.',
+        challenges: [
+            'Collecting and labeling a high-quality custom image dataset',
+            'Designing a model architecture that balanced accuracy with interpretability',
+            'Ensuring the model could generalize well beyond the training data',
+            'Creating a prototype that was both functional and user-friendly for non-technical users'
+        ],
+        results: 'Successfully delivered a working image classification system with strong business value. The model achieved high accuracy on unseen data, and the prototype application demonstrated practical usability. I received a grade of 8.8 for the project.',
+        tags: ['Python', 'Computer Vision', 'Deep Learning', 'CNN'],
+        links: []
+    },
+    'sme-research': {
+        title: 'AI Impact Research for SMEs',
+        image: '📑',
+        description: 'Conducted a mixed-method research study combining surveys and interviews to analyze credibility perceptions of SME-provided information.',
+        details: 'Designed and executed a comprehensive research study exploring how people perceive the credibility of information provided by SMEs. The project combined quantitative survey data with qualitative interviews and focus groups to understand attitudes, knowledge, acceptance, and perceived impact of AI. Results were synthesized into a research paper, policy paper, and conference poster.',
+        challenges: [
+            'Recruiting diverse SME participants for both surveys and interviews',
+            'Balancing quantitative and qualitative methodologies effectively',
+            'Analyzing complex stakeholder relationships and competing interests',
+            'Translating academic research findings into actionable policy recommendations'
+        ],
+        results: 'Produced comprehensive insights into information credibility perceptions among SMEs. The mixed-method approach provided a nuanced understanding of attitudes and challenges, informing both academic and policy discussions. My research paper can be read here: [link to paper].',
+        tags: ['Research', 'Data Analysis', 'Mixed Methods', 'Policy Analysis'],
+        links: []
+    },
+    'cv-robotics': {
+        title: 'Computer Vision & Robotics for Plant Inoculation',
+        image: '🤖',
+        description: 'Implemented traditional computer vision methods, object detection, image segmentation models, deep learning, and reinforcement learning for robotic control.',
+        details: 'Trained a deep learning model for root segmentation in petri dish images, implemented traditional computer vision techniques for object detection and tracking, and developed reinforcement learning agents for robotic control tasks. The project involved locating root tips and guiding a robotic arm to perform precise inoculation tasks.',
+        challenges: [
+            'Integrating traditional CV methods with modern deep learning approaches',
+            'Training RL agents that could operate effectively in real-world conditions',
+            'Ensuring accurate root tip detection and tracking in varying image conditions',
+            'Combining deep learning segmentation with real-time robotic control'
+        ],
+        results: 'Successfully created an image-to-root predictions pipeline and trained RL agents capable of performing inoculation tasks. The project demonstrated the feasibility of combining CV and RL for practical robotics applications. I received a grade of 7.5 for the project.',
+        tags: ['Python', 'Computer Vision', 'Reinforcement Learning', 'Robotics'],
+        links: []
+    },
+    'nlp-pipeline': {
+        title: 'NLP Video Processing Pipeline',
+        image: '💬',
+        description: 'Built an end-to-end pipeline for video transcription, translation to English, and emotion tagging using traditional NLP methods.',
+        details: 'Developed a complete NLP pipeline that takes video input and outputs transcribed, translated, and emotion-tagged text. The system handles video-to-text conversion, french-to-english language translation, and per-sentence emotion classification using traditional NLP techniques rather than large language models.',
+        challenges: [
+            'Ensuring accurate transcription across different audio qualities and accents',
+            'Maintaining context and meaning during translation',
+            'Developing reliable emotion detection that works across different speaking styles',
+            'Integrating multiple NLP components into a cohesive pipeline'
+        ],
+        results: 'Delivered a functional end-to-end pipeline capable of processing french-language videos and producing emotion-tagged English transcripts. The system successfully handled the complete workflow from audio extraction through emotion classification, demonstrating the effectiveness of traditional NLP approaches. I received a grade of 7.0 for the project.',
+        tags: ['Python', 'NLP', 'Transcription', 'Emotion Analysis'],
+        links: []
+    },
+    'app-deployment': {
+        title: 'MLOps & Cloud Model Deployment',
+        image: '☁️',
+        description: 'Converted the root segmentation model into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.',
+        details: 'Created a fully deployed version of the root segmentation model from an earlier project. This involved setting up a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms. The solution included version control, automated testing, and monitoring to ensure model performance and reliability in production. The end application allowed users to upload images and receive segmentation results through a user-friendly Streamlit-powered interface. The application was containerized using Docker and deployed on Azure.',
+        challenges: [
+            'Setting up robust CI/CD pipelines for automated model training and deployment',
+            'Implementing effective monitoring to detect model performance degradation',
+            'Ensuring scalability and reliability of the deployed application on cloud infrastructure',
+            'Containerizing the application for consistent deployment across environments'
+        ],
+        results: 'Successfully deployed a production-grade ML application that allowed users to upload images and receive segmentation results. The system featured automated training pipelines, CI/CD deployment, and monitoring to ensure ongoing performance. The project demonstrated the full MLOps lifecycle from model development to production deployment. I received a grade of 9.0 for the project.',
+        tags: ['Python', 'MLOps', 'Cloud', 'CI/CD', 'Docker'],
+        links: []
+    },
+    'road-safety-app': {
+        title: 'Road Safety Application',
+        image: '🚗',
+        description: 'Designed a road safety app concept based on street data analysis, utilizing SQL for data management and analysis.',
+        details: 'Conceptualized and designed a road safety application that leverages street data to improve traffic safety by identifying high-risk areas and alerting the user when they are entering these zones. The project involved SQL database design, data analysis to identify safety patterns, and developing the app concept with user-centered features.',
+        challenges: [
+            'Working with large-scale geographic and traffic data',
+            'Identifying meaningful safety patterns from complex datasets',
+            'Designing database schemas optimized for spatial queries',
+            'Balancing feature richness with app simplicity and usability'
+        ],
+        results: 'Created a road safety app concept backed by solid data analysis. The SQL-based analysis revealed key safety insights that informed app feature design, resulting in a user-centered prototype with clear potential for real-world impact. I received a grade of 9.3 for the project, and my team\'s app concept was voted the best in the class.',
+        tags: ['Python', 'SQL', 'Data Analysis', 'App Development'],
+        links: []
+    },
+    'invoice-processing': {
+        title: 'Invoice PDF Processing System',
+        image: '📄',
+        description: 'Developed automated system to extract data from invoice PDFs and integrate with Excel and Power BI dashboards for Ceban Pharmaceuticals.',
+        details: 'Built an end-to-end automation solution for Ceban Pharmaceuticals that extracts invoice data from PDF files, processes and validates the information, and integrates it with Excel and Power BI for reporting and analysis. The system eliminated manual data entry and enabled enhanced financial tracking.',
+        challenges: [
+            'Handling varying PDF formats and layouts from different vendors',
+            'Ensuring high accuracy in data extraction to avoid financial errors',
+            'Implementing validation rules for pharmaceutical industry compliance',
+            'Creating seamless integration with existing Excel and Power BI workflows'
+        ],
+        results: 'Cleared backlog of a large volume of invoices and helped the company identify cost-saving opportunities.',
+        tags: ['Python', 'PDF Processing', 'OCR', 'Power BI', 'Automation'],
+        links: []
+    },
+    'pqr-generator': {
+        title: 'AI-Supported Quality Report Generator',
+        image: '📋',
+        description: 'Created AI-powered template generation system for product quality report templates at Ceban Pharmaceuticals, in order to streamline documentation processes.',
+        details: 'Developed an AI-powered system leveraging the OpenAI API to generate product quality report (PQRs) templates in Microsoft Word. The system generates an initial draft based on structured input data, with some of the sections using AI-generated summaries of other documents.',
+        challenges: [
+            'Ensuring AI-generated summaries are accurate and contextually relevant',
+            'Designing prompts that produce consistent, high-quality output',
+            'Integrating AI generation with Word document formatting and templates',
+            'Implementing review workflows to maintain quality assurance'
+        ],
+        results: 'While the system successfully generated the PQR templates, the company decided not to continue due to internal policy changes. However, the project demonstrated the potential of AI to streamline complex documentation tasks and provided a foundation for future automation efforts.',
+        tags: ['Python', 'OpenAI API', 'Microsoft Word', 'Automation'],
+        links: []
+    },
+    'review-clustering': {
+        title: 'Review Comment Clustering',
+        image: '🔍',
+        description: 'Implemented machine learning algorithms to cluster and analyze review comments, reducing manual analysis time and providing actionable insights for decision-making.',
+        details: 'Built a machine learning system to automatically cluster and categorize analytical review comments. The tool uses unsupervised learning to identify patterns and themes in large volumes of review feedback, with an interactive Streamlit interface for exploration and analysis. Additionally included a semi-supervised module with a human-in-the-loop interface for refining clusters.',
+        challenges: [
+            'Processing and cleaning unstructured text data from various sources',
+            'Selecting appropriate clustering algorithms for comment categorization',
+            'Determining optimal number of clusters for meaningful groupings',
+            'Creating an intuitive interface for non-technical users to explore results'
+        ],
+        results: 'Delivered a working clustering system that helps teams quickly identify common themes in review feedback. The Streamlit interface enables users to assign categories manually and refine the clustering model over time, improving accuracy and relevance of insights.',
+        tags: ['Python', 'Machine Learning', 'NLP', 'Clustering', 'Streamlit'],
+        links: []
+    },
+    'lab-time-logging': {
+        title: 'Lab Time Logging Application',
+        image: '⏱️',
+        description: 'Built Power Apps solution for efficient lab time tracking and management, improving workflow and data collection.',
+        details: 'Developed a low-code Power Apps solution for laboratory time tracking and management. The application streamlined the process of logging lab hours, tracking projects, and generating reports, replacing manual spreadsheet-based workflows with an intuitive mobile-friendly interface connected to a SharePoint list.',
+        challenges: [
+            'Designing an interface simple enough for quick daily logging',
+            'Implementing data validation to ensure accurate time tracking',
+            'Integrating with existing data systems and reporting requirements',
+        ],
+        results: 'Successfully deployed a user-friendly time logging application that improved data accuracy and reduced administrative overhead. Lab personnel adopted the system quickly, and management gained better visibility into lab resource utilization.',
+        tags: ['Power Apps', 'Low-Code', 'Workflow Automation'],
+        links: []
+    },
+    // 'document-extraction': {
+    //     title: 'Mass Document Data Extraction',
+    //     image: '📄',
+    //     description: 'Developed automated pipelines for extracting and processing large volumes of data from various document formats.',
+    //     details: 'Created Python-based automation pipelines to extract and process data from large volumes of documents in various formats. The system handles PDFs, Word documents, and spreadsheets, extracting relevant information and outputting structured data for downstream analysis.',
+    //     challenges: [
+    //         'Handling diverse document formats and inconsistent structures',
+    //         'Maintaining extraction accuracy across varying document quality',
+    //         'Processing large volumes of documents efficiently',
+    //         'Implementing error handling and validation for automated workflows'
+    //     ],
+    //     results: 'Automated the processing of thousands of documents, reducing manual data extraction from weeks to hours. The pipeline now handles ongoing document processing with minimal human intervention, freeing up resources for higher-value analysis work.',
+    //     tags: ['Python', 'Data Extraction', 'Automation', 'OCR'],
+    //     links: []
+    // },
+    'accounting-integration': {
+        title: 'Automated Accounting Data Integration',
+        image: '💰',
+        description: 'Created API-based solution to automatically connect accounting data from E-boekhouden to a Power BI dashboard.',
+        details: 'Built an automated integration system that connects the accounting platform to Power BI through API calls in Python. The solution runs in Docker containers, automatically pulling financial data and updating Power BI dashboards to provide real-time visibility into company finances.',
+        challenges: [
+            'Integrating with third-party accounting API documentation and rate limits',
+            'Designing a reliable system for continuous data synchronization',
+            'Handling data transformations between accounting and BI formats',
+            'Deploying and maintaining the solution in Docker'
+        ],
+        results: 'Eliminated manual financial data updates and enabled real-time financial reporting for FreshBrains. The automated system now runs continuously, ensuring Power BI dashboards always reflect current financial data without manual intervention.',
+        tags: ['Python', 'Power BI', 'API', 'Docker', 'Automation'],
+        links: []
+    }
+};
+
+        function openModal(projectId) {
+            const modal = document.getElementById('projectModal');
+            const data = projectData[projectId];
+
+            if (!data) {
+                console.error('Project data not found for:', projectId);
+                return;
+            }
+
+            // Populate modal content
+            document.getElementById('modalImage').textContent = data.image;
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalDescription').textContent = data.description;
+            
+            if (data.details) {
+                document.getElementById('modalDetails').textContent = data.details;
+                document.getElementById('modalDetailsSection').style.display = 'block';
+            } else {
+                document.getElementById('modalDetailsSection').style.display = 'none';
+            }
+
+            if (data.challenges && data.challenges.length > 0) {
+                const challengesList = document.getElementById('modalChallenges');
+                challengesList.innerHTML = '';
+                data.challenges.forEach(challenge => {
+                    const li = document.createElement('li');
+                    li.textContent = challenge;
+                    challengesList.appendChild(li);
+                });
+                document.getElementById('modalChallengesSection').style.display = 'block';
+            } else {
+                document.getElementById('modalChallengesSection').style.display = 'none';
+            }
+
+            if (data.results) {
+                document.getElementById('modalResults').textContent = data.results;
+                document.getElementById('modalResultsSection').style.display = 'block';
+            } else {
+                document.getElementById('modalResultsSection').style.display = 'none';
+            }
+
+            const tagsContainer = document.getElementById('modalTags');
+            tagsContainer.innerHTML = '';
+            data.tags.forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'modal-tag';
+                tagEl.textContent = tag;
+                tagsContainer.appendChild(tagEl);
+            });
+
+            const linksContainer = document.getElementById('modalLinks');
+            linksContainer.innerHTML = '';
+            if (data.links && data.links.length > 0) {
+                data.links.forEach(link => {
+                    const linkEl = document.createElement('a');
+                    linkEl.className = 'modal-link';
+                    linkEl.href = link.url;
+                    linkEl.textContent = link.text;
+                    linkEl.target = '_blank';
+                    linksContainer.appendChild(linkEl);
+                });
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('projectModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const projectCards = document.querySelectorAll('.project-card');
+            const projectIds = [
+                'invoice-processing',
+                'pqr-generator',
+                'review-clustering',
+                'lab-time-logging',
+                // 'document-extraction',
+                'accounting-integration',
+                'business-intelligence',
+                'nac-football', 
+                'image-classification',
+                'sme-research',
+                'cv-robotics',
+                'nlp-pipeline',
+                'app-deployment',
+                'road-safety-app'
+
+            ];
+
+            projectCards.forEach((card, index) => {
+                card.addEventListener('click', function() {
+                    openModal(projectIds[index]);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
