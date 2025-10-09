@@ -523,6 +523,18 @@
             clip-path: polygon(0 0, 100% 0, calc(100% - 30px) 100%, 0 100%);
         }
 
+.project-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    z-index: 1;
+}
+
+
         .project-image::before {
             content: '';
             position: absolute;
@@ -723,6 +735,13 @@
             color: rgba(135, 206, 250, 0.3);
             border-bottom: 1px solid rgba(135, 206, 250, 0.2);
         }
+
+        .modal-image-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
 
         .modal-body {
             padding: 40px;
@@ -1085,7 +1104,9 @@
                 <h3>Professional Work</h3>
                 <div class="projects-grid">
                     <div class="project-card">
-                        <div class="project-image">💊</div>
+                        <div class="project-image">
+                            <img src="images/invoice-processing.png" alt="Invoice PDF Processing System">
+                        </div>
                         <div class="project-content">
                             <h4>Invoice PDF Processing System</h4>
                             <p>Developed script to extract data from invoice PDFs to Excel, which was then connected to a Power BI dashboard for Ceban Pharmaceuticals.</p>
@@ -1100,7 +1121,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">📋</div>
+                        <div class="project-image">
+                            <img src="images/pqr-generation.png" alt="AI-Supported Quality Report Generator">
+                        </div>
                         <div class="project-content">
                             <h4>AI-Supported Quality Report Generator</h4>
                             <p>Created AI-powered template generation system for product quality report templates at Ceban Pharmaceuticals, in order to streamline documentation processes.</p>
@@ -1114,7 +1137,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">🔍</div>
+                        <div class="project-image">
+                            <img src="images/clustering.png" alt="Review Comment Clustering">
+                        </div>
                         <div class="project-content">
                             <h4>Review Comment Clustering</h4>
                             <p>Implemented machine learning algorithms to cluster and analyze review comments, reducing manual analysis time and providing actionable insights for decision-making.</p>
@@ -1129,7 +1154,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">⏱️</div>
+                        <div class="project-image">
+                            <img src="images/powerapps.png" alt="Lab Time Logging Application">
+                        </div>
                         <div class="project-content">
                             <h4>Lab Time Logging Application</h4>
                             <p>Built Power Apps solution for efficient lab time tracking and management, improving workflow and data collection.</p>
@@ -1142,7 +1169,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">💰</div>
+                        <div class="project-image">
+                            <img src="images/powerbi-accounting.png" alt="Automated Accounting Data Integration">
+                        </div>
                         <div class="project-content">
                             <h4>Automated Accounting Data Integration</h4>
                             <p>Created API-based solution to automatically connect accounting data from E-boekhouden to a Power BI dashboard.</p>
@@ -1163,7 +1192,9 @@
                 <h3>University Projects</h3>
                 <div class="projects-grid">
                     <div class="project-card">
-                        <div class="project-image">📊</div>
+                        <div class="project-image">
+                            <img src="images/projects/block1a.png" alt="SDG Data Analysis">
+                        </div>
                         <div class="project-content">
                             <h4>SDG Data Analysis</h4>
                             <p>Created interactive dashboard analyzing correlation between SDG (Sustainable Development Goals)-related metrics.</p>
@@ -1177,7 +1208,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">⚽</div>
+                        <div class="project-image">
+                            <img src="images/football-data.jpg" alt="Machine Learning Predictions for NAC Breda">
+                        </div>
                         <div class="project-content">
                             <h4>Machine Learning Predictions for NAC Breda</h4>
                             <p>Developed a machine learning solution to help improve the player scouting process for NAC Breda.</p>
@@ -1190,7 +1223,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">🖼️</div>
+                        <div class="project-image">
+                            <img src="images/projects/block1c.PNG" alt="Deep Learning Image Classification">
+                        </div>
                         <div class="project-content">
                             <h4>Deep Learning Image Classification</h4>
                             <p>Created a custom deep learning model for image classification with a real-world business application.</p>
@@ -1204,7 +1239,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">📑</div>
+                        <div class="project-image">
+                            <img src="images/projects/block2a.png" alt="Information Credibility Research for SMEs">
+                        </div>
                         <div class="project-content">
                             <h4>Information Credibility Research for SMEs</h4>
                             <p>Conducted a mixed-method research study combining surveys and interviews to analyze credibility perceptions of SME-provided information.</p>
@@ -1218,7 +1255,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">🤖</div>
+                        <div class="project-image">
+                            <img src="images/projects/block2b.png" alt="Computer Vision & Robotics for Plant Inoculation">
+                        </div>
                         <div class="project-content">
                             <h4>Computer Vision & Robotics for Plant Inoculation</h4>
                             <p>Implemented traditional computer vision methods, object detection, image segmentation models, deep learning, and reinforcement learning for robotic control.</p>
@@ -1232,7 +1271,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">💬</div>
+                        <div class="project-image">
+                            <img src="images/projects/block2c.png" alt="NLP Video Processing Pipeline">
+                        </div>
                         <div class="project-content">
                             <h4>NLP Video Processing Pipeline</h4>
                             <p>Built an end-to-end pipeline for video transcription, translation to English, and emotion tagging using traditional NLP methods.</p>
@@ -1246,7 +1287,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">☁️</div>
+                        <div class="project-image">
+                            <img src="images/projects/block2d.png" alt="MLOps & Cloud Model Deployment">
+                        </div>
                         <div class="project-content">
                             <h4>MLOps & Cloud Model Deployment</h4>
                             <p>Converted the root segmentation model from the plant inoculation project into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.</p>
@@ -1261,7 +1304,9 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="project-image">🚗</div>
+                        <div class="project-image">
+                            <img src="images/road-safety.jpg" alt="Road Safety Application">
+                        </div>
                         <div class="project-content">
                             <h4>Road Safety Application</h4>
                             <p>Designed a road safety app concept based on street data analysis, utilizing SQL for data management and analysis.</p>
