@@ -91,8 +91,18 @@
     const dialog = document.getElementById('project-dialog');
     const slot = name => dialog.querySelector(`[data-slot="${name}"]`);
     const section = name => dialog.querySelector(`[data-section="${name}"]`);
+    const nextButton = dialog.querySelector('[data-next]');
     // True when opening the dialog added a history entry, so closing it should go back.
     let pushedHistory = false;
+
+    // "Next project" follows the order on the page: the current project, the featured ones, then the lists.
+    const pageOrder = [
+        ...PROJECTS.filter(p => p.current),
+        ...PROJECTS.filter(p => p.featured && !p.current),
+        ...others.filter(p => p.type === 'client'),
+        ...others.filter(p => p.type !== 'client'),
+    ];
+    const nextProject = id => pageOrder[(pageOrder.findIndex(p => p.id === id) + 1) % pageOrder.length];
 
     function fillDialog(project) {
         slot('media').innerHTML = diagramHtml(project, 'dialog-media');
@@ -109,14 +119,14 @@
         slot('challenges').innerHTML = challenges.map(c => `<li>${escapeHtml(c)}</li>`).join('');
         section('challenges').hidden = challenges.length === 0;
 
-        const shot = slot('screenshot');
-        if (project.image) {
-            shot.src = project.image;
-            shot.alt = `Screenshot: ${project.title}`;
-        } else {
-            shot.removeAttribute('src');
-        }
+        slot('screenshot').innerHTML = project.image
+            ? `<img class="dialog-shot" src="${escapeHtml(project.image)}" alt="Screenshot: ${escapeHtml(project.title)}">`
+            : '';
         section('screenshot').hidden = !project.image;
+
+        const next = nextProject(project.id);
+        nextButton.dataset.next = next.id;
+        nextButton.setAttribute('aria-label', `Next project: ${next.title}`);
 
         slot('tags').innerHTML = tagsHtml(project.tags);
 
@@ -135,8 +145,13 @@
         if (!project) return;
         fillDialog(project);
         if (updateUrl && location.hash !== `#${id}`) {
-            history.pushState({ project: id }, '', `#${id}`);
-            pushedHistory = true;
+            // Moving between projects inside the open dialog replaces the entry, so Back still closes it.
+            if (dialog.open) {
+                history.replaceState({ project: id }, '', `#${id}`);
+            } else {
+                history.pushState({ project: id }, '', `#${id}`);
+                pushedHistory = true;
+            }
         }
         if (!dialog.open) dialog.showModal();
         dialog.scrollTop = 0;
@@ -159,7 +174,8 @@
         if (!inside) dialog.close();
     });
 
-    dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
+    dialog.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => dialog.close()));
+    nextButton.addEventListener('click', () => openProject(nextButton.dataset.next));
 
     document.addEventListener('click', e => {
         const trigger = e.target.closest('[data-project]');

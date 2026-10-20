@@ -9,6 +9,7 @@
     --surface-hover: #121822;
     --surface-2: #161c26;
     --surface-3: #1e2531;
+    --surface-4: #28303d;
 
     --text: #e9eef4;
     --text-muted: #a3adbb;
@@ -22,6 +23,10 @@
 
     /* Dividers between sections, project groups and list rows */
     --line: rgba(255, 255, 255, 0.12);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --scrim: rgba(2, 4, 8, 0.8);
+    --selection: rgba(135, 206, 235, 0.3);
+    --shadow-float: 0 30px 80px rgba(0, 0, 0, 0.6);
 
     --font-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
     /* Only for the pipeline diagrams, which show data flowing through steps */
@@ -114,7 +119,29 @@ p, figcaption {
 }
 
 ::selection {
-    background: rgba(135, 206, 235, 0.3);
+    background: var(--selection);
+}
+
+.skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 700;
+    text-decoration: none;
+    translate: 0 -200%;
+}
+
+.skip-link:focus-visible {
+    translate: none;
+}
+
+main:focus {
+    outline: none;
 }
 
 .container {
@@ -582,7 +609,7 @@ p, figcaption {
 }
 
 .pipeline li:first-child {
-    border-color: rgba(255, 255, 255, 0.16);
+    border-color: var(--line-strong);
     color: var(--text-muted);
 }
 
@@ -724,11 +751,11 @@ p, figcaption {
     border-radius: 18px;
     background: var(--surface);
     color: var(--text);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--shadow-float);
 }
 
 .project-dialog::backdrop {
-    background: rgba(2, 4, 8, 0.8);
+    background: var(--scrim);
 }
 
 .project-dialog[open] {
@@ -755,9 +782,9 @@ p, figcaption {
 .dialog-close {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    margin: 14px 14px 0 0;
+    width: 44px;
+    height: 44px;
+    margin: 12px 12px 0 0;
     border: 0;
     border-radius: 50%;
     background: var(--surface-3);
@@ -767,7 +794,7 @@ p, figcaption {
 }
 
 .dialog-close:hover {
-    background: #28303d;
+    background: var(--surface-4);
 }
 
 .dialog-media {
@@ -841,6 +868,13 @@ p, figcaption {
     background: var(--surface-2);
 }
 
+.dialog-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 clamp(24px, 4vw, 44px) clamp(24px, 4vw, 44px);
+}
+
 .dialog-links {
     display: flex;
     flex-wrap: wrap;
@@ -848,14 +882,21 @@ p, figcaption {
     margin-top: 32px;
 }
 
+/* Reduced motion keeps every state change (colours, the open dialog, the pipeline) but nothing moves */
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
     }
 
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
+    .project-dialog[open] {
+        animation: none;
+    }
+
+    .btn:hover,
+    .btn:active,
+    .feature-card:hover .read-more .icon,
+    .project-row:hover .row-arrow {
+        translate: none;
     }
 }
 
@@ -880,7 +921,31 @@ p, figcaption {
     }
 }
 
+@media (max-width: 760px), (pointer: coarse) {
+    .btn-sm,
+    .brand,
+    .contact-email,
+    .site-footer a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+}
+
 @media (max-width: 760px) {
+    .dialog-foot {
+        position: sticky;
+        bottom: 0;
+        padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+        border-top: 1px solid var(--line);
+        background: var(--surface);
+    }
+
+    .dialog-foot .btn {
+        flex: 1;
+        justify-content: center;
+    }
+
     .about-grid {
         grid-template-columns: 1fr;
     }
@@ -902,8 +967,8 @@ p, figcaption {
     .js .nav-toggle {
         display: inline-grid;
         place-items: center;
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         border: 0;
         border-radius: 10px;
         background: var(--surface-2);
