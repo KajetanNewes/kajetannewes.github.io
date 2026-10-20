@@ -1,17 +1,29 @@
 // All projects on the site. The order here is the order on the page.
 //
 //   type      'client' or 'university'
-//   featured  true shows the project as a large card and as a tab in the hero; the others are listed by type
-//   short     short name for the hero tab (featured projects)
+//   current   true shows the project in the hero as the one you are working on now
+//   featured  true shows the project as a large card; the others are listed by type
 //   org       optional client or partner name, shown after "Client" / "University"
 //   diagram   the steps of the "how it works" diagram on the card and in the popup; the last step is the result
 //   image     optional screenshot, shown at the bottom of the popup
 //   links     [{ text: 'GitHub', url: 'https://...' }], shown as buttons in the popup
 const PROJECTS = [
     {
+        id: 'invoice-control',
+        title: 'Subcontractor Invoice Checker',
+        type: 'client',
+        org: 'Dutch moving company',
+        current: true,
+        diagram: ['Invoice PDFs', 'OCR + LLM extraction', 'Match to planned job', 'Rate, hours + VAT checks', 'Findings for review'],
+        summary: 'A review tool that checks subcontractor invoices against the agreed rates and the company\'s own hours and planning data before they are approved. Now in a pilot.',
+        details: 'Invoices are read into a fixed structure with OCR and a language model (Mistral); all arithmetic and rate comparisons are done in plain Python. Each invoice is matched to the planned job it belongs to, using hours and planning data from the company\'s planning system, and then checked: the contractor, the agreed rates, line and total sums including VAT, billed hours against logged hours, break rules from the collective labour agreement, kilometres and volume. A Streamlit screen shows the findings in Dutch or English, the reviewer signs off, and the results can be exported or turned into a draft email to the contractor.',
+        results: 'Running in a pilot, backed by 257 automated tests.',
+        tags: ['Python', 'Streamlit', 'Mistral OCR', 'LLM', 'Docker'],
+        links: []
+    },
+    {
         id: 'invoice-processing',
         title: 'Invoice PDF Processing System',
-        short: 'Invoices',
         type: 'client',
         org: 'Ceban Pharmaceuticals',
         featured: true,
@@ -31,7 +43,6 @@ const PROJECTS = [
     {
         id: 'review-clustering',
         title: 'Review Comment Clustering',
-        short: 'Clustering',
         type: 'client',
         featured: true,
         image: 'images/clustering.png',
@@ -51,7 +62,6 @@ const PROJECTS = [
     {
         id: 'app-deployment',
         title: 'MLOps & Cloud Model Deployment',
-        short: 'Rootify',
         type: 'university',
         featured: true,
         image: 'images/projects/block2d.png',

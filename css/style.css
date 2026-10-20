@@ -297,39 +297,18 @@ p, figcaption {
     gap: 12px;
 }
 
-/* Featured projects as tabs, each showing its pipeline */
+/* The current project, shown with its pipeline */
 .hero-flow {
     padding: 10px;
     border-radius: calc(var(--radius) + 4px);
     background: var(--surface);
 }
 
-.flow-tabs {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 10px;
-}
-
-.flow-tab {
-    flex: 1;
-    padding: 10px 14px;
-    border: 0;
-    border-radius: 10px;
-    background: transparent;
+.flow-head {
+    padding: 6px 10px 12px;
     color: var(--text-muted);
     font-size: var(--fs-small);
     font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.15s, color 0.15s;
-}
-
-.flow-tab:hover {
-    color: var(--text);
-}
-
-.flow-tab[aria-selected="true"] {
-    background: var(--surface-2);
-    color: var(--text);
 }
 
 .flow-stage {

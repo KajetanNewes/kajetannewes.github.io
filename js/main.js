@@ -44,7 +44,7 @@
             <span class="row-arrow" aria-hidden="true">${icon('arrow')}</span>
         </li>`;
 
-    const others = PROJECTS.filter(p => !p.featured);
+    const others = PROJECTS.filter(p => !p.featured && !p.current);
     document.getElementById('featured-projects').innerHTML = PROJECTS.filter(p => p.featured).map(featureHtml).join('');
     document.getElementById('client-projects').innerHTML = others.filter(p => p.type === 'client').map(rowHtml).join('');
     document.getElementById('university-projects').innerHTML = others.filter(p => p.type !== 'client').map(rowHtml).join('');
@@ -67,49 +67,23 @@
         document.documentElement.classList.add('flow-ready');
     }
 
-    // ---- Hero: one tab per featured project, each showing its pipeline -----
+    // ---- Hero: the current project and its pipeline ------------------------
 
     const flowEl = document.getElementById('hero-flow');
-    const spotlight = PROJECTS.filter(p => p.featured && p.diagram);
+    const current = PROJECTS.find(p => p.current);
 
-    if (flowEl && spotlight.length) {
+    if (flowEl && current) {
         flowEl.innerHTML = `
-            <div class="flow-tabs" role="tablist" aria-label="Featured projects">
-                ${spotlight.map(p => `<button type="button" class="flow-tab" role="tab" id="flow-tab-${p.id}" aria-controls="flow-panel" data-flow="${p.id}">${escapeHtml(p.short || p.title)}</button>`).join('')}
-            </div>
-            <div class="flow-panel" role="tabpanel" id="flow-panel"></div>`;
-        const tabs = [...flowEl.querySelectorAll('[role="tab"]')];
-        const panel = flowEl.querySelector('[role="tabpanel"]');
-
-        function showFlow(id, { focus = false } = {}) {
-            const project = projectsById.get(id);
-            for (const tab of tabs) {
-                const selected = tab.dataset.flow === id;
-                tab.setAttribute('aria-selected', String(selected));
-                tab.tabIndex = selected ? 0 : -1;
-                if (selected && focus) tab.focus();
-            }
-            panel.setAttribute('aria-labelledby', `flow-tab-${id}`);
-            panel.innerHTML = `${diagramHtml(project, 'flow-stage')}
-                <div class="flow-foot">
-                    <div>
-                        <p class="flow-title">${escapeHtml(project.title)}</p>
-                        <p class="meta">${escapeHtml(metaText(project))}</p>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-secondary" data-project="${project.id}" aria-haspopup="dialog">Open project ${icon('arrow')}</button>
-                </div>`;
-            if (motionOk) startFlow(panel.querySelector('.pipeline'));
-        }
-
-        tabs.forEach(tab => tab.addEventListener('click', () => showFlow(tab.dataset.flow)));
-        flowEl.querySelector('[role="tablist"]').addEventListener('keydown', e => {
-            const current = tabs.indexOf(document.activeElement);
-            const next = { ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: tabs.length - 1 }[e.key];
-            if (current < 0 || next === undefined) return;
-            e.preventDefault();
-            showFlow(tabs[(next + tabs.length) % tabs.length].dataset.flow, { focus: true });
-        });
-        showFlow(spotlight[0].id);
+            <p class="flow-head">Current project</p>
+            ${diagramHtml(current, 'flow-stage')}
+            <div class="flow-foot">
+                <div>
+                    <p class="flow-title">${escapeHtml(current.title)}</p>
+                    <p class="meta">${escapeHtml(metaText(current))}</p>
+                </div>
+                <button type="button" class="btn btn-sm btn-secondary" data-project="${current.id}" aria-haspopup="dialog">Open project ${icon('arrow')}</button>
+            </div>`;
+        if (motionOk) startFlow(flowEl.querySelector('.pipeline'));
     }
 
     // ---- Project dialog ----------------------------------------------------
@@ -205,7 +179,7 @@
     // A link like kajetannewes.github.io/#app-deployment opens that project directly.
     const linkedId = location.hash.slice(1);
     if (projectsById.has(linkedId)) {
-        document.getElementById(linkedId).scrollIntoView({ block: 'center', behavior: 'instant' });
+        document.getElementById(linkedId)?.scrollIntoView({ block: 'center', behavior: 'instant' });
         openProject(linkedId, { updateUrl: false });
     }
 
