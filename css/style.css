@@ -20,6 +20,9 @@
     --accent-soft: rgba(135, 206, 235, 0.1);
     --accent-line: rgba(135, 206, 235, 0.4);
 
+    /* Dividers between sections, project groups and list rows */
+    --line: rgba(255, 255, 255, 0.12);
+
     --font-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
     /* Only for the pipeline diagrams, which show data flowing through steps */
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -34,7 +37,9 @@
     --radius: 14px;
     --container: 1120px;
     --gutter: clamp(16px, 4vw, 32px);
-    --section-space: clamp(56px, 6vw, 88px);
+    /* More room above a divider than below it, so each section starts clearly */
+    --section-space: clamp(72px, 9vw, 120px);
+    --section-head-space: clamp(36px, 4vw, 56px);
     --header-h: 64px;
     --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
@@ -332,7 +337,8 @@ p, figcaption {
 /* ---- Sections ----------------------------------------------------------- */
 
 .section {
-    padding-block: var(--section-space);
+    padding-block: var(--section-head-space) var(--section-space);
+    border-top: 1px solid var(--line);
 }
 
 .section h2 {
@@ -363,7 +369,7 @@ p, figcaption {
 
 .featured {
     display: grid;
-    gap: 20px;
+    gap: clamp(28px, 3.5vw, 40px);
 }
 
 .feature-card {
@@ -402,6 +408,14 @@ p, figcaption {
 .feature-card .media {
     aspect-ratio: auto;
     min-height: 320px;
+}
+
+.feature-card:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+}
+
+.feature-card:nth-child(even) .media {
+    order: 2;
 }
 
 .card-body {
@@ -456,19 +470,17 @@ p, figcaption {
 /* ---- Project lists ------------------------------------------------------ */
 
 .project-group {
-    margin-top: clamp(56px, 7vw, 88px);
+    margin-top: clamp(64px, 8vw, 96px);
+    padding-top: clamp(24px, 3vw, 32px);
+    border-top: 1px solid var(--line);
 }
 
 .project-group h3 {
-    margin-bottom: 12px;
+    margin-bottom: 4px;
     font-size: var(--fs-lead);
 }
 
-/* Rows bleed into the gutter so their text lines up with the headings */
 .project-list {
-    display: grid;
-    gap: 4px;
-    margin-inline: -20px;
     padding: 0;
     list-style: none;
 }
@@ -479,13 +491,16 @@ p, figcaption {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr) 24px;
     gap: 4px 32px;
     align-items: start;
-    padding: 18px 20px;
-    border-radius: 10px;
-    transition: background-color 0.15s;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
 }
 
-.project-row:hover {
-    background: var(--surface);
+.project-row:last-child {
+    border-bottom: 0;
+}
+
+.project-row:hover .row-summary {
+    color: var(--text);
 }
 
 .project-row h4 {
@@ -505,6 +520,7 @@ p, figcaption {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     color: var(--text-muted);
+    transition: color 0.15s;
 }
 
 .row-arrow {
@@ -869,14 +885,9 @@ p, figcaption {
         grid-template-columns: 1fr;
     }
 
-    .project-list {
-        margin-inline: 0;
-    }
-
     .project-row {
         grid-template-columns: minmax(0, 1fr) 24px;
         gap: 4px 12px;
-        padding-inline: 0;
     }
 
     .row-summary {
@@ -963,8 +974,13 @@ p, figcaption {
 }
 
 @media (max-width: 700px) {
-    .feature-card {
+    .feature-card,
+    .feature-card:nth-child(even) {
         grid-template-columns: 1fr;
+    }
+
+    .feature-card:nth-child(even) .media {
+        order: 0;
     }
 
     .feature-card .media {
