@@ -570,13 +570,16 @@ main:focus {
     background: var(--surface-2);
 }
 
+/* The diagram sits in normal flow, so a narrow frame grows to fit its steps instead of cropping them */
 .media--diagram {
+    display: grid;
+    place-items: center;
+    padding: 20px 16px;
+    overflow: visible;
     container-type: inline-size;
 }
 
 .pipeline {
-    position: absolute;
-    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -913,7 +916,7 @@ main:focus {
 @media (max-width: 900px) {
     .hero-grid,
     .contact-card {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .hero-flow {
@@ -1036,12 +1039,17 @@ main:focus {
     .dialog-media {
         aspect-ratio: 16 / 10;
     }
+
+    /* The bottom bar has Close, so the X scrolls away instead of covering the text */
+    .dialog-close-wrap {
+        position: relative;
+    }
 }
 
 @media (max-width: 700px) {
     .feature-card,
     .feature-card:nth-child(even) {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .feature-card:nth-child(even) .media {
@@ -1050,6 +1058,6 @@ main:focus {
 
     .feature-card .media {
         aspect-ratio: 16 / 10;
-        min-height: 0;
+        min-height: auto;
     }
 }
