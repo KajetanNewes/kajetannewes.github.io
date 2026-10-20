@@ -31,17 +31,17 @@
 
     <header class="site-header">
         <nav class="nav container" aria-label="Main">
-            <a href="#top" class="brand"><span class="brand-mark" aria-hidden="true">KN</span>Kajetan Neweś</a>
+            <a href="#top" class="brand">Kajetan Neweś</a>
             <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">
                 <svg class="icon icon-menu" aria-hidden="true"><use href="#i-menu"></use></svg>
                 <svg class="icon icon-close" aria-hidden="true"><use href="#i-close"></use></svg>
             </button>
             <ul class="nav-links" id="nav-links">
-                <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="documents/cv-kajetan-newes.pdf" class="btn btn-sm btn-outline" target="_blank" rel="noopener">CV</a></li>
+                <li><a href="documents/cv-kajetan-newes.pdf" class="btn btn-sm btn-secondary" target="_blank" rel="noopener">CV</a></li>
             </ul>
         </nav>
     </header>
@@ -49,73 +49,69 @@
     <main>
         <section class="hero" id="top">
             <div class="container hero-grid">
-                <div>
-                    <p class="status"><span class="status-dot" aria-hidden="true"></span>Open to internships · Feb – Jun 2027</p>
+                <div class="hero-copy">
                     <h1>Kajetan Neweś</h1>
                     <p class="hero-tagline">Data Science &amp; AI student building ML and automation tools for real companies.</p>
+                    <p class="hero-facts"><strong>Open to AI / data science internships, February – June 2027.</strong> Location flexible.</p>
                     <div class="hero-actions">
                         <a href="#projects" class="btn btn-primary">View projects <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
-                        <a href="documents/cv-kajetan-newes.pdf" class="btn btn-outline" target="_blank" rel="noopener">Download CV <svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg></a>
+                        <a href="documents/cv-kajetan-newes.pdf" class="btn btn-secondary" download>Download CV <svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg></a>
                         <a href="https://github.com/kajetannewes212231" class="icon-btn" target="_blank" rel="noopener" aria-label="GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg></a>
                         <a href="https://linkedin.com/in/kajetan-newes" class="icon-btn" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg></a>
                     </div>
                 </div>
 
-                <aside class="glance" aria-label="At a glance">
-                    <p class="eyebrow">At a glance</p>
-                    <dl>
-                        <div><dt>Looking for</dt><dd>AI / data science internship</dd></div>
-                        <div><dt>Period</dt><dd>February 2027 – June 2027</dd></div>
-                        <div><dt>Location</dt><dd>Flexible</dd></div>
-                        <div><dt>Currently</dt><dd>4th-year Data Science &amp; AI student, freelancing alongside my studies</dd></div>
-                    </dl>
-                </aside>
-            </div>
-        </section>
-
-        <section class="section" id="about">
-            <div class="container about-grid">
-                <div data-reveal>
-                    <p class="eyebrow">About</p>
-                    <h2>About me</h2>
-                </div>
-                <div class="about-text" data-reveal>
-                    <p>I am a fourth-year student specializing in Data Science and AI. I have a strong foundation in machine learning, deep learning, and data analysis, and I pride myself on my ability to tackle complex problems with speed. In addition to my studies, I am also already working in the field as a freelancer. I am currently seeking an internship in the field starting February 2027.</p>
-                </div>
+                <figure class="hero-shot">
+                    <button type="button" class="hero-shot-link" data-project="cv-robotics" aria-haspopup="dialog" aria-label="Open project: Computer Vision &amp; Robotics for Plant Inoculation">
+                        <img src="images/projects/block2b.png" alt="Petri dish with three seedlings, their roots traced in red" width="1017" height="742" fetchpriority="high">
+                    </button>
+                    <figcaption>Finding roots in petri-dish images to guide a robot arm, from my computer-vision project.</figcaption>
+                </figure>
             </div>
         </section>
 
         <section class="section" id="projects">
             <div class="container">
-                <header class="section-head" data-reveal>
-                    <p class="eyebrow">Selected work</p>
-                    <h2>Featured projects</h2>
+                <header class="section-head">
+                    <h2>Projects</h2>
+                    <p>Open any project for the full details.</p>
                 </header>
 
-                <!-- Cards are generated from js/projects.js -->
+                <!-- Cards and lists are generated from js/projects.js -->
                 <div class="featured" id="featured-projects"></div>
 
-                <div class="more-head" data-reveal>
-                    <h3>More projects</h3>
-                    <p>Click a project for the full details.</p>
+                <div class="project-group">
+                    <h3>More client work</h3>
+                    <ul class="project-list" id="client-projects"></ul>
                 </div>
-                <div class="project-grid" id="more-projects"></div>
+                <div class="project-group">
+                    <h3>University projects</h3>
+                    <ul class="project-list" id="university-projects"></ul>
+                </div>
 
                 <noscript>
-                    <p class="about-text">The project list needs JavaScript. My <a href="documents/cv-kajetan-newes.pdf">CV</a> has an overview as well.</p>
+                    <p>The project list needs JavaScript. My <a href="documents/cv-kajetan-newes.pdf">CV</a> has an overview as well.</p>
                 </noscript>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="container about-grid">
+                <h2>About me</h2>
+                <div class="about-text">
+                    <p>I am a fourth-year student specializing in Data Science and AI. I have a strong foundation in machine learning, deep learning, and data analysis, and I pride myself on my ability to tackle complex problems with speed. In addition to my studies, I am also already working in the field as a freelancer. I am currently seeking an internship in the field starting February 2027.</p>
+                </div>
             </div>
         </section>
 
         <section class="section" id="skills">
             <div class="container">
-                <header class="section-head" data-reveal>
-                    <p class="eyebrow">Toolbox</p>
+                <header class="section-head">
                     <h2>Technical skills</h2>
                 </header>
 
                 <div class="skills-grid">
-                    <div class="skill-group" data-reveal style="--i: 0">
+                    <div class="skill-group">
                         <h3>Programming &amp; data</h3>
                         <ul>
                             <li><span class="skill-name">Python</span><span class="skill-detail">Pandas, NumPy, TensorFlow</span></li>
@@ -123,7 +119,7 @@
                             <li><span class="skill-name">Data analysis</span><span class="skill-detail">Statistical analysis</span></li>
                         </ul>
                     </div>
-                    <div class="skill-group" data-reveal style="--i: 1">
+                    <div class="skill-group">
                         <h3>Machine learning &amp; AI</h3>
                         <ul>
                             <li><span class="skill-name">Machine learning</span><span class="skill-detail">Supervised &amp; unsupervised</span></li>
@@ -132,7 +128,7 @@
                             <li><span class="skill-name">NLP</span><span class="skill-detail">Text analysis</span></li>
                         </ul>
                     </div>
-                    <div class="skill-group" data-reveal style="--i: 2">
+                    <div class="skill-group">
                         <h3>Deployment</h3>
                         <ul>
                             <li><span class="skill-name">MLOps</span><span class="skill-detail">Model deployment</span></li>
@@ -140,7 +136,7 @@
                             <li><span class="skill-name">API development</span><span class="skill-detail">RESTful APIs</span></li>
                         </ul>
                     </div>
-                    <div class="skill-group" data-reveal style="--i: 3">
+                    <div class="skill-group">
                         <h3>BI &amp; low-code</h3>
                         <ul>
                             <li><span class="skill-name">Power BI</span><span class="skill-detail">Data visualization</span></li>
@@ -153,16 +149,19 @@
 
         <section class="section" id="contact">
             <div class="container">
-                <div class="contact-card" data-reveal>
-                    <p class="eyebrow">Contact</p>
-                    <h2>Get in touch</h2>
-                    <p class="contact-text">I'm always open to discussing new projects, opportunities, or collaborations. Feel free to reach out!</p>
-                    <a href="mailto:kajetan.newes@gmail.com" class="contact-email">kajetan.newes@gmail.com</a>
-                    <div class="contact-links">
-                        <a href="https://linkedin.com/in/kajetan-newes" class="btn btn-outline" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg>LinkedIn</a>
-                        <a href="https://github.com/kajetannewes212231" class="btn btn-outline" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg>GitHub</a>
-                        <a href="documents/cv-kajetan-newes.pdf" class="btn btn-outline" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Download CV</a>
-                        <a href="tel:+31657108322" class="btn btn-outline"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>+31 6 57108322</a>
+                <div class="contact-card">
+                    <div class="contact-intro">
+                        <h2>Get in touch</h2>
+                        <p>I'm always open to discussing new projects, opportunities, or collaborations. Feel free to reach out!</p>
+                    </div>
+                    <div class="contact-actions">
+                        <a href="mailto:kajetan.newes@gmail.com" class="contact-email">kajetan.newes@gmail.com</a>
+                        <div class="contact-links">
+                            <a href="https://linkedin.com/in/kajetan-newes" class="btn btn-secondary" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg>LinkedIn</a>
+                            <a href="https://github.com/kajetannewes212231" class="btn btn-secondary" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg>GitHub</a>
+                            <a href="documents/cv-kajetan-newes.pdf" class="btn btn-secondary" download><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Download CV</a>
+                            <a href="tel:+31657108322" class="btn btn-secondary"><svg class="icon" aria-hidden="true"><use href="#i-phone"></use></svg>+31 6 57108322</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -184,8 +183,8 @@
         </div>
         <div data-slot="media"></div>
         <div class="dialog-body">
-            <div data-slot="meta"></div>
             <h2 id="dialog-title" data-slot="title"></h2>
+            <p class="meta" data-slot="meta"></p>
             <p class="dialog-lead" data-slot="summary"></p>
             <section class="dialog-section" data-section="details">
                 <h3>What I did</h3>

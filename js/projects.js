@@ -1,30 +1,12 @@
 // All projects on the site. The order here is the order on the page.
 //
 //   type      'client' or 'university'
-//   featured  true puts the project in the large "Featured projects" section
-//   org       optional client or partner name shown next to the badge
-//   image     screenshot path; add imageFit: 'cover' for photos that may be cropped
-//   diagram   list of steps, shown instead of an image when screenshots can't be shared
+//   featured  true shows the project as a large card; the others are listed by type
+//   org       optional client or partner name, shown after "Client" / "University"
+//   image     optional screenshot path; add imageFit: 'cover' for photos that may be cropped
+//   diagram   optional list of steps, shown instead of an image when screenshots can't be shared
 //   links     [{ text: 'GitHub', url: 'https://...' }], shown as buttons in the popup
 const PROJECTS = [
-    {
-        id: 'app-deployment',
-        title: 'MLOps & Cloud Model Deployment',
-        type: 'university',
-        featured: true,
-        image: 'images/projects/block2d.png',
-        summary: 'Converted the root segmentation model from the plant inoculation project into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.',
-        details: 'Created a fully deployed version of the root segmentation model from an earlier project. This involved setting up a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms. The solution included version control, automated testing, and monitoring to ensure model performance and reliability in production. The end application allowed users to upload images and receive segmentation results through a user-friendly Streamlit-powered interface. The application was containerized using Docker and deployed on Azure.',
-        challenges: [
-            'Setting up robust CI/CD pipelines for automated model training and deployment',
-            'Implementing effective monitoring to detect model performance degradation',
-            'Ensuring scalability and reliability of the deployed application on cloud infrastructure',
-            'Containerizing the application for consistent deployment across environments'
-        ],
-        results: 'Successfully deployed a production-grade ML application that allowed users to upload images and receive segmentation results. The system featured automated training pipelines, CI/CD deployment, and monitoring to ensure ongoing performance. The project demonstrated the full MLOps lifecycle from model development to production deployment. I received a grade of 9.0 for the project.',
-        tags: ['Python', 'MLOps', 'Cloud', 'CI/CD', 'Docker'],
-        links: []
-    },
     {
         id: 'invoice-processing',
         title: 'Invoice PDF Processing System',
@@ -63,20 +45,21 @@ const PROJECTS = [
         links: []
     },
     {
-        id: 'cv-robotics',
-        title: 'Computer Vision & Robotics for Plant Inoculation',
+        id: 'app-deployment',
+        title: 'MLOps & Cloud Model Deployment',
         type: 'university',
-        image: 'images/projects/block2b.png',
-        summary: 'Implemented traditional computer vision methods, object detection, image segmentation models, deep learning, and reinforcement learning for robotic control.',
-        details: 'Trained a deep learning model for root segmentation in petri dish images, implemented traditional computer vision techniques for object detection and tracking, and developed reinforcement learning agents for robotic control tasks. The project involved locating root tips and guiding a robotic arm to perform precise inoculation tasks.',
+        featured: true,
+        image: 'images/projects/block2d.png',
+        summary: 'Converted the root segmentation model from the plant inoculation project into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.',
+        details: 'Created a fully deployed version of the root segmentation model from an earlier project. This involved setting up a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms. The solution included version control, automated testing, and monitoring to ensure model performance and reliability in production. The end application allowed users to upload images and receive segmentation results through a user-friendly Streamlit-powered interface. The application was containerized using Docker and deployed on Azure.',
         challenges: [
-            'Integrating traditional CV methods with modern deep learning approaches',
-            'Training RL agents that could operate effectively in real-world conditions',
-            'Ensuring accurate root tip detection and tracking in varying image conditions',
-            'Combining deep learning segmentation with real-time robotic control'
+            'Setting up robust CI/CD pipelines for automated model training and deployment',
+            'Implementing effective monitoring to detect model performance degradation',
+            'Ensuring scalability and reliability of the deployed application on cloud infrastructure',
+            'Containerizing the application for consistent deployment across environments'
         ],
-        results: 'Successfully created an image-to-root predictions pipeline and trained RL agents capable of performing inoculation tasks. The project demonstrated the feasibility of combining CV and RL for practical robotics applications. I received a grade of 7.5 for the project.',
-        tags: ['Python', 'Computer Vision', 'Reinforcement Learning', 'Robotics'],
+        results: 'Successfully deployed a production-grade ML application that allowed users to upload images and receive segmentation results. The system featured automated training pipelines, CI/CD deployment, and monitoring to ensure ongoing performance. The project demonstrated the full MLOps lifecycle from model development to production deployment. I received a grade of 9.0 for the project.',
+        tags: ['Python', 'MLOps', 'Cloud', 'CI/CD', 'Docker'],
         links: []
     },
     {
@@ -116,12 +99,43 @@ const PROJECTS = [
         links: []
     },
     {
+        id: 'lab-time-logging',
+        title: 'Lab Time Logging Application',
+        type: 'client',
+        diagram: ['Mobile Power Apps form', 'Input validation', 'SharePoint list', 'Reports'],
+        summary: 'Built Power Apps solution for efficient lab time tracking and management, improving workflow and data collection.',
+        details: 'Developed a low-code Power Apps solution for laboratory time tracking and management. The application streamlined the process of logging lab hours, tracking projects, and generating reports, replacing manual spreadsheet-based workflows with an intuitive mobile-friendly interface connected to a SharePoint list.',
+        challenges: [
+            'Designing an interface simple enough for quick daily logging',
+            'Implementing data validation to ensure accurate time tracking',
+            'Integrating with existing data systems and reporting requirements'
+        ],
+        results: 'Successfully deployed a user-friendly time logging application that improved data accuracy and reduced administrative overhead. Lab personnel adopted the system quickly, and management gained better visibility into lab resource utilization.',
+        tags: ['Power Apps', 'Low-Code', 'Workflow Automation'],
+        links: []
+    },
+    {
+        id: 'cv-robotics',
+        title: 'Computer Vision & Robotics for Plant Inoculation',
+        type: 'university',
+        image: 'images/projects/block2b.png',
+        summary: 'Implemented traditional computer vision methods, object detection, image segmentation models, deep learning, and reinforcement learning for robotic control.',
+        details: 'Trained a deep learning model for root segmentation in petri dish images, implemented traditional computer vision techniques for object detection and tracking, and developed reinforcement learning agents for robotic control tasks. The project involved locating root tips and guiding a robotic arm to perform precise inoculation tasks.',
+        challenges: [
+            'Integrating traditional CV methods with modern deep learning approaches',
+            'Training RL agents that could operate effectively in real-world conditions',
+            'Ensuring accurate root tip detection and tracking in varying image conditions',
+            'Combining deep learning segmentation with real-time robotic control'
+        ],
+        results: 'Successfully created an image-to-root predictions pipeline and trained RL agents capable of performing inoculation tasks. The project demonstrated the feasibility of combining CV and RL for practical robotics applications. I received a grade of 7.5 for the project.',
+        tags: ['Python', 'Computer Vision', 'Reinforcement Learning', 'Robotics'],
+        links: []
+    },
+    {
         id: 'nac-football',
         title: 'Machine Learning Predictions for NAC Breda',
         type: 'university',
         org: 'NAC Breda',
-        image: 'images/football-data.jpg',
-        imageFit: 'cover',
         summary: 'Developed a machine learning solution to help improve the player scouting process for NAC Breda.',
         details: 'Used ML techniques to create an ML prediction model based on player data. The project involved data collection, cleaning, feature engineering, model training, and evaluation in order to provide actionable insights for NAC Breda\'s player scouting strategy.',
         challenges: [
@@ -171,8 +185,6 @@ const PROJECTS = [
         id: 'road-safety-app',
         title: 'Road Safety Application',
         type: 'university',
-        image: 'images/road-safety.jpg',
-        imageFit: 'cover',
         summary: 'Designed a road safety app concept based on street data analysis, utilizing SQL for data management and analysis.',
         details: 'Conceptualized and designed a road safety application that leverages street data to improve traffic safety by identifying high-risk areas and alerting the user when they are entering these zones. The project involved SQL database design, data analysis to identify safety patterns, and developing the app concept with user-centered features.',
         challenges: [
@@ -199,22 +211,6 @@ const PROJECTS = [
         ],
         results: 'Successfully delivered a comprehensive BI solution that showcased the correlations between various SDG-related metrics. The dashboard enabled stakeholders to explore the data interactively and derive insights that informed strategic decisions. I received a grade of 9.2 for the project.',
         tags: ['Python', 'Power BI', 'Data Analysis', 'Data Visualization'],
-        links: []
-    },
-    {
-        id: 'lab-time-logging',
-        title: 'Lab Time Logging Application',
-        type: 'client',
-        diagram: ['Mobile Power Apps form', 'Input validation', 'SharePoint list', 'Reports'],
-        summary: 'Built Power Apps solution for efficient lab time tracking and management, improving workflow and data collection.',
-        details: 'Developed a low-code Power Apps solution for laboratory time tracking and management. The application streamlined the process of logging lab hours, tracking projects, and generating reports, replacing manual spreadsheet-based workflows with an intuitive mobile-friendly interface connected to a SharePoint list.',
-        challenges: [
-            'Designing an interface simple enough for quick daily logging',
-            'Implementing data validation to ensure accurate time tracking',
-            'Integrating with existing data systems and reporting requirements'
-        ],
-        results: 'Successfully deployed a user-friendly time logging application that improved data accuracy and reduced administrative overhead. Lab personnel adopted the system quickly, and management gained better visibility into lab resource utilization.',
-        tags: ['Power Apps', 'Low-Code', 'Workflow Automation'],
         links: []
     },
     {

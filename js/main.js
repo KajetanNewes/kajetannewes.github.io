@@ -11,45 +11,67 @@
 
     function mediaHtml(project, { extraClass = '', alt = '', lazy = true } = {}) {
         if (project.diagram) {
-            const steps = project.diagram.map(step => `<li>${escapeHtml(step)}</li>`).join('');
+            const steps = project.diagram.map((step, i) => `<li style="--step: ${i}">${escapeHtml(step)}</li>`).join('');
             return `<div class="media media--diagram ${extraClass}">
-                <span class="media-caption">How it works</span>
-                <ol class="pipeline">${steps}</ol>
+                <ol class="pipeline" aria-label="How it works">${steps}</ol>
             </div>`;
         }
+        if (!project.image) return '';
         const fit = project.imageFit === 'cover' ? 'media--cover' : '';
         return `<div class="media ${fit} ${extraClass}">
             <img src="${escapeHtml(project.image)}" alt="${escapeHtml(alt)}"${lazy ? ' loading="lazy"' : ''} decoding="async">
         </div>`;
     }
 
-    function metaHtml(project) {
-        const badge = project.type === 'client'
-            ? '<span class="badge badge--client">Client</span>'
-            : '<span class="badge">University</span>';
-        const org = project.org ? `<span>${escapeHtml(project.org)}</span>` : '';
-        return `<div class="card-meta">${badge}${org}</div>`;
-    }
+    const metaText = project => [project.type === 'client' ? 'Client' : 'University', project.org].filter(Boolean).join(' · ');
 
     const tagsHtml = tags => `<ul class="tags">${tags.map(t => `<li>${escapeHtml(t)}</li>`).join('')}</ul>`;
 
-    function cardHtml(project, index, featured) {
-        return `<article class="card ${featured ? 'feature-card' : 'project-card'}" id="${project.id}" data-reveal style="--i: ${index}">
+    const linkHtml = project =>
+        `<button type="button" class="card-link" data-project="${project.id}" aria-haspopup="dialog">${escapeHtml(project.title)}</button>`;
+
+    const featureHtml = project => `<article class="feature-card" id="${project.id}">
             ${mediaHtml(project)}
             <div class="card-body">
-                ${metaHtml(project)}
-                <h3><button type="button" class="card-link" data-project="${project.id}" aria-haspopup="dialog">${escapeHtml(project.title)}</button></h3>
+                <h3>${linkHtml(project)}</h3>
+                <p class="meta">${escapeHtml(metaText(project))}</p>
                 <p>${escapeHtml(project.summary)}</p>
                 ${tagsHtml(project.tags)}
-                ${featured ? `<span class="read-more" aria-hidden="true">Read more ${icon('arrow')}</span>` : ''}
+                <span class="read-more" aria-hidden="true">Read more ${icon('arrow')}</span>
             </div>
         </article>`;
-    }
 
-    const featured = PROJECTS.filter(p => p.featured);
+    const rowHtml = project => `<li class="project-row" id="${project.id}">
+            <div>
+                <h4>${linkHtml(project)}</h4>
+                ${project.org ? `<p class="meta">${escapeHtml(project.org)}</p>` : ''}
+            </div>
+            <p class="row-summary">${escapeHtml(project.summary)}</p>
+            <span class="row-arrow" aria-hidden="true">${icon('arrow')}</span>
+        </li>`;
+
     const others = PROJECTS.filter(p => !p.featured);
-    document.getElementById('featured-projects').innerHTML = featured.map(p => cardHtml(p, 0, true)).join('');
-    document.getElementById('more-projects').innerHTML = others.map((p, i) => cardHtml(p, i % 3, false)).join('');
+    document.getElementById('featured-projects').innerHTML = PROJECTS.filter(p => p.featured).map(featureHtml).join('');
+    document.getElementById('client-projects').innerHTML = others.filter(p => p.type === 'client').map(rowHtml).join('');
+    document.getElementById('university-projects').innerHTML = others.filter(p => p.type !== 'client').map(rowHtml).join('');
+
+    // ---- Pipeline motion ---------------------------------------------------
+
+    // Steps light up in order the first time a diagram comes into view.
+    const motionOk = 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const startFlow = pipeline => pipeline.classList.add('is-flowing');
+
+    if (motionOk) {
+        const observer = new IntersectionObserver(entries => {
+            for (const entry of entries) {
+                if (!entry.isIntersecting) continue;
+                startFlow(entry.target);
+                observer.unobserve(entry.target);
+            }
+        }, { threshold: 0.4 });
+        document.querySelectorAll('.featured .pipeline').forEach(el => observer.observe(el));
+        document.documentElement.classList.add('flow-ready');
+    }
 
     // ---- Project dialog ----------------------------------------------------
 
@@ -61,8 +83,8 @@
 
     function fillDialog(project) {
         slot('media').innerHTML = mediaHtml(project, { extraClass: 'dialog-media', alt: project.title, lazy: false });
-        slot('meta').innerHTML = metaHtml(project);
         slot('title').textContent = project.title;
+        slot('meta').textContent = metaText(project);
         slot('summary').textContent = project.summary;
 
         for (const key of ['details', 'results']) {
@@ -78,9 +100,12 @@
 
         const links = project.links || [];
         slot('links').innerHTML = links.map(link =>
-            `<a class="btn btn-outline" href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.text)} ${icon('external')}</a>`
+            `<a class="btn btn-secondary" href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.text)} ${icon('external')}</a>`
         ).join('');
         slot('links').hidden = links.length === 0;
+
+        const pipeline = slot('media').querySelector('.pipeline');
+        if (pipeline && motionOk) startFlow(pipeline);
     }
 
     function openProject(id, { updateUrl = true } = {}) {
@@ -156,18 +181,4 @@
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-
-    // ---- Reveal on scroll --------------------------------------------------
-
-    if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const observer = new IntersectionObserver(entries => {
-            for (const entry of entries) {
-                if (!entry.isIntersecting) continue;
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        }, { rootMargin: '0px 0px -8% 0px' });
-        document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
-        document.documentElement.classList.add('reveal-ready');
-    }
 })();
