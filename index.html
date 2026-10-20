@@ -61,12 +61,24 @@
                     </div>
                 </div>
 
-                <figure class="hero-shot">
-                    <button type="button" class="hero-shot-link" data-project="cv-robotics" aria-haspopup="dialog" aria-label="Open project: Computer Vision &amp; Robotics for Plant Inoculation">
-                        <img src="images/projects/block2b.png" alt="Petri dish with three seedlings, their roots traced in red" width="1017" height="742" fetchpriority="high">
-                    </button>
-                    <figcaption>Finding roots in petri-dish images to guide a robot arm, from my computer-vision project.</figcaption>
-                </figure>
+                <!-- js/main.js turns this into tabs for the featured projects -->
+                <div class="hero-flow" id="hero-flow">
+                    <div class="media media--diagram flow-stage">
+                        <ol class="pipeline" aria-label="How it works">
+                            <li>Invoice PDFs</li>
+                            <li>Text extraction + OCR</li>
+                            <li>Validation rules</li>
+                            <li>Excel</li>
+                            <li>Power BI dashboard</li>
+                        </ol>
+                    </div>
+                    <div class="flow-foot">
+                        <div>
+                            <p class="flow-title">Invoice PDF Processing System</p>
+                            <p class="meta">Client · Ceban Pharmaceuticals</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -197,6 +209,10 @@
             <section class="dialog-section" data-section="results">
                 <h3>Result</h3>
                 <p data-slot="results"></p>
+            </section>
+            <section class="dialog-section" data-section="screenshot">
+                <h3>Screenshot</h3>
+                <img class="dialog-shot" data-slot="screenshot" alt="">
             </section>
             <section class="dialog-section">
                 <h3>Tech</h3>

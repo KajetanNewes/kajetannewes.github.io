@@ -9,18 +9,12 @@
 
     // ---- Rendering ---------------------------------------------------------
 
-    function mediaHtml(project, { extraClass = '', alt = '', lazy = true } = {}) {
-        if (project.diagram) {
-            const steps = project.diagram.map((step, i) => `<li style="--step: ${i}">${escapeHtml(step)}</li>`).join('');
-            return `<div class="media media--diagram ${extraClass}">
+    function diagramHtml(project, extraClass = '') {
+        if (!project.diagram) return '';
+        const steps = project.diagram.map((step, i) => `<li style="--step: ${i}">${escapeHtml(step)}</li>`).join('');
+        return `<div class="media media--diagram ${extraClass}">
                 <ol class="pipeline" aria-label="How it works">${steps}</ol>
             </div>`;
-        }
-        if (!project.image) return '';
-        const fit = project.imageFit === 'cover' ? 'media--cover' : '';
-        return `<div class="media ${fit} ${extraClass}">
-            <img src="${escapeHtml(project.image)}" alt="${escapeHtml(alt)}"${lazy ? ' loading="lazy"' : ''} decoding="async">
-        </div>`;
     }
 
     const metaText = project => [project.type === 'client' ? 'Client' : 'University', project.org].filter(Boolean).join(' · ');
@@ -31,7 +25,7 @@
         `<button type="button" class="card-link" data-project="${project.id}" aria-haspopup="dialog">${escapeHtml(project.title)}</button>`;
 
     const featureHtml = project => `<article class="feature-card" id="${project.id}">
-            ${mediaHtml(project)}
+            ${diagramHtml(project)}
             <div class="card-body">
                 <h3>${linkHtml(project)}</h3>
                 <p class="meta">${escapeHtml(metaText(project))}</p>
@@ -73,6 +67,51 @@
         document.documentElement.classList.add('flow-ready');
     }
 
+    // ---- Hero: one tab per featured project, each showing its pipeline -----
+
+    const flowEl = document.getElementById('hero-flow');
+    const spotlight = PROJECTS.filter(p => p.featured && p.diagram);
+
+    if (flowEl && spotlight.length) {
+        flowEl.innerHTML = `
+            <div class="flow-tabs" role="tablist" aria-label="Featured projects">
+                ${spotlight.map(p => `<button type="button" class="flow-tab" role="tab" id="flow-tab-${p.id}" aria-controls="flow-panel" data-flow="${p.id}">${escapeHtml(p.short || p.title)}</button>`).join('')}
+            </div>
+            <div class="flow-panel" role="tabpanel" id="flow-panel"></div>`;
+        const tabs = [...flowEl.querySelectorAll('[role="tab"]')];
+        const panel = flowEl.querySelector('[role="tabpanel"]');
+
+        function showFlow(id, { focus = false } = {}) {
+            const project = projectsById.get(id);
+            for (const tab of tabs) {
+                const selected = tab.dataset.flow === id;
+                tab.setAttribute('aria-selected', String(selected));
+                tab.tabIndex = selected ? 0 : -1;
+                if (selected && focus) tab.focus();
+            }
+            panel.setAttribute('aria-labelledby', `flow-tab-${id}`);
+            panel.innerHTML = `${diagramHtml(project, 'flow-stage')}
+                <div class="flow-foot">
+                    <div>
+                        <p class="flow-title">${escapeHtml(project.title)}</p>
+                        <p class="meta">${escapeHtml(metaText(project))}</p>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-secondary" data-project="${project.id}" aria-haspopup="dialog">Open project ${icon('arrow')}</button>
+                </div>`;
+            if (motionOk) startFlow(panel.querySelector('.pipeline'));
+        }
+
+        tabs.forEach(tab => tab.addEventListener('click', () => showFlow(tab.dataset.flow)));
+        flowEl.querySelector('[role="tablist"]').addEventListener('keydown', e => {
+            const current = tabs.indexOf(document.activeElement);
+            const next = { ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: tabs.length - 1 }[e.key];
+            if (current < 0 || next === undefined) return;
+            e.preventDefault();
+            showFlow(tabs[(next + tabs.length) % tabs.length].dataset.flow, { focus: true });
+        });
+        showFlow(spotlight[0].id);
+    }
+
     // ---- Project dialog ----------------------------------------------------
 
     const dialog = document.getElementById('project-dialog');
@@ -82,7 +121,7 @@
     let pushedHistory = false;
 
     function fillDialog(project) {
-        slot('media').innerHTML = mediaHtml(project, { extraClass: 'dialog-media', alt: project.title, lazy: false });
+        slot('media').innerHTML = diagramHtml(project, 'dialog-media');
         slot('title').textContent = project.title;
         slot('meta').textContent = metaText(project);
         slot('summary').textContent = project.summary;
@@ -95,6 +134,15 @@
         const challenges = project.challenges || [];
         slot('challenges').innerHTML = challenges.map(c => `<li>${escapeHtml(c)}</li>`).join('');
         section('challenges').hidden = challenges.length === 0;
+
+        const shot = slot('screenshot');
+        if (project.image) {
+            shot.src = project.image;
+            shot.alt = `Screenshot: ${project.title}`;
+        } else {
+            shot.removeAttribute('src');
+        }
+        section('screenshot').hidden = !project.image;
 
         slot('tags').innerHTML = tagsHtml(project.tags);
 

@@ -1,15 +1,17 @@
 // All projects on the site. The order here is the order on the page.
 //
 //   type      'client' or 'university'
-//   featured  true shows the project as a large card; the others are listed by type
+//   featured  true shows the project as a large card and as a tab in the hero; the others are listed by type
+//   short     short name for the hero tab (featured projects)
 //   org       optional client or partner name, shown after "Client" / "University"
-//   image     optional screenshot path; add imageFit: 'cover' for photos that may be cropped
-//   diagram   optional list of steps, shown instead of an image when screenshots can't be shared
+//   diagram   the steps of the "how it works" diagram on the card and in the popup; the last step is the result
+//   image     optional screenshot, shown at the bottom of the popup
 //   links     [{ text: 'GitHub', url: 'https://...' }], shown as buttons in the popup
 const PROJECTS = [
     {
         id: 'invoice-processing',
         title: 'Invoice PDF Processing System',
+        short: 'Invoices',
         type: 'client',
         org: 'Ceban Pharmaceuticals',
         featured: true,
@@ -29,9 +31,11 @@ const PROJECTS = [
     {
         id: 'review-clustering',
         title: 'Review Comment Clustering',
+        short: 'Clustering',
         type: 'client',
         featured: true,
         image: 'images/clustering.png',
+        diagram: ['Review comments', 'Text cleaning', 'Unsupervised clustering', 'Human-in-the-loop labels', 'Themes for decisions'],
         summary: 'Implemented machine learning algorithms to cluster and analyze review comments, reducing manual analysis time and providing actionable insights for decision-making.',
         details: 'Built a machine learning system to automatically cluster and categorize analytical review comments. The tool uses unsupervised learning to identify patterns and themes in large volumes of review feedback, with an interactive Streamlit interface for exploration and analysis. Additionally included a semi-supervised module with a human-in-the-loop interface for refining clusters.',
         challenges: [
@@ -47,9 +51,11 @@ const PROJECTS = [
     {
         id: 'app-deployment',
         title: 'MLOps & Cloud Model Deployment',
+        short: 'Rootify',
         type: 'university',
         featured: true,
         image: 'images/projects/block2d.png',
+        diagram: ['Automated training', 'Automated tests', 'Docker container', 'CI/CD to Azure', 'Rootify app, monitored'],
         summary: 'Converted the root segmentation model from the plant inoculation project into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.',
         details: 'Created a fully deployed version of the root segmentation model from an earlier project. This involved setting up a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms. The solution included version control, automated testing, and monitoring to ensure model performance and reliability in production. The end application allowed users to upload images and receive segmentation results through a user-friendly Streamlit-powered interface. The application was containerized using Docker and deployed on Azure.',
         challenges: [
@@ -85,7 +91,7 @@ const PROJECTS = [
         title: 'AI-Supported Quality Report Generator',
         type: 'client',
         org: 'Ceban Pharmaceuticals',
-        diagram: ['Structured input data', 'Source documents', 'OpenAI API summaries', 'Draft PQR in Word'],
+        diagram: ['Input data + documents', 'OpenAI API summaries', 'Word template', 'Draft PQR'],
         summary: 'Created AI-powered template generation system for product quality report templates at Ceban Pharmaceuticals, in order to streamline documentation processes.',
         details: 'Developed an AI-powered system leveraging the OpenAI API to generate product quality report (PQRs) templates in Microsoft Word. The system generates an initial draft based on structured input data, with some of the sections using AI-generated summaries of other documents.',
         challenges: [
@@ -118,7 +124,7 @@ const PROJECTS = [
         id: 'cv-robotics',
         title: 'Computer Vision & Robotics for Plant Inoculation',
         type: 'university',
-        image: 'images/projects/block2b.png',
+        diagram: ['Petri-dish images', 'Root segmentation (DL)', 'Root-tip detection', 'RL control agent', 'Robot arm inoculates'],
         summary: 'Implemented traditional computer vision methods, object detection, image segmentation models, deep learning, and reinforcement learning for robotic control.',
         details: 'Trained a deep learning model for root segmentation in petri dish images, implemented traditional computer vision techniques for object detection and tracking, and developed reinforcement learning agents for robotic control tasks. The project involved locating root tips and guiding a robotic arm to perform precise inoculation tasks.',
         challenges: [
@@ -136,6 +142,7 @@ const PROJECTS = [
         title: 'Machine Learning Predictions for NAC Breda',
         type: 'university',
         org: 'NAC Breda',
+        diagram: ['Player data', 'Cleaning + features', 'Model training', 'Evaluation', 'Value-for-money score'],
         summary: 'Developed a machine learning solution to help improve the player scouting process for NAC Breda.',
         details: 'Used ML techniques to create an ML prediction model based on player data. The project involved data collection, cleaning, feature engineering, model training, and evaluation in order to provide actionable insights for NAC Breda\'s player scouting strategy.',
         challenges: [
@@ -152,6 +159,7 @@ const PROJECTS = [
         title: 'Deep Learning Image Classification',
         type: 'university',
         image: 'images/projects/block1c.PNG',
+        diagram: ['Custom image dataset', 'CNN training', 'Explainable AI', 'Prototype app', 'Clean / not clean'],
         summary: 'Created a custom deep learning model for image classification with a real-world business application.',
         details: 'Developed an end-to-end deep learning solution for a kitchen cleanliness monitoring system. This included creating a custom image dataset, designing and training a CNN architecture, and building a user-centered prototype application. Additionally, Explainable AI techniques were applied to enhance model interpretability.',
         challenges: [
@@ -185,6 +193,7 @@ const PROJECTS = [
         id: 'road-safety-app',
         title: 'Road Safety Application',
         type: 'university',
+        diagram: ['Street data', 'SQL database', 'High-risk area analysis', 'Zone alerts', 'Safety app concept'],
         summary: 'Designed a road safety app concept based on street data analysis, utilizing SQL for data management and analysis.',
         details: 'Conceptualized and designed a road safety application that leverages street data to improve traffic safety by identifying high-risk areas and alerting the user when they are entering these zones. The project involved SQL database design, data analysis to identify safety patterns, and developing the app concept with user-centered features.',
         challenges: [
@@ -202,6 +211,7 @@ const PROJECTS = [
         title: 'SDG Data Analysis',
         type: 'university',
         image: 'images/projects/block1a.png',
+        diagram: ['Multiple data sources', 'Cleaning + transformation', 'Correlation analysis', 'Power BI dashboard'],
         summary: 'Created interactive dashboard analyzing correlation between SDG (Sustainable Development Goals)-related metrics.',
         details: 'This project involved the complete data science lifecycle from understanding business requirements to delivering actionable insights. I worked with multiple data sources, performed comprehensive data cleaning and transformation, and built an interactive Power BI dashboard.',
         challenges: [
@@ -217,7 +227,7 @@ const PROJECTS = [
         id: 'sme-research',
         title: 'Information Credibility Research for SMEs',
         type: 'university',
-        image: 'images/projects/block2a.png',
+        diagram: ['Surveys', 'Interviews + focus groups', 'Mixed-method analysis', 'Papers + conference poster'],
         summary: 'Conducted a mixed-method research study combining surveys and interviews to analyze credibility perceptions of SME-provided information.',
         details: 'Designed and executed a comprehensive research study exploring how people perceive the credibility of information provided by SMEs. The project combined quantitative survey data with qualitative interviews and focus groups to understand attitudes, knowledge, acceptance, and perceived impact of AI. Results were synthesized into a research paper, policy paper, and conference poster.',
         challenges: [
