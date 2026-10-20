@@ -10,14 +10,14 @@
 const PROJECTS = [
     {
         id: 'invoice-control',
-        title: 'Subcontractor Invoice Checker',
+        title: 'AI-Powered Invoice Checker',
         type: 'client',
         org: 'Dutch moving company',
         current: true,
         diagram: ['Invoice PDFs', 'OCR + LLM extraction', 'Match to planned job', 'Rate, hours + VAT checks', 'Findings for review'],
         summary: 'A review tool that checks subcontractor invoices against the agreed rates and the company\'s own hours and planning data before they are approved. Now in a pilot.',
         details: 'Invoices are read into a fixed structure with OCR and a language model (Mistral); all arithmetic and rate comparisons are done in plain Python. Each invoice is matched to the planned job it belongs to, using hours and planning data from the company\'s planning system, and then checked: the contractor, the agreed rates, line and total sums including VAT, billed hours against logged hours, break rules from the collective labour agreement, kilometres and volume. A Streamlit screen shows the findings in Dutch or English, the reviewer signs off, and the results can be exported or turned into a draft email to the contractor.',
-        results: 'Running in a pilot, backed by 257 automated tests.',
+        results: 'Running in a pilot.',
         tags: ['Python', 'Streamlit', 'Mistral OCR', 'LLM', 'Docker'],
         links: []
     },
@@ -134,16 +134,16 @@ const PROJECTS = [
         id: 'cv-robotics',
         title: 'Computer Vision & Robotics for Plant Inoculation',
         type: 'university',
-        diagram: ['Petri-dish images', 'Root segmentation (DL)', 'Root-tip detection', 'RL control agent', 'Robot arm inoculates'],
+        diagram: ['Petri-dish images', 'Root segmentation (DL)', 'Root-tip detection', 'RL control agent', 'Simulated inoculation'],
         summary: 'Implemented traditional computer vision methods, object detection, image segmentation models, deep learning, and reinforcement learning for robotic control.',
-        details: 'Trained a deep learning model for root segmentation in petri dish images, implemented traditional computer vision techniques for object detection and tracking, and developed reinforcement learning agents for robotic control tasks. The project involved locating root tips and guiding a robotic arm to perform precise inoculation tasks.',
+        details: 'Trained a deep learning model for root segmentation in petri dish images, implemented traditional computer vision techniques for object detection and tracking, and developed reinforcement learning agents for robotic control tasks. The project involved locating root tips and guiding a robotic arm to perform precise inoculation tasks in simulation.',
         challenges: [
             'Integrating traditional CV methods with modern deep learning approaches',
             'Training RL agents that could operate effectively in real-world conditions',
             'Ensuring accurate root tip detection and tracking in varying image conditions',
             'Combining deep learning segmentation with real-time robotic control'
         ],
-        results: 'Successfully created an image-to-root predictions pipeline and trained RL agents capable of performing inoculation tasks. The project demonstrated the feasibility of combining CV and RL for practical robotics applications. I received a grade of 7.5 for the project.',
+        results: 'Successfully created an image-to-root predictions pipeline and trained RL agents capable of performing inoculation tasks in a simulated environment. The project demonstrated the feasibility of combining CV and RL for practical robotics applications. I received a grade of 7.5 for the project.',
         tags: ['Python', 'Computer Vision', 'Reinforcement Learning', 'Robotics'],
         links: []
     },
