@@ -12,7 +12,6 @@ const PROJECTS = [
         id: 'invoice-control',
         title: 'AI-Powered Invoice Checker',
         type: 'client',
-        org: 'Dutch moving company',
         current: true,
         diagram: ['Invoice PDFs', 'OCR + LLM extraction', 'Match to planned job', 'Rate, hours + VAT checks', 'Findings for review'],
         summary: 'A review tool that checks subcontractor invoices against the agreed rates and the company\'s own hours and planning data before they are approved. Now in a pilot.',
