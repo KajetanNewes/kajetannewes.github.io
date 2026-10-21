@@ -275,8 +275,15 @@ main:focus {
     transition: color 0.15s;
 }
 
-.nav-links a:not(.btn):hover {
+.nav-links a:not(.btn):hover,
+.nav-links a[aria-current] {
     color: var(--text);
+}
+
+.nav-links a[aria-current] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.45em;
 }
 
 .nav-toggle {
@@ -411,6 +418,8 @@ main:focus {
 
 .feature-card:hover {
     background: var(--surface-hover);
+    outline: 1px solid var(--line-strong);
+    outline-offset: -1px;
 }
 
 .feature-card:has(.card-link:focus-visible),
@@ -563,7 +572,7 @@ main:focus {
     color: var(--text);
 }
 
-/* ---- Project media (screenshot frame or pipeline diagram) -------------- */
+/* ---- Project diagrams --------------------------------------------------- */
 
 .media {
     position: relative;
@@ -730,7 +739,7 @@ main:focus {
 
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 36px 40px;
 }
 
@@ -887,55 +896,6 @@ main:focus {
     background: var(--surface-4);
 }
 
-.media--shot img {
-    position: absolute;
-    inset: 0;
-    max-width: calc(100% - 48px);
-    max-height: calc(100% - 48px);
-    margin: auto;
-    border-radius: 8px;
-}
-
-.strip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px 0;
-    padding: 0;
-    list-style: none;
-    font-family: var(--font-mono);
-    font-size: var(--fs-small);
-}
-
-.strip li {
-    position: relative;
-    padding: 4px 10px;
-    border: 1px solid var(--accent-line);
-    border-radius: 6px;
-    background: var(--bg);
-}
-
-.strip li + li {
-    margin-left: 26px;
-}
-
-.strip li + li::before {
-    content: '→';
-    position: absolute;
-    right: calc(100% + 6px);
-    color: var(--text-muted);
-}
-
-.strip li:last-child {
-    border-color: var(--accent);
-    background: var(--accent-soft);
-    color: var(--accent);
-}
-
-.strip-note {
-    color: var(--text-muted);
-}
-
 .dialog-media {
     aspect-ratio: 2 / 1;
     max-height: 380px;
@@ -999,6 +959,16 @@ main:focus {
     background: var(--text-muted);
 }
 
+.next-word {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .next-word {
+        display: inline;
+    }
+}
+
 .dialog-foot {
     display: flex;
     justify-content: space-between;
@@ -1042,13 +1012,9 @@ main:focus {
 }
 
 @media (max-width: 900px) {
-    .hero-grid,
-    .contact-card {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .hero-flow {
-        max-width: 640px;
+    .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px 24px;
     }
 }
 
@@ -1064,6 +1030,24 @@ main:focus {
 }
 
 @media (max-width: 760px) {
+    .hero-grid,
+    .contact-card {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Dims the page behind the open menu; tapping it closes the menu */
+    .js .site-header[data-open]::after {
+        content: '';
+        position: fixed;
+        inset: var(--header-h) 0 0;
+        z-index: -1;
+        background: var(--scrim);
+    }
+
+    .next-name {
+        display: none;
+    }
+
     .dialog-foot {
         position: sticky;
         bottom: 0;

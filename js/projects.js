@@ -8,7 +8,6 @@
 //   diagram   the steps of the "how it works" diagram; the last step is the result. A step can be
 //             { step: '...', input: '...' } when a second input joins there
 //   loop      optional { from, to, label }: steps from..to repeat, drawn as a return arrow
-//   image     optional screenshot, shown at the bottom of the popup
 //   links     [{ text: 'GitHub', url: 'https://...' }], shown as buttons in the popup
 const PROJECTS = [
     {
@@ -18,7 +17,7 @@ const PROJECTS = [
         current: true,
         diagram: ['Invoice PDFs', 'OCR + LLM extraction', { step: 'Match to planned job', input: 'planning and hours data' }, 'Rate, hours + VAT checks', 'Findings for review'],
         outcome: 'Checking real invoices in a pilot',
-        summary: 'A review tool that checks subcontractor invoices against the agreed rates and the company\'s own hours and planning data before they are approved. Now in a pilot.',
+        summary: 'A review tool that checks subcontractor invoices against the agreed rates and the company\'s own hours and planning data before they are approved.',
         details: 'Invoices are read into a fixed structure with OCR and a language model (Mistral); all arithmetic and rate comparisons are done in plain Python. Each invoice is matched to the planned job it belongs to, using hours and planning data from the company\'s planning system, and then checked: the contractor, the agreed rates, line and total sums including VAT, billed hours against logged hours, break rules from the collective labour agreement, kilometres and volume. A Streamlit screen shows the findings in Dutch or English, the reviewer signs off, and the results can be exported or turned into a draft email to the contractor.',
         results: 'Running in a pilot.',
         tags: ['Python', 'Streamlit', 'Mistral OCR', 'LLM', 'Docker'],
@@ -29,7 +28,6 @@ const PROJECTS = [
         title: 'MLOps & Cloud Model Deployment',
         type: 'university',
         featured: true,
-        image: 'images/projects/block2d.webp',
         diagram: ['Automated training', 'Automated tests', 'Docker container', 'CI/CD to Azure', 'Rootify app, monitored'],
         outcome: 'Deployed on Azure with CI/CD and monitoring',
         summary: 'Converted the root segmentation model from the plant inoculation project into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.',
@@ -49,7 +47,6 @@ const PROJECTS = [
         title: 'Review Comment Clustering',
         type: 'client',
         featured: true,
-        image: 'images/clustering.png',
         diagram: ['Review comments', 'Text cleaning', 'Unsupervised clustering', 'Human-in-the-loop labels', 'Themes for decisions'],
         loop: { from: 2, to: 3, label: 'refine' },
         outcome: 'Teams spot common themes in review comments quickly',
@@ -181,7 +178,6 @@ const PROJECTS = [
         id: 'image-classification',
         title: 'Deep Learning Image Classification',
         type: 'university',
-        image: 'images/projects/block1c.webp',
         diagram: ['Custom image dataset', 'CNN training', 'Explainable AI', 'Prototype app', 'Clean / not clean'],
         outcome: 'Cleanliness classifier with a working prototype app',
         summary: 'Created a custom deep learning model for image classification with a real-world business application.',
@@ -236,7 +232,6 @@ const PROJECTS = [
         id: 'business-intelligence',
         title: 'SDG Data Analysis',
         type: 'university',
-        image: 'images/projects/block1a.webp',
         diagram: ['Multiple data sources', 'Cleaning + transformation', 'Correlation analysis', 'Power BI dashboard'],
         outcome: 'Interactive dashboard of SDG metric correlations',
         summary: 'Created interactive dashboard analyzing correlation between SDG (Sustainable Development Goals)-related metrics.',

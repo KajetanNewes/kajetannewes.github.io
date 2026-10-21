@@ -44,21 +44,6 @@
             </div>`;
     }
 
-    // The same steps as one compact line, used in the popup when a screenshot takes the top.
-    function stripHtml(project) {
-        const { diagram: steps, loop } = project;
-        const items = steps.map((step, i) => {
-            const input = stepInput(step) ? ` <span class="strip-note">+ ${escapeHtml(stepInput(step))}</span>` : '';
-            const back = loop && i === loop.to ? ` <span class="strip-note"><span aria-hidden="true">↺ </span>${escapeHtml(loop.label)}</span>` : '';
-            return `<li>${escapeHtml(stepLabel(step))}${input}${back}</li>`;
-        }).join('');
-        return `<ol class="strip" aria-label="How it works">${items}</ol>`;
-    }
-
-    const screenshotHtml = project => `<div class="media media--shot dialog-media">
-            <img src="${escapeHtml(project.image)}" alt="Screenshot: ${escapeHtml(project.title)}">
-        </div>`;
-
     const metaText = project => [project.type === 'client' ? 'Client' : 'University', project.org].filter(Boolean).join(' · ');
 
     const tagsHtml = tags => `<ul class="tags">${tags.map(t => `<li>${escapeHtml(t)}</li>`).join('')}</ul>`;
@@ -74,7 +59,7 @@
                 <p class="outcome">${escapeHtml(project.outcome)}</p>
                 <p>${escapeHtml(project.summary)}</p>
                 ${tagsHtml(project.tags)}
-                <span class="read-more" aria-hidden="true">Read more ${icon('arrow')}</span>
+                <span class="read-more" aria-hidden="true">Open project ${icon('arrow')}</span>
             </div>
         </article>`;
 
@@ -151,10 +136,7 @@
     const nextProject = id => pageOrder[(pageOrder.findIndex(p => p.id === id) + 1) % pageOrder.length];
 
     function fillDialog(project) {
-        // A real screenshot leads when there is one; the diagram then becomes a compact strip.
-        slot('media').innerHTML = project.image ? screenshotHtml(project) : diagramHtml(project, 'dialog-media');
-        slot('strip').innerHTML = project.image ? stripHtml(project) : '';
-        section('strip').hidden = !project.image;
+        slot('media').innerHTML = diagramHtml(project, 'dialog-media');
         slot('title').textContent = project.title;
         slot('meta').textContent = metaText(project);
         slot('summary').textContent = project.summary;
@@ -171,6 +153,7 @@
         const next = nextProject(project.id);
         nextButton.dataset.next = next.id;
         nextButton.setAttribute('aria-label', `Next project: ${next.title}`);
+        slot('next-name').textContent = `Next: ${next.title}`;
 
         slot('tags').innerHTML = tagsHtml(project.tags);
 
@@ -255,6 +238,10 @@
     }
 
     toggle.addEventListener('click', () => setMenu(!header.hasAttribute('data-open')));
+    // A tap outside the open menu (on the dimmed page) closes it.
+    document.addEventListener('click', e => {
+        if (header.hasAttribute('data-open') && !e.target.closest('.nav-links, .nav-toggle')) setMenu(false);
+    });
     header.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => setMenu(false)));
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') setMenu(false);
@@ -263,4 +250,19 @@
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // The navigation marks the section currently in view.
+    const navLinks = [...header.querySelectorAll('.nav-links a[href^="#"]')];
+    if ('IntersectionObserver' in window) {
+        const spy = new IntersectionObserver(entries => {
+            for (const entry of entries) {
+                if (!entry.isIntersecting) continue;
+                for (const link of navLinks) {
+                    if (link.getAttribute('href') === `#${entry.target.id}`) link.setAttribute('aria-current', 'true');
+                    else link.removeAttribute('aria-current');
+                }
+            }
+        }, { rootMargin: '-35% 0px -60% 0px' });
+        document.querySelectorAll('main > section').forEach(s => spy.observe(s));
+    }
 })();
