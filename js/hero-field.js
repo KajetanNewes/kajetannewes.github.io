@@ -2,8 +2,15 @@
 // without React, the image source or the cursor glow.
 (() => {
     const canvas = document.querySelector('.hero-field');
+    const hero = canvas?.parentElement;
     const ctx = canvas?.getContext('2d');
     if (!ctx) return;
+    // Only run once style.css has placed the canvas behind the hero. With an older cached stylesheet the
+    // canvas sits in the page instead, and on scaled screens it grew on every resize until the page froze.
+    if (getComputedStyle(canvas).position !== 'absolute') {
+        canvas.hidden = true;
+        return;
+    }
 
     const RAMP = ' .:-=+*#%@';
     const CELL = 14;
@@ -33,7 +40,8 @@
 
     function resize() {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        ({ width, height } = canvas.getBoundingClientRect());
+        width = hero.clientWidth;
+        height = hero.clientHeight;
         canvas.width = Math.round(width * dpr);
         canvas.height = Math.round(height * dpr);
         cols = Math.ceil(width / CELL);
@@ -86,7 +94,7 @@
     new ResizeObserver(() => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => { resize(); draw(); }, 150);
-    }).observe(canvas);
+    }).observe(hero);
 
     // People who turn off motion get the still frame
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
