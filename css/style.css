@@ -461,6 +461,10 @@ main:focus {
     margin-top: -6px;
 }
 
+.outcome {
+    font-weight: 700;
+}
+
 .read-more {
     display: inline-flex;
     align-items: center;
@@ -526,8 +530,10 @@ main:focus {
     border-bottom: 0;
 }
 
-.project-row:hover .row-summary {
-    color: var(--text);
+.project-row:hover h4 {
+    text-decoration: underline;
+    text-decoration-color: var(--text-muted);
+    text-underline-offset: 0.2em;
 }
 
 .project-row h4 {
@@ -541,13 +547,9 @@ main:focus {
     margin-top: 2px;
 }
 
-.row-summary {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    color: var(--text-muted);
-    transition: color 0.15s;
+.row-detail {
+    display: grid;
+    gap: 8px;
 }
 
 .row-arrow {
@@ -593,12 +595,27 @@ main:focus {
 
 .pipeline li {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 0.38em 0.95em;
     border: 1px solid var(--accent-line);
     border-radius: 6px;
     background: var(--bg);
     line-height: 1.3;
     white-space: nowrap;
+}
+
+/* A second input joining at this step */
+.step-input {
+    margin-top: 0.15em;
+    color: var(--text-muted);
 }
 
 .pipeline li + li::before {
@@ -611,25 +628,95 @@ main:focus {
     background: var(--accent-line);
 }
 
-.pipeline li:first-child {
+.step.is-input {
     border-color: var(--line-strong);
     color: var(--text-muted);
 }
 
-.pipeline li:last-child {
+.step.is-result {
     border-color: var(--accent);
     background: var(--accent-soft);
     color: var(--accent);
 }
 
+/* Steps that repeat: a bracket on the right returns to the first of them */
+.loop-steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0;
+    list-style: none;
+}
+
+.loop::after {
+    content: '';
+    position: absolute;
+    top: 0.95em;
+    bottom: 0.95em;
+    left: calc(100% + 0.5em);
+    width: 0.8em;
+    border: 1px solid var(--accent-line);
+    border-left: 0;
+    border-radius: 0 6px 6px 0;
+}
+
+.loop-arrow {
+    position: absolute;
+    top: calc(0.95em - 4px);
+    left: calc(100% + 0.5em - 6px);
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-right: 6px solid var(--accent-line);
+}
+
+.loop-label {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 1.7em);
+    translate: 0 -50%;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+@container (max-width: 440px) {
+    .loop-label {
+        display: none;
+    }
+}
+
 /* The one authored motion: steps light up in order, like data passing through */
-.flow-ready .pipeline:not(.is-flowing) li {
+.flow-ready .pipeline:not(.is-flowing) .step,
+.flow-ready .pipeline:not(.is-flowing) li::before,
+.flow-ready .pipeline:not(.is-flowing) .loop::after,
+.flow-ready .pipeline:not(.is-flowing) .loop-arrow,
+.flow-ready .pipeline:not(.is-flowing) .loop-label {
     opacity: 0;
 }
 
-.flow-ready .pipeline.is-flowing li {
+.flow-ready .pipeline.is-flowing .step {
     animation: step-in 0.5s var(--ease) backwards;
     animation-delay: calc(var(--step, 0) * 110ms);
+}
+
+.flow-ready .pipeline.is-flowing li::before {
+    animation: fade-in 0.3s ease backwards;
+    animation-delay: calc(var(--step, 0) * 110ms);
+}
+
+.flow-ready .pipeline.is-flowing .loop::after,
+.flow-ready .pipeline.is-flowing .loop-arrow,
+.flow-ready .pipeline.is-flowing .loop-label {
+    animation: fade-in 0.4s ease backwards;
+    animation-delay: calc(var(--step-end, 0) * 110ms + 250ms);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
 }
 
 @keyframes step-in {
@@ -800,6 +887,55 @@ main:focus {
     background: var(--surface-4);
 }
 
+.media--shot img {
+    position: absolute;
+    inset: 0;
+    max-width: calc(100% - 48px);
+    max-height: calc(100% - 48px);
+    margin: auto;
+    border-radius: 8px;
+}
+
+.strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+}
+
+.strip li {
+    position: relative;
+    padding: 4px 10px;
+    border: 1px solid var(--accent-line);
+    border-radius: 6px;
+    background: var(--bg);
+}
+
+.strip li + li {
+    margin-left: 26px;
+}
+
+.strip li + li::before {
+    content: '→';
+    position: absolute;
+    right: calc(100% + 6px);
+    color: var(--text-muted);
+}
+
+.strip li:last-child {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.strip-note {
+    color: var(--text-muted);
+}
+
 .dialog-media {
     aspect-ratio: 2 / 1;
     max-height: 380px;
@@ -861,14 +997,6 @@ main:focus {
     height: 6px;
     border-radius: 2px;
     background: var(--text-muted);
-}
-
-.dialog-shot {
-    width: 100%;
-    height: auto;
-    margin-top: 4px;
-    border-radius: 10px;
-    background: var(--surface-2);
 }
 
 .dialog-foot {
@@ -958,7 +1086,7 @@ main:focus {
         gap: 4px 12px;
     }
 
-    .row-summary {
+    .row-detail {
         grid-column: 1;
     }
 
@@ -1040,9 +1168,9 @@ main:focus {
         aspect-ratio: 16 / 10;
     }
 
-    /* The bottom bar has Close, so the X scrolls away instead of covering the text */
+    /* The bottom bar has Close, so the X would only cover the picture and the text */
     .dialog-close-wrap {
-        position: relative;
+        display: none;
     }
 }
 

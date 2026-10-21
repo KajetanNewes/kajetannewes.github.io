@@ -9,13 +9,55 @@
 
     // ---- Rendering ---------------------------------------------------------
 
+    // A diagram step is a string, or { step, input } when a second input joins at that step.
+    const stepLabel = step => typeof step === 'string' ? step : step.step;
+    const stepInput = step => typeof step === 'string' ? '' : step.input || '';
+
+    function stepHtml(step, index, lastIndex) {
+        const classes = ['step', index === 0 && 'is-input', index === lastIndex && 'is-result'].filter(Boolean).join(' ');
+        const input = stepInput(step) ? `<span class="step-input">+ ${escapeHtml(stepInput(step))}</span>` : '';
+        return `<li style="--step: ${index}"><span class="${classes}">${escapeHtml(stepLabel(step))}${input}</span></li>`;
+    }
+
+    // The vertical "how it works" diagram; a loop groups its steps and draws a return arrow beside them.
     function diagramHtml(project, extraClass = '') {
-        if (!project.diagram) return '';
-        const steps = project.diagram.map((step, i) => `<li style="--step: ${i}">${escapeHtml(step)}</li>`).join('');
+        const steps = project.diagram;
+        if (!steps) return '';
+        const { loop } = project;
+        const lastIndex = steps.length - 1;
+        let items = '';
+        for (let i = 0; i <= lastIndex; i++) {
+            if (loop && i === loop.from) {
+                const inner = steps.slice(loop.from, loop.to + 1).map((step, k) => stepHtml(step, loop.from + k, lastIndex)).join('');
+                items += `<li class="loop" style="--step: ${loop.from}; --step-end: ${loop.to}">
+                    <ol class="loop-steps">${inner}</ol>
+                    <span class="loop-arrow" aria-hidden="true"></span>
+                    <span class="loop-label"><span aria-hidden="true">↺ </span>${escapeHtml(loop.label)}</span>
+                </li>`;
+                i = loop.to;
+                continue;
+            }
+            items += stepHtml(steps[i], i, lastIndex);
+        }
         return `<div class="media media--diagram ${extraClass}">
-                <ol class="pipeline" aria-label="How it works">${steps}</ol>
+                <ol class="pipeline" aria-label="How it works">${items}</ol>
             </div>`;
     }
+
+    // The same steps as one compact line, used in the popup when a screenshot takes the top.
+    function stripHtml(project) {
+        const { diagram: steps, loop } = project;
+        const items = steps.map((step, i) => {
+            const input = stepInput(step) ? ` <span class="strip-note">+ ${escapeHtml(stepInput(step))}</span>` : '';
+            const back = loop && i === loop.to ? ` <span class="strip-note"><span aria-hidden="true">↺ </span>${escapeHtml(loop.label)}</span>` : '';
+            return `<li>${escapeHtml(stepLabel(step))}${input}${back}</li>`;
+        }).join('');
+        return `<ol class="strip" aria-label="How it works">${items}</ol>`;
+    }
+
+    const screenshotHtml = project => `<div class="media media--shot dialog-media">
+            <img src="${escapeHtml(project.image)}" alt="Screenshot: ${escapeHtml(project.title)}">
+        </div>`;
 
     const metaText = project => [project.type === 'client' ? 'Client' : 'University', project.org].filter(Boolean).join(' · ');
 
@@ -29,6 +71,7 @@
             <div class="card-body">
                 <h3>${linkHtml(project)}</h3>
                 <p class="meta">${escapeHtml(metaText(project))}</p>
+                <p class="outcome">${escapeHtml(project.outcome)}</p>
                 <p>${escapeHtml(project.summary)}</p>
                 ${tagsHtml(project.tags)}
                 <span class="read-more" aria-hidden="true">Read more ${icon('arrow')}</span>
@@ -40,7 +83,10 @@
                 <h4>${linkHtml(project)}</h4>
                 ${project.org ? `<p class="meta">${escapeHtml(project.org)}</p>` : ''}
             </div>
-            <p class="row-summary">${escapeHtml(project.summary)}</p>
+            <div class="row-detail">
+                <p class="row-outcome">${escapeHtml(project.outcome)}</p>
+                ${tagsHtml(project.tags.slice(0, 3))}
+            </div>
             <span class="row-arrow" aria-hidden="true">${icon('arrow')}</span>
         </li>`;
 
@@ -105,7 +151,10 @@
     const nextProject = id => pageOrder[(pageOrder.findIndex(p => p.id === id) + 1) % pageOrder.length];
 
     function fillDialog(project) {
-        slot('media').innerHTML = diagramHtml(project, 'dialog-media');
+        // A real screenshot leads when there is one; the diagram then becomes a compact strip.
+        slot('media').innerHTML = project.image ? screenshotHtml(project) : diagramHtml(project, 'dialog-media');
+        slot('strip').innerHTML = project.image ? stripHtml(project) : '';
+        section('strip').hidden = !project.image;
         slot('title').textContent = project.title;
         slot('meta').textContent = metaText(project);
         slot('summary').textContent = project.summary;
@@ -118,11 +167,6 @@
         const challenges = project.challenges || [];
         slot('challenges').innerHTML = challenges.map(c => `<li>${escapeHtml(c)}</li>`).join('');
         section('challenges').hidden = challenges.length === 0;
-
-        slot('screenshot').innerHTML = project.image
-            ? `<img class="dialog-shot" src="${escapeHtml(project.image)}" alt="Screenshot: ${escapeHtml(project.title)}">`
-            : '';
-        section('screenshot').hidden = !project.image;
 
         const next = nextProject(project.id);
         nextButton.dataset.next = next.id;

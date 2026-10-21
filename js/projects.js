@@ -4,7 +4,10 @@
 //   current   true shows the project in the hero as the one you are working on now
 //   featured  true shows the project as a large card; the others are listed by type
 //   org       optional client or partner name, shown after "Client" / "University"
-//   diagram   the steps of the "how it works" diagram on the card and in the popup; the last step is the result
+//   outcome   one line, 60 characters or fewer, shown on the card or row: what came out of it
+//   diagram   the steps of the "how it works" diagram; the last step is the result. A step can be
+//             { step: '...', input: '...' } when a second input joins there
+//   loop      optional { from, to, label }: steps from..to repeat, drawn as a return arrow
 //   image     optional screenshot, shown at the bottom of the popup
 //   links     [{ text: 'GitHub', url: 'https://...' }], shown as buttons in the popup
 const PROJECTS = [
@@ -13,49 +16,12 @@ const PROJECTS = [
         title: 'AI-Powered Invoice Checker',
         type: 'client',
         current: true,
-        diagram: ['Invoice PDFs', 'OCR + LLM extraction', 'Match to planned job', 'Rate, hours + VAT checks', 'Findings for review'],
+        diagram: ['Invoice PDFs', 'OCR + LLM extraction', { step: 'Match to planned job', input: 'planning and hours data' }, 'Rate, hours + VAT checks', 'Findings for review'],
+        outcome: 'Checking real invoices in a pilot',
         summary: 'A review tool that checks subcontractor invoices against the agreed rates and the company\'s own hours and planning data before they are approved. Now in a pilot.',
         details: 'Invoices are read into a fixed structure with OCR and a language model (Mistral); all arithmetic and rate comparisons are done in plain Python. Each invoice is matched to the planned job it belongs to, using hours and planning data from the company\'s planning system, and then checked: the contractor, the agreed rates, line and total sums including VAT, billed hours against logged hours, break rules from the collective labour agreement, kilometres and volume. A Streamlit screen shows the findings in Dutch or English, the reviewer signs off, and the results can be exported or turned into a draft email to the contractor.',
         results: 'Running in a pilot.',
         tags: ['Python', 'Streamlit', 'Mistral OCR', 'LLM', 'Docker'],
-        links: []
-    },
-    {
-        id: 'invoice-processing',
-        title: 'Invoice PDF Processing System',
-        type: 'client',
-        org: 'Ceban Pharmaceuticals',
-        featured: true,
-        diagram: ['Invoice PDFs', 'Text extraction + OCR', 'Validation rules', 'Excel', 'Power BI dashboard'],
-        summary: 'Developed script to extract data from invoice PDFs to Excel, which was then connected to a Power BI dashboard for Ceban Pharmaceuticals.',
-        details: 'Built an end-to-end automation solution for Ceban Pharmaceuticals that extracts invoice data from PDF files, processes and validates the information, and integrates it with Excel and Power BI for reporting and analysis. The system eliminated manual data entry and enabled enhanced financial tracking.',
-        challenges: [
-            'Handling varying PDF formats and layouts from different vendors',
-            'Ensuring high accuracy in data extraction to avoid financial errors',
-            'Implementing validation rules for pharmaceutical industry compliance',
-            'Creating seamless integration with existing Excel and Power BI workflows'
-        ],
-        results: 'Cleared backlog of a large volume of invoices and helped the company identify cost-saving opportunities.',
-        tags: ['Python', 'PDF Processing', 'OCR', 'Power BI', 'Automation'],
-        links: []
-    },
-    {
-        id: 'review-clustering',
-        title: 'Review Comment Clustering',
-        type: 'client',
-        featured: true,
-        image: 'images/clustering.png',
-        diagram: ['Review comments', 'Text cleaning', 'Unsupervised clustering', 'Human-in-the-loop labels', 'Themes for decisions'],
-        summary: 'Implemented machine learning algorithms to cluster and analyze review comments, reducing manual analysis time and providing actionable insights for decision-making.',
-        details: 'Built a machine learning system to automatically cluster and categorize analytical review comments. The tool uses unsupervised learning to identify patterns and themes in large volumes of review feedback, with an interactive Streamlit interface for exploration and analysis. Additionally included a semi-supervised module with a human-in-the-loop interface for refining clusters.',
-        challenges: [
-            'Processing and cleaning unstructured text data from various sources',
-            'Selecting appropriate clustering algorithms for comment categorization',
-            'Determining optimal number of clusters for meaningful groupings',
-            'Creating an intuitive interface for non-technical users to explore results'
-        ],
-        results: 'Delivered a working clustering system that helps teams quickly identify common themes in review feedback. The Streamlit interface enables users to assign categories manually and refine the clustering model over time, improving accuracy and relevance of insights.',
-        tags: ['Python', 'Machine Learning', 'NLP', 'Clustering', 'Streamlit'],
         links: []
     },
     {
@@ -65,6 +31,7 @@ const PROJECTS = [
         featured: true,
         image: 'images/projects/block2d.webp',
         diagram: ['Automated training', 'Automated tests', 'Docker container', 'CI/CD to Azure', 'Rootify app, monitored'],
+        outcome: 'Deployed on Azure with CI/CD and monitoring',
         summary: 'Converted the root segmentation model from the plant inoculation project into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.',
         details: 'Created a fully deployed version of the root segmentation model from an earlier project. This involved setting up a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms. The solution included version control, automated testing, and monitoring to ensure model performance and reliability in production. The end application allowed users to upload images and receive segmentation results through a user-friendly Streamlit-powered interface. The application was containerized using Docker and deployed on Azure.',
         challenges: [
@@ -78,11 +45,54 @@ const PROJECTS = [
         links: []
     },
     {
+        id: 'review-clustering',
+        title: 'Review Comment Clustering',
+        type: 'client',
+        featured: true,
+        image: 'images/clustering.png',
+        diagram: ['Review comments', 'Text cleaning', 'Unsupervised clustering', 'Human-in-the-loop labels', 'Themes for decisions'],
+        loop: { from: 2, to: 3, label: 'refine' },
+        outcome: 'Teams spot common themes in review comments quickly',
+        summary: 'Implemented machine learning algorithms to cluster and analyze review comments, reducing manual analysis time and providing actionable insights for decision-making.',
+        details: 'Built a machine learning system to automatically cluster and categorize analytical review comments. The tool uses unsupervised learning to identify patterns and themes in large volumes of review feedback, with an interactive Streamlit interface for exploration and analysis. Additionally included a semi-supervised module with a human-in-the-loop interface for refining clusters.',
+        challenges: [
+            'Processing and cleaning unstructured text data from various sources',
+            'Selecting appropriate clustering algorithms for comment categorization',
+            'Determining optimal number of clusters for meaningful groupings',
+            'Creating an intuitive interface for non-technical users to explore results'
+        ],
+        results: 'Delivered a working clustering system that helps teams quickly identify common themes in review feedback. The Streamlit interface enables users to assign categories manually and refine the clustering model over time, improving accuracy and relevance of insights.',
+        tags: ['Python', 'Machine Learning', 'NLP', 'Clustering', 'Streamlit'],
+        links: []
+    },
+    {
+        id: 'invoice-processing',
+        title: 'Invoice PDF Processing System',
+        type: 'client',
+        org: 'Ceban Pharmaceuticals',
+        featured: true,
+        diagram: ['Invoice PDFs', 'Text extraction + OCR', 'Validation rules', 'Excel', 'Power BI dashboard'],
+        outcome: 'Cleared the invoice backlog and surfaced cost savings',
+        summary: 'Developed script to extract data from invoice PDFs to Excel, which was then connected to a Power BI dashboard for Ceban Pharmaceuticals.',
+        details: 'Built an end-to-end automation solution for Ceban Pharmaceuticals that extracts invoice data from PDF files, processes and validates the information, and integrates it with Excel and Power BI for reporting and analysis. The system eliminated manual data entry and enabled enhanced financial tracking.',
+        challenges: [
+            'Handling varying PDF formats and layouts from different vendors',
+            'Ensuring high accuracy in data extraction to avoid financial errors',
+            'Implementing validation rules for pharmaceutical industry compliance',
+            'Creating seamless integration with existing Excel and Power BI workflows'
+        ],
+        results: 'Cleared backlog of a large volume of invoices and helped the company identify cost-saving opportunities.',
+        tags: ['Python', 'PDF Processing', 'OCR', 'Power BI', 'Automation'],
+        links: []
+    },
+    {
         id: 'accounting-integration',
         title: 'Automated Accounting Data Integration',
         type: 'client',
         org: 'FreshBrains',
         diagram: ['E-boekhouden API', 'Python sync in Docker', 'Data transformation', 'Power BI dashboard'],
+        loop: { from: 0, to: 3, label: 'runs continuously' },
+        outcome: 'Power BI now updates itself, with no manual data entry',
         summary: 'Created API-based solution to automatically connect accounting data from E-boekhouden to a Power BI dashboard.',
         details: 'Built an automated integration system that connects the accounting platform to Power BI through API calls in Python. The solution runs in Docker containers, automatically pulling financial data and updating Power BI dashboards to provide real-time visibility into company finances.',
         challenges: [
@@ -100,7 +110,8 @@ const PROJECTS = [
         title: 'AI-Supported Quality Report Generator',
         type: 'client',
         org: 'Ceban Pharmaceuticals',
-        diagram: ['Input data + documents', 'OpenAI API summaries', 'Word template', 'Draft PQR'],
+        diagram: ['Structured input data', { step: 'Word template', input: 'OpenAI summaries of documents' }, 'Draft PQR'],
+        outcome: 'Working PQR drafts; paused by a company policy change',
         summary: 'Created AI-powered template generation system for product quality report templates at Ceban Pharmaceuticals, in order to streamline documentation processes.',
         details: 'Developed an AI-powered system leveraging the OpenAI API to generate product quality report (PQRs) templates in Microsoft Word. The system generates an initial draft based on structured input data, with some of the sections using AI-generated summaries of other documents.',
         challenges: [
@@ -118,6 +129,7 @@ const PROJECTS = [
         title: 'Lab Time Logging Application',
         type: 'client',
         diagram: ['Mobile Power Apps form', 'Input validation', 'SharePoint list', 'Reports'],
+        outcome: 'Replaced spreadsheet logging; lab staff adopted it quickly',
         summary: 'Built Power Apps solution for efficient lab time tracking and management, improving workflow and data collection.',
         details: 'Developed a low-code Power Apps solution for laboratory time tracking and management. The application streamlined the process of logging lab hours, tracking projects, and generating reports, replacing manual spreadsheet-based workflows with an intuitive mobile-friendly interface connected to a SharePoint list.',
         challenges: [
@@ -134,6 +146,7 @@ const PROJECTS = [
         title: 'Computer Vision & Robotics for Plant Inoculation',
         type: 'university',
         diagram: ['Petri-dish images', 'Root segmentation (DL)', 'Root-tip detection', 'RL control agent', 'Simulated inoculation'],
+        outcome: 'Root-tip pipeline and RL agent, tested in simulation',
         summary: 'Implemented traditional computer vision methods, object detection, image segmentation models, deep learning, and reinforcement learning for robotic control.',
         details: 'Trained a deep learning model for root segmentation in petri dish images, implemented traditional computer vision techniques for object detection and tracking, and developed reinforcement learning agents for robotic control tasks. The project involved locating root tips and guiding a robotic arm to perform precise inoculation tasks in simulation.',
         challenges: [
@@ -152,6 +165,7 @@ const PROJECTS = [
         type: 'university',
         org: 'NAC Breda',
         diagram: ['Player data', 'Cleaning + features', 'Model training', 'Evaluation', 'Value-for-money score'],
+        outcome: 'Scores players\' value for money for scouting',
         summary: 'Developed a machine learning solution to help improve the player scouting process for NAC Breda.',
         details: 'Used ML techniques to create an ML prediction model based on player data. The project involved data collection, cleaning, feature engineering, model training, and evaluation in order to provide actionable insights for NAC Breda\'s player scouting strategy.',
         challenges: [
@@ -169,6 +183,7 @@ const PROJECTS = [
         type: 'university',
         image: 'images/projects/block1c.webp',
         diagram: ['Custom image dataset', 'CNN training', 'Explainable AI', 'Prototype app', 'Clean / not clean'],
+        outcome: 'Cleanliness classifier with a working prototype app',
         summary: 'Created a custom deep learning model for image classification with a real-world business application.',
         details: 'Developed an end-to-end deep learning solution for a kitchen cleanliness monitoring system. This included creating a custom image dataset, designing and training a CNN architecture, and building a user-centered prototype application. Additionally, Explainable AI techniques were applied to enhance model interpretability.',
         challenges: [
@@ -186,6 +201,7 @@ const PROJECTS = [
         title: 'NLP Video Processing Pipeline',
         type: 'university',
         diagram: ['French video', 'Transcribe', 'Translate to English', 'Classify emotion', 'Emotion-tagged transcript'],
+        outcome: 'French video in, emotion-tagged English transcript out',
         summary: 'Built an end-to-end pipeline for video transcription, translation to English, and emotion tagging using traditional NLP methods.',
         details: 'Developed a complete NLP pipeline that takes video input and outputs transcribed, translated, and emotion-tagged text. The system handles video-to-text conversion, french-to-english language translation, and per-sentence emotion classification using traditional NLP techniques rather than large language models.',
         challenges: [
@@ -203,6 +219,7 @@ const PROJECTS = [
         title: 'Road Safety Application',
         type: 'university',
         diagram: ['Street data', 'SQL database', 'High-risk area analysis', 'Zone alerts', 'Safety app concept'],
+        outcome: 'Voted the best app concept in the class',
         summary: 'Designed a road safety app concept based on street data analysis, utilizing SQL for data management and analysis.',
         details: 'Conceptualized and designed a road safety application that leverages street data to improve traffic safety by identifying high-risk areas and alerting the user when they are entering these zones. The project involved SQL database design, data analysis to identify safety patterns, and developing the app concept with user-centered features.',
         challenges: [
@@ -221,6 +238,7 @@ const PROJECTS = [
         type: 'university',
         image: 'images/projects/block1a.webp',
         diagram: ['Multiple data sources', 'Cleaning + transformation', 'Correlation analysis', 'Power BI dashboard'],
+        outcome: 'Interactive dashboard of SDG metric correlations',
         summary: 'Created interactive dashboard analyzing correlation between SDG (Sustainable Development Goals)-related metrics.',
         details: 'This project involved the complete data science lifecycle from understanding business requirements to delivering actionable insights. I worked with multiple data sources, performed comprehensive data cleaning and transformation, and built an interactive Power BI dashboard.',
         challenges: [
@@ -236,7 +254,8 @@ const PROJECTS = [
         id: 'sme-research',
         title: 'Information Credibility Research for SMEs',
         type: 'university',
-        diagram: ['Surveys', 'Interviews + focus groups', 'Mixed-method analysis', 'Papers + conference poster'],
+        diagram: ['Surveys', { step: 'Mixed-method analysis', input: 'interviews, focus groups' }, 'Papers + conference poster'],
+        outcome: 'Research paper, policy paper and conference poster',
         summary: 'Conducted a mixed-method research study combining surveys and interviews to analyze credibility perceptions of SME-provided information.',
         details: 'Designed and executed a comprehensive research study exploring how people perceive the credibility of information provided by SMEs. The project combined quantitative survey data with qualitative interviews and focus groups to understand attitudes, knowledge, acceptance, and perceived impact of AI. Results were synthesized into a research paper, policy paper, and conference poster.',
         challenges: [

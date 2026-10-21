@@ -68,11 +68,11 @@
                     <p class="flow-head">Current project</p>
                     <div class="media media--diagram flow-stage">
                         <ol class="pipeline" aria-label="How it works">
-                            <li>Invoice PDFs</li>
-                            <li>OCR + LLM extraction</li>
-                            <li>Match to planned job</li>
-                            <li>Rate, hours + VAT checks</li>
-                            <li>Findings for review</li>
+                            <li><span class="step is-input">Invoice PDFs</span></li>
+                            <li><span class="step">OCR + LLM extraction</span></li>
+                            <li><span class="step">Match to planned job<span class="step-input">+ planning and hours data</span></span></li>
+                            <li><span class="step">Rate, hours + VAT checks</span></li>
+                            <li><span class="step is-result">Findings for review</span></li>
                         </ol>
                     </div>
                     <div class="flow-foot">
@@ -201,6 +201,14 @@
             <h2 id="dialog-title" data-slot="title"></h2>
             <p class="meta" data-slot="meta"></p>
             <p class="dialog-lead" data-slot="summary"></p>
+            <section class="dialog-section" data-section="results">
+                <h3>Result</h3>
+                <p data-slot="results"></p>
+            </section>
+            <section class="dialog-section" data-section="strip">
+                <h3>How it works</h3>
+                <div data-slot="strip"></div>
+            </section>
             <section class="dialog-section" data-section="details">
                 <h3>What I did</h3>
                 <p data-slot="details"></p>
@@ -208,14 +216,6 @@
             <section class="dialog-section" data-section="challenges">
                 <h3>Challenges</h3>
                 <ul class="bullets" data-slot="challenges"></ul>
-            </section>
-            <section class="dialog-section" data-section="results">
-                <h3>Result</h3>
-                <p data-slot="results"></p>
-            </section>
-            <section class="dialog-section" data-section="screenshot">
-                <h3>Screenshot</h3>
-                <div data-slot="screenshot"></div>
             </section>
             <section class="dialog-section">
                 <h3>Tech</h3>
