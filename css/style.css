@@ -343,10 +343,15 @@ main:focus {
     background: var(--surface);
 }
 
+/* Title, label and outcome sit above the diagram, so the panel is named before it is read */
 .flow-head {
-    padding: 6px 10px 12px;
-    color: var(--text-muted);
-    font-size: var(--fs-small);
+    display: grid;
+    gap: 4px;
+    padding: 8px 10px 18px;
+}
+
+.flow-outcome {
+    margin-top: 6px;
     font-weight: 700;
 }
 
@@ -358,14 +363,14 @@ main:focus {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 12px 16px;
-    padding: 16px 10px 8px;
+    padding: 14px 10px 6px;
 }
 
 .flow-title {
-    font-weight: 700;
-    line-height: 1.4;
+    font-size: var(--fs-lead);
+    line-height: 1.25;
 }
 
 /* ---- Sections ----------------------------------------------------------- */
@@ -784,7 +789,7 @@ main:focus {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 32px clamp(32px, 6vw, 80px);
-    align-items: end;
+    align-items: start;
     padding: clamp(28px, 6vw, 72px);
     border-radius: calc(var(--radius) + 6px);
     background: var(--surface);
@@ -830,6 +835,7 @@ main:focus {
 .site-footer .container {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
     gap: 16px;
 }
@@ -903,18 +909,14 @@ main:focus {
 }
 
 .dialog-media {
-    aspect-ratio: 2 / 1;
-    max-height: 380px;
-    width: 100%;
+    aspect-ratio: auto;
+    margin: 22px 0 24px;
+    border-radius: var(--radius);
 }
 
+/* The top padding leaves room for the close button beside the title */
 .dialog-body {
-    padding: clamp(24px, 4vw, 44px);
-}
-
-/* Without a picture, leave room for the close button above the title */
-.project-dialog:not(:has(.media)) .dialog-body {
-    padding-top: 64px;
+    padding: 64px clamp(24px, 4vw, 44px) clamp(24px, 4vw, 44px);
 }
 
 .dialog-body h2 {
@@ -922,7 +924,12 @@ main:focus {
 }
 
 .dialog-body > .meta {
-    margin: 8px 0 20px;
+    margin-top: 8px;
+}
+
+.dialog-outcome {
+    margin-top: 12px;
+    font-weight: 700;
 }
 
 .dialog-lead,
@@ -1011,8 +1018,7 @@ main:focus {
 
 @media (min-width: 701px) {
     .feature-card .pipeline,
-    .flow-stage .pipeline,
-    .dialog-media .pipeline {
+    .flow-stage .pipeline {
         font-size: var(--fs-body);
     }
 }
@@ -1154,8 +1160,9 @@ main:focus {
         border-radius: 14px;
     }
 
-    .dialog-media {
-        aspect-ratio: 16 / 10;
+    /* No X on phones, so the title can start near the top */
+    .dialog-body {
+        padding-top: 28px;
     }
 
     /* The bottom bar has Close, so the X would only cover the picture and the text */

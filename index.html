@@ -65,7 +65,11 @@
 
                 <!-- js/main.js fills this from the project marked current in js/projects.js -->
                 <div class="hero-flow" id="hero-flow">
-                    <p class="flow-head">Current project</p>
+                    <div class="flow-head">
+                        <h2 class="flow-title">AI-Powered Invoice Checker</h2>
+                        <p class="meta">Current project · Client</p>
+                        <p class="flow-outcome">Checking real invoices in a pilot</p>
+                    </div>
                     <div class="media media--diagram flow-stage">
                         <ol class="pipeline" aria-label="How it works">
                             <li><span class="step is-input">Invoice PDFs</span></li>
@@ -74,12 +78,6 @@
                             <li><span class="step">Rate, hours + VAT checks</span></li>
                             <li><span class="step is-result">Findings for review</span></li>
                         </ol>
-                    </div>
-                    <div class="flow-foot">
-                        <div>
-                            <p class="flow-title">AI-Powered Invoice Checker</p>
-                            <p class="meta">Client</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -196,10 +194,11 @@
                 <svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg>
             </button>
         </div>
-        <div data-slot="media"></div>
         <div class="dialog-body">
             <h2 id="dialog-title" data-slot="title"></h2>
             <p class="meta" data-slot="meta"></p>
+            <p class="dialog-outcome" data-slot="outcome"></p>
+            <div data-slot="media"></div>
             <p class="dialog-lead" data-slot="summary"></p>
             <section class="dialog-section" data-section="results">
                 <h3>Result</h3>

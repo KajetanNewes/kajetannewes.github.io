@@ -95,7 +95,11 @@
             </div>`;
     }
 
-    const metaText = project => [project.type === 'client' ? 'Client' : 'University', project.org].filter(Boolean).join(' · ');
+    // "Client · FreshBrains · Solo · 8 weeks": type, client, and the optional facts fields
+    const metaText = project => [project.type === 'client' ? 'Client' : 'University', project.org, project.role, project.duration].filter(Boolean).join(' · ');
+
+    // In the lists the group heading already says client or university, so the line starts with the client.
+    const rowMeta = project => [project.org, project.role, project.duration].filter(Boolean).join(' · ');
 
     const tagsHtml = (tags = []) => `<ul class="tags">${tags.map(t => `<li>${escapeHtml(t)}</li>`).join('')}</ul>`;
 
@@ -117,7 +121,7 @@
     const rowHtml = project => `<li class="project-row" id="${project.id}">
             <div>
                 <h4>${linkHtml(project)}</h4>
-                ${project.org ? `<p class="meta">${escapeHtml(project.org)}</p>` : ''}
+                ${rowMeta(project) ? `<p class="meta">${escapeHtml(rowMeta(project))}</p>` : ''}
             </div>
             <div class="row-detail">
                 <p class="row-outcome">${escapeHtml(project.outcome || project.summary || '')}</p>
@@ -156,13 +160,13 @@
 
     if (flowEl && current) {
         flowEl.innerHTML = `
-            <p class="flow-head">Current project</p>
+            <div class="flow-head">
+                <h2 class="flow-title">${escapeHtml(current.title)}</h2>
+                <p class="meta">Current project · ${escapeHtml(metaText(current))}</p>
+                ${current.outcome ? `<p class="flow-outcome">${escapeHtml(current.outcome)}</p>` : ''}
+            </div>
             ${diagramHtml(current, 'flow-stage')}
             <div class="flow-foot">
-                <div>
-                    <p class="flow-title">${escapeHtml(current.title)}</p>
-                    <p class="meta">${escapeHtml(metaText(current))}</p>
-                </div>
                 <button type="button" class="btn btn-sm btn-secondary" data-project="${current.id}" aria-haspopup="dialog">Open project ${icon('arrow')}</button>
             </div>`;
         if (motionOk) startFlow(flowEl.querySelector('.pipeline'));
@@ -190,6 +194,8 @@
         slot('media').innerHTML = diagramHtml(project, 'dialog-media');
         slot('title').textContent = project.title;
         slot('meta').textContent = metaText(project);
+        slot('outcome').textContent = project.outcome || '';
+        slot('outcome').hidden = !project.outcome;
         slot('summary').textContent = project.summary || '';
 
         for (const key of ['details', 'results']) {

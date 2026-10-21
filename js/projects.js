@@ -4,6 +4,8 @@
 //   current   true shows the project in the hero as the one you are working on now
 //   featured  true shows the project as a large card; the others are listed by type
 //   org       optional client or partner name, shown after "Client" / "University"
+//   role      optional, e.g. 'Solo' or 'Team of 4'    } shown in the line under the title,
+//   duration  optional, e.g. '8 weeks'                } e.g. "Client · Solo · 8 weeks"
 //   outcome   one line, 60 characters or fewer, shown on the card or row: what came out of it
 //   diagram   the steps of the "how it works" diagram; the last step is the result. A step can be
 //             { step: '...', input: '...' } when a second input joins there
@@ -24,25 +26,6 @@ const PROJECTS = [
         links: []
     },
     {
-        id: 'app-deployment',
-        title: 'MLOps & Cloud Model Deployment',
-        type: 'university',
-        featured: true,
-        diagram: ['Automated training', 'Automated tests', 'Docker container', 'CI/CD to Azure', 'Rootify app, monitored'],
-        outcome: 'Deployed on Azure with CI/CD and monitoring',
-        summary: 'Converted the root segmentation model from the plant inoculation project into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.',
-        details: 'Created a fully deployed version of the root segmentation model from an earlier project. This involved setting up a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms. The solution included version control, automated testing, and monitoring to ensure model performance and reliability in production. The end application allowed users to upload images and receive segmentation results through a user-friendly Streamlit-powered interface. The application was containerized using Docker and deployed on Azure.',
-        challenges: [
-            'Setting up robust CI/CD pipelines for automated model training and deployment',
-            'Implementing effective monitoring to detect model performance degradation',
-            'Ensuring scalability and reliability of the deployed application on cloud infrastructure',
-            'Containerizing the application for consistent deployment across environments'
-        ],
-        results: 'Successfully deployed a production-grade ML application that allowed users to upload images and receive segmentation results. The system featured automated training pipelines, CI/CD deployment, and monitoring to ensure ongoing performance. The project demonstrated the full MLOps lifecycle from model development to production deployment. I received a grade of 9.0 for the project.',
-        tags: ['Python', 'MLOps', 'Cloud', 'CI/CD', 'Docker'],
-        links: []
-    },
-    {
         id: 'review-clustering',
         title: 'Review Comment Clustering',
         type: 'client',
@@ -60,6 +43,25 @@ const PROJECTS = [
         ],
         results: 'Delivered a working clustering system that helps teams quickly identify common themes in review feedback. The Streamlit interface enables users to assign categories manually and refine the clustering model over time, improving accuracy and relevance of insights.',
         tags: ['Python', 'Machine Learning', 'NLP', 'Clustering', 'Streamlit'],
+        links: []
+    },
+    {
+        id: 'app-deployment',
+        title: 'MLOps & Cloud Model Deployment',
+        type: 'university',
+        featured: true,
+        diagram: ['Automated training', 'Automated tests', 'Docker container', 'CI/CD to Azure', 'Rootify app, monitored'],
+        outcome: 'Deployed on Azure with CI/CD and monitoring',
+        summary: 'Converted the root segmentation model from the plant inoculation project into a fully deployed application, which used a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms.',
+        details: 'Created a fully deployed version of the root segmentation model from an earlier project. This involved setting up a production-grade ML system with automated training pipelines, CI/CD deployment, and monitoring systems on cloud platforms. The solution included version control, automated testing, and monitoring to ensure model performance and reliability in production. The end application allowed users to upload images and receive segmentation results through a user-friendly Streamlit-powered interface. The application was containerized using Docker and deployed on Azure.',
+        challenges: [
+            'Setting up robust CI/CD pipelines for automated model training and deployment',
+            'Implementing effective monitoring to detect model performance degradation',
+            'Ensuring scalability and reliability of the deployed application on cloud infrastructure',
+            'Containerizing the application for consistent deployment across environments'
+        ],
+        results: 'Successfully deployed a production-grade ML application that allowed users to upload images and receive segmentation results. The system featured automated training pipelines, CI/CD deployment, and monitoring to ensure ongoing performance. The project demonstrated the full MLOps lifecycle from model development to production deployment. I received a grade of 9.0 for the project.',
+        tags: ['Python', 'MLOps', 'Cloud', 'CI/CD', 'Docker'],
         links: []
     },
     {
