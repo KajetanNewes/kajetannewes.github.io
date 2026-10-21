@@ -16,6 +16,7 @@ const PROJECTS = [
         id: 'invoice-control',
         title: 'AI-Powered Invoice Checker',
         type: 'client',
+        org: 'Moving Company',
         current: true,
         diagram: ['Invoice PDFs', 'OCR + LLM extraction', { step: 'Match to planned job', input: 'planning and hours data' }, 'Rate, hours + VAT checks', 'Findings for review'],
         outcome: 'Checking real invoices in a pilot',
@@ -45,6 +46,7 @@ const PROJECTS = [
         id: 'review-clustering',
         title: 'Review Comment Clustering',
         type: 'client',
+        org: 'Pharmaceutical Manufacturer'
         featured: true,
         diagram: ['Review comments', 'Text cleaning', 'Unsupervised clustering', 'Human-in-the-loop labels', 'Themes for decisions'],
         loop: { from: 2, to: 3, label: 'refine' },
@@ -183,6 +185,7 @@ const PROJECTS = [
         id: 'lab-time-logging',
         title: 'Lab Time Logging Application',
         type: 'client',
+        org: 'Pharmaceutical manufacturer',
         diagram: ['Mobile Power Apps form', 'Input validation', 'SharePoint list', 'Reports'],
         outcome: 'Replaced spreadsheet logging; lab staff adopted it quickly',
         summary: 'A mobile Power Apps form for logging lab hours, replacing a spreadsheet.',
