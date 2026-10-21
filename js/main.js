@@ -45,6 +45,32 @@
         document.querySelectorAll('main > section').forEach(s => spy.observe(s));
     }
 
+    // ---- Copy email ----------------------------------------------------------
+
+    // For readers whose browser has no mail app set up; the address is selected if copying is refused.
+    const copyButton = document.querySelector('[data-copy]');
+    const copyStatus = document.querySelector('[data-copy-status]');
+    if (copyButton && navigator.clipboard) {
+        copyButton.hidden = false;
+        let resetTimer;
+        copyButton.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(copyButton.dataset.copy);
+                copyButton.textContent = 'Copied';
+                copyStatus.textContent = 'Email address copied';
+            } catch {
+                getSelection().selectAllChildren(document.querySelector('.contact-email'));
+                copyButton.textContent = 'Address selected';
+                copyStatus.textContent = 'Could not copy. The email address is selected so you can copy it yourself.';
+            }
+            clearTimeout(resetTimer);
+            resetTimer = setTimeout(() => {
+                copyButton.textContent = 'Copy email';
+                copyStatus.textContent = '';
+            }, 2500);
+        });
+    }
+
     // ---- Project data --------------------------------------------------------
 
     // js/projects.js is edited by hand; if it fails to load or has a typo, say so instead of showing empty lists.
@@ -146,7 +172,7 @@
         const extra = [...list.children].slice(ROWS_SHOWN);
         if (extra.length < 2) return;
         extra.forEach(row => row.toggleAttribute('data-extra', true));
-        list.insertAdjacentHTML('afterend', `<button type="button" class="list-more">Show ${extra.length} more projects</button>`);
+        list.insertAdjacentHTML('afterend', `<button type="button" class="btn btn-secondary list-more">Show ${extra.length} more projects</button>`);
         list.nextElementSibling.addEventListener('click', () => {
             expandList(list);
             extra[0].querySelector('.card-link').focus();
@@ -227,7 +253,6 @@
 
         const next = nextProject(project.id);
         nextButton.dataset.next = next.id;
-        nextButton.setAttribute('aria-label', `Next project: ${next.title}`);
         slot('next-name').textContent = `Next: ${next.title}`;
 
         slot('tags').innerHTML = tagsHtml(project.tags);

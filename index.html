@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kajetan Neweś - Data Science &amp; AI Portfolio</title>
+    <title>Kajetan Neweś – Data Science &amp; AI Portfolio</title>
     <meta name="description" content="Kajetan Neweś: fourth-year Data Science &amp; AI student and freelancer, looking for an AI / data science internship from February to June 2027.">
     <meta name="theme-color" content="#07090d">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
@@ -168,7 +168,12 @@
                         <p>I'm always open to discussing new projects, opportunities, or collaborations. Feel free to reach out!</p>
                     </div>
                     <div class="contact-actions">
-                        <a href="mailto:kajetan.newes@gmail.com" class="contact-email">kajetan.newes@gmail.com</a>
+                        <div class="contact-email-row">
+                            <a href="mailto:kajetan.newes@gmail.com" class="contact-email">kajetan.newes@gmail.com</a>
+                            <!-- Shown by js/main.js where the browser can copy -->
+                            <button type="button" class="btn btn-sm btn-secondary" data-copy="kajetan.newes@gmail.com" hidden>Copy email</button>
+                            <span class="sr-only" role="status" data-copy-status></span>
+                        </div>
                         <div class="contact-links">
                             <a href="https://linkedin.com/in/kajetan-newes" class="btn btn-secondary" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg>LinkedIn</a>
                             <a href="https://github.com/kajetannewes212231" class="btn btn-secondary" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg>GitHub</a>
@@ -184,7 +189,7 @@
     <footer class="site-footer">
         <div class="container">
             <p>&copy; 2026 Kajetan Neweś</p>
-            <a href="#top">Back to top ↑</a>
+            <a href="#top">Back to top <svg class="icon icon-up" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
         </div>
     </footer>
 

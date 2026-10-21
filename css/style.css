@@ -108,7 +108,7 @@ h1, h2, h3, h4 {
     text-wrap: balance;
 }
 
-p, figcaption {
+p {
     text-wrap: pretty;
 }
 
@@ -120,6 +120,15 @@ p, figcaption {
 
 ::selection {
     background: var(--selection);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 .skip-link {
@@ -822,6 +831,13 @@ main:focus {
     text-decoration-color: var(--accent);
 }
 
+.contact-email-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+}
+
 .contact-links {
     display: flex;
     flex-wrap: wrap;
@@ -846,7 +862,14 @@ main:focus {
 }
 
 .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     text-decoration: none;
+}
+
+.icon-up {
+    rotate: -90deg;
 }
 
 .site-footer a:hover {
@@ -1201,20 +1224,7 @@ main:focus {
     .list-more {
         display: flex;
         justify-content: center;
-        align-items: center;
         width: 100%;
-        min-height: 48px;
         margin-top: 16px;
-        border: 0;
-        border-radius: 10px;
-        background: var(--surface-2);
-        color: var(--text);
-        font: inherit;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-    .list-more:hover {
-        background: var(--surface-3);
     }
 }

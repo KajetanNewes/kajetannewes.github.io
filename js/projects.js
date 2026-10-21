@@ -72,7 +72,7 @@ const PROJECTS = [
         featured: true,
         diagram: ['Invoice PDFs', 'Text extraction + OCR', 'Validation rules', 'Excel', 'Power BI dashboard'],
         outcome: 'Cleared the invoice backlog and surfaced cost savings',
-        summary: 'Developed script to extract data from invoice PDFs to Excel, which was then connected to a Power BI dashboard for Ceban Pharmaceuticals.',
+        summary: 'Developed a script to extract data from invoice PDFs to Excel, which was then connected to a Power BI dashboard for Ceban Pharmaceuticals.',
         details: 'Built an end-to-end automation solution for Ceban Pharmaceuticals that extracts invoice data from PDF files, processes and validates the information, and integrates it with Excel and Power BI for reporting and analysis. The system eliminated manual data entry and enabled enhanced financial tracking.',
         challenges: [
             'Handling varying PDF formats and layouts from different vendors',
@@ -80,7 +80,7 @@ const PROJECTS = [
             'Implementing validation rules for pharmaceutical industry compliance',
             'Creating seamless integration with existing Excel and Power BI workflows'
         ],
-        results: 'Cleared backlog of a large volume of invoices and helped the company identify cost-saving opportunities.',
+        results: 'Cleared a backlog of a large volume of invoices and helped the company identify cost-saving opportunities.',
         tags: ['Python', 'PDF Processing', 'OCR', 'Power BI', 'Automation'],
         links: []
     },
@@ -92,7 +92,7 @@ const PROJECTS = [
         diagram: ['E-boekhouden API', 'Python sync in Docker', 'Data transformation', 'Power BI dashboard'],
         loop: { from: 0, to: 3, label: 'runs continuously' },
         outcome: 'Power BI now updates itself, with no manual data entry',
-        summary: 'Created API-based solution to automatically connect accounting data from E-boekhouden to a Power BI dashboard.',
+        summary: 'Created an API-based solution to automatically connect accounting data from E-boekhouden to a Power BI dashboard.',
         details: 'Built an automated integration system that connects the accounting platform to Power BI through API calls in Python. The solution runs in Docker containers, automatically pulling financial data and updating Power BI dashboards to provide real-time visibility into company finances.',
         challenges: [
             'Integrating with third-party accounting API documentation and rate limits',
@@ -111,8 +111,8 @@ const PROJECTS = [
         org: 'Ceban Pharmaceuticals',
         diagram: ['Structured input data', { step: 'Word template', input: 'OpenAI summaries of documents' }, 'Draft PQR'],
         outcome: 'Working PQR drafts; paused by a company policy change',
-        summary: 'Created AI-powered template generation system for product quality report templates at Ceban Pharmaceuticals, in order to streamline documentation processes.',
-        details: 'Developed an AI-powered system leveraging the OpenAI API to generate product quality report (PQRs) templates in Microsoft Word. The system generates an initial draft based on structured input data, with some of the sections using AI-generated summaries of other documents.',
+        summary: 'Created an AI-powered system that drafts product quality report templates at Ceban Pharmaceuticals, in order to streamline documentation processes.',
+        details: 'Developed an AI-powered system leveraging the OpenAI API to generate product quality report (PQR) templates in Microsoft Word. The system generates an initial draft based on structured input data, with some of the sections using AI-generated summaries of other documents.',
         challenges: [
             'Ensuring AI-generated summaries are accurate and contextually relevant',
             'Designing prompts that produce consistent, high-quality output',
@@ -129,7 +129,7 @@ const PROJECTS = [
         type: 'client',
         diagram: ['Mobile Power Apps form', 'Input validation', 'SharePoint list', 'Reports'],
         outcome: 'Replaced spreadsheet logging; lab staff adopted it quickly',
-        summary: 'Built Power Apps solution for efficient lab time tracking and management, improving workflow and data collection.',
+        summary: 'Built a Power Apps solution for efficient lab time tracking and management, improving workflow and data collection.',
         details: 'Developed a low-code Power Apps solution for laboratory time tracking and management. The application streamlined the process of logging lab hours, tracking projects, and generating reports, replacing manual spreadsheet-based workflows with an intuitive mobile-friendly interface connected to a SharePoint list.',
         challenges: [
             'Designing an interface simple enough for quick daily logging',
@@ -150,7 +150,7 @@ const PROJECTS = [
         details: 'Trained a deep learning model for root segmentation in petri dish images, implemented traditional computer vision techniques for object detection and tracking, and developed reinforcement learning agents for robotic control tasks. The project involved locating root tips and guiding a robotic arm to perform precise inoculation tasks in simulation.',
         challenges: [
             'Integrating traditional CV methods with modern deep learning approaches',
-            'Training RL agents that could operate effectively in real-world conditions',
+            'Training RL agents to control the robotic arm reliably in simulation',
             'Ensuring accurate root tip detection and tracking in varying image conditions',
             'Combining deep learning segmentation with real-time robotic control'
         ],
@@ -201,14 +201,14 @@ const PROJECTS = [
         diagram: ['French video', 'Transcribe', 'Translate to English', 'Classify emotion', 'Emotion-tagged transcript'],
         outcome: 'French video in, emotion-tagged English transcript out',
         summary: 'Built an end-to-end pipeline for video transcription, translation to English, and emotion tagging using traditional NLP methods.',
-        details: 'Developed a complete NLP pipeline that takes video input and outputs transcribed, translated, and emotion-tagged text. The system handles video-to-text conversion, french-to-english language translation, and per-sentence emotion classification using traditional NLP techniques rather than large language models.',
+        details: 'Developed a complete NLP pipeline that takes video input and outputs transcribed, translated, and emotion-tagged text. The system handles video-to-text conversion, French-to-English translation, and per-sentence emotion classification using traditional NLP techniques rather than large language models.',
         challenges: [
             'Ensuring accurate transcription across different audio qualities and accents',
             'Maintaining context and meaning during translation',
             'Developing reliable emotion detection that works across different speaking styles',
             'Integrating multiple NLP components into a cohesive pipeline'
         ],
-        results: 'Delivered a functional end-to-end pipeline capable of processing french-language videos and producing emotion-tagged English transcripts. The system successfully handled the complete workflow from audio extraction through emotion classification, demonstrating the effectiveness of traditional NLP approaches. I received a grade of 7.0 for the project.',
+        results: 'Delivered a functional end-to-end pipeline capable of processing French-language videos and producing emotion-tagged English transcripts. The system successfully handled the complete workflow from audio extraction through emotion classification, demonstrating the effectiveness of traditional NLP approaches. I received a grade of 7.0 for the project.',
         tags: ['Python', 'NLP', 'Transcription', 'Emotion Analysis'],
         links: []
     },
@@ -236,7 +236,7 @@ const PROJECTS = [
         type: 'university',
         diagram: ['Multiple data sources', 'Cleaning + transformation', 'Correlation analysis', 'Power BI dashboard'],
         outcome: 'Interactive dashboard of SDG metric correlations',
-        summary: 'Created interactive dashboard analyzing correlation between SDG (Sustainable Development Goals)-related metrics.',
+        summary: 'Created an interactive dashboard analyzing correlations between SDG (Sustainable Development Goals)-related metrics.',
         details: 'This project involved the complete data science lifecycle from understanding business requirements to delivering actionable insights. I worked with multiple data sources, performed comprehensive data cleaning and transformation, and built an interactive Power BI dashboard.',
         challenges: [
             'Integrating data from multiple disparate sources with inconsistent formats',
