@@ -122,7 +122,8 @@
     }
 
     // "Client · FreshBrains · Solo · 8 weeks": type, client, and the optional facts fields
-    const metaText = project => [project.type === 'client' ? 'Client' : 'University', project.org, project.role, project.duration].filter(Boolean).join(' · ');
+    const TYPE_LABELS = { client: 'Client', internship: 'Internship', university: 'University' };
+    const metaText = project => [TYPE_LABELS[project.type] || 'University', project.org, project.role, project.duration].filter(Boolean).join(' · ');
 
     // In the lists the group heading already says client or university, so the line starts with the client.
     const rowMeta = project => [project.org, project.role, project.duration].filter(Boolean).join(' · ');
@@ -139,7 +140,7 @@
                 <p class="meta">${escapeHtml(metaText(project))}</p>
                 ${project.outcome ? `<p class="outcome">${escapeHtml(project.outcome)}</p>` : ''}
                 ${project.summary ? `<p class="card-summary">${escapeHtml(project.summary)}</p>` : ''}
-                ${tagsHtml(project.tags)}
+                ${tagsHtml((project.tags || []).slice(0, 5))}
                 <span class="read-more" aria-hidden="true">Open project ${icon('arrow')}</span>
             </div>
         </article>`;
@@ -157,9 +158,10 @@
         </li>`;
 
     const others = PROJECTS.filter(p => !p.featured && !p.current);
+    const isUniversity = p => p.type === 'university';
     document.getElementById('featured-projects').innerHTML = PROJECTS.filter(p => p.featured).map(featureHtml).join('');
-    document.getElementById('client-projects').innerHTML = others.filter(p => p.type === 'client').map(rowHtml).join('');
-    document.getElementById('university-projects').innerHTML = others.filter(p => p.type !== 'client').map(rowHtml).join('');
+    document.getElementById('client-projects').innerHTML = others.filter(p => !isUniversity(p)).map(rowHtml).join('');
+    document.getElementById('university-projects').innerHTML = others.filter(isUniversity).map(rowHtml).join('');
 
     // On phones a long list shows its first rows and a button for the rest (the CSS hides [data-extra] rows).
     const ROWS_SHOWN = 4;
@@ -229,8 +231,8 @@
     const pageOrder = [
         ...PROJECTS.filter(p => p.current),
         ...PROJECTS.filter(p => p.featured && !p.current),
-        ...others.filter(p => p.type === 'client'),
-        ...others.filter(p => p.type !== 'client'),
+        ...others.filter(p => !isUniversity(p)),
+        ...others.filter(isUniversity),
     ];
     const nextProject = id => pageOrder[(pageOrder.findIndex(p => p.id === id) + 1) % pageOrder.length];
 

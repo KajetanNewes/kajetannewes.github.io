@@ -1,9 +1,9 @@
 // All projects on the site. The order here is the order on the page.
 //
-//   type      'client' or 'university'
+//   type      'client', 'internship' or 'university'
 //   current   true shows the project in the hero as the one you are working on now
 //   featured  true shows the project as a large card; the others are listed by type
-//   org       optional client or partner name, shown after "Client" / "University"
+//   org       optional client or partner name, shown after the type ("Client", "Internship", "University")
 //   role      optional, e.g. 'Solo' or 'Team of 4'    } shown in the line under the title,
 //   duration  optional, e.g. '8 weeks'                } e.g. "Client · Solo · 8 weeks"
 //   outcome   one line, 60 characters or fewer, shown on the card or row: what came out of it
@@ -23,6 +23,22 @@ const PROJECTS = [
         details: 'Invoices are read into a fixed structure with OCR and a language model (Mistral); all arithmetic and rate comparisons are done in plain Python. Each invoice is matched to the planned job it belongs to, using hours and planning data from the company\'s planning system, and then checked: the contractor, the agreed rates, line and total sums including VAT, billed hours against logged hours, break rules from the collective labour agreement, kilometres and volume. A Streamlit screen shows the findings in Dutch or English, the reviewer signs off, and the results can be exported or turned into a draft email to the contractor.',
         results: 'Running in a pilot.',
         tags: ['Python', 'Streamlit', 'Mistral OCR', 'LLM', 'Docker'],
+        links: []
+    },
+    {
+        id: 'asml-copilot',
+        title: 'Microsoft 365 Copilot Adoption at ASML',
+        type: 'internship',
+        org: 'ASML',
+        featured: true,
+        role: 'Team of 2',
+        duration: 'Feb – Jun 2026',
+        diagram: ['Copilot usage data', { step: 'KPI framework', input: 'user perception' }, { step: 'Adoption barriers', input: 'survey, prompting workshop' }, 'Prompt optimizer + generator', 'R&R AI Hub'],
+        outcome: 'Optimized prompts: kept output rose from 19.6% to 91.7%',
+        summary: 'Over 20 weeks, I worked with a fellow intern to measure and improve Microsoft 365 Copilot adoption in ASML\'s Reuse & Repair department. We built a KPI framework, used a survey and a prompting workshop to identify adoption barriers, and created prompt engineering tools along with a departmental AI resource hub.',
+        details: 'As AI Streamlining Intern in the Reuse & Repair (R&R) department, I designed a KPI framework that pairs system usage data with user perception across two dimensions: output quality and usage quantity. In a workshop I taught structured prompting (RISE and Microsoft\'s Goal, Context, Expectations, Source pattern). Non-Microsoft LLMs were not allowed and there was no Copilot API access, so I built a rule-based HTML prompt optimizer and an Excel/VBA prompt generator linked to a SharePoint prompt library. We launched the R&R AI Hub on SharePoint as a central place for prompts, guides and use cases.',
+        results: 'Comparing workshop participants\' original prompts with optimized versions, instruction-following rose from 52% to 92%, and the share of Copilot output that users kept rose from 19.6% to 91.7%.',
+        tags: ['Microsoft 365 Copilot', 'Prompt Engineering', 'AI Adoption', 'Power BI', 'Excel VBA', 'SharePoint', 'Python', 'HTML'],
         links: []
     },
     {
@@ -82,6 +98,46 @@ const PROJECTS = [
         ],
         results: 'Cleared a large invoice backlog, and the dashboard helped the company find cost savings.',
         tags: ['Python', 'PDF Processing', 'OCR', 'Power BI', 'Automation'],
+        links: []
+    },
+    {
+        id: 'po-approval-app',
+        title: 'Purchase Order Approval App',
+        type: 'client',
+        org: 'Pharmaceutical manufacturer',
+        diagram: ['Guided PO form in Teams', { step: 'Supplier auto-fill', input: 'synced ERP supplier list' }, { step: 'Amount-based approver', input: 'approval matrix' }, 'Purchasing + Finance review', 'Approved PO'],
+        loop: { from: 0, to: 3, label: 'revise + resubmit' },
+        outcome: 'Core app built; runs on standard Microsoft 365 licenses',
+        summary: 'A Power Apps app, designed to run inside Microsoft Teams, that replaces a shared Excel purchase order template with a guided form and an amount-based, multi-stage approval workflow.',
+        details: 'Purchase orders were raised in Excel, with supplier details typed by hand, PO numbers assigned manually and approvals chased over email. In a regulated (GMP) environment that meant inconsistent data, no enforced approval authority and no reliable record of who approved what, and when. I translated the stakeholders\' requirements into a data model and routing design and built the app end to end on SharePoint lists. A supplier search across several thousand suppliers fills in the order details, PO numbers are assigned automatically without duplicates, and a quotation must be attached before approval. The approver list only shows people whose approval authority covers the order value, self-approval is blocked, and high-value orders get an extra review before Purchasing and Finance. A rejection needs a comment, and any edit restarts the approval chain.',
+        challenges: [
+            'Working within SharePoint delegation limits, so supplier search and approval queues stay correct across thousands of rows',
+            'Repairing lists imported from Excel, with wrong column types and names that collided with SharePoint system columns',
+            'Attaching quotations to records that do not exist yet, solved with a create-then-attach flow and a status gate',
+            'Turning the company\'s spreadsheet approval matrix into computed columns over the synced employee directory'
+        ],
+        results: 'The core app is built and hardened against real data. It runs on standard Microsoft 365 licensing with no premium connectors, so it can be rolled out to every employee without per-user license costs. Power Automate flows for notifications, reminders and the final PO as a PDF are in progress.',
+        tags: ['Power Apps', 'Power Fx', 'SharePoint', 'Microsoft Teams', 'Power Automate'],
+        links: []
+    },
+    {
+        id: 'priority-order-dashboard',
+        title: 'Priority Order Dashboard',
+        type: 'client',
+        org: 'Clothing logistics company',
+        diagram: ['Sales logs an order', { step: 'Warehouse starts it', input: 'working status' }, { step: 'Closed', input: 'outcome and comment' }, 'Live KPIs + audit trail'],
+        loop: { from: 1, to: 2, label: 'reopen' },
+        outcome: 'Sales and warehouse track priority orders on one board',
+        summary: 'A kanban-style web app where sales logs urgent orders and the warehouse moves them through a fixed workflow, with role-based access, a full audit trail and live KPIs.',
+        details: 'Priority orders were coordinated between sales and the warehouse without a shared overview. I designed, built and deployed a board that is the single source of truth. Orders move from New to In progress to Done, split by order category, and each transition is enforced and logged: starting an order needs a working status, and closing one needs an outcome and at least one comment. Viewers can only browse, sales can add orders and delete ones that are still new, and the warehouse controls the workflow. Permissions are checked per capability, and credentials are hashed with PBKDF2.',
+        challenges: [
+            'Making the board show what actually happened, not just what someone dragged into a column',
+            'Measuring time to close in working hours only (Monday to Friday, 08:00 to 17:00)',
+            'Keeping the history of every change, even after an order is deleted',
+            'Upgrading the live database in place on startup, keeping all existing data and IDs'
+        ],
+        results: 'Deployed with Docker, a health check and persistent storage. Everyone sees the status of every order at a glance, and the KPI view shows daily intake and the average time to close over the last seven working days.',
+        tags: ['Python', 'Streamlit', 'SQLite', 'pandas', 'Docker'],
         links: []
     },
     {
