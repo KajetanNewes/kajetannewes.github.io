@@ -1,11 +1,62 @@
 (() => {
-    const projectsById = new Map(PROJECTS.map(p => [p.id, p]));
-
     const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     })[c]);
 
     const icon = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
+
+    // ---- Header and mobile menu --------------------------------------------
+
+    const header = document.querySelector('.site-header');
+    const toggle = header.querySelector('.nav-toggle');
+
+    function setMenu(open) {
+        header.toggleAttribute('data-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    toggle.addEventListener('click', () => setMenu(!header.hasAttribute('data-open')));
+    // A tap outside the open menu (on the dimmed page) closes it.
+    document.addEventListener('click', e => {
+        if (header.hasAttribute('data-open') && !e.target.closest('.nav-links, .nav-toggle')) setMenu(false);
+    });
+    header.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') setMenu(false);
+    });
+
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // The navigation marks the section currently in view.
+    const navLinks = [...header.querySelectorAll('.nav-links a[href^="#"]')];
+    if ('IntersectionObserver' in window) {
+        const spy = new IntersectionObserver(entries => {
+            for (const entry of entries) {
+                if (!entry.isIntersecting) continue;
+                for (const link of navLinks) {
+                    if (link.getAttribute('href') === `#${entry.target.id}`) link.setAttribute('aria-current', 'true');
+                    else link.removeAttribute('aria-current');
+                }
+            }
+        }, { rootMargin: '-35% 0px -60% 0px' });
+        document.querySelectorAll('main > section').forEach(s => spy.observe(s));
+    }
+
+    // ---- Project data --------------------------------------------------------
+
+    // js/projects.js is edited by hand; if it fails to load or has a typo, say so instead of showing empty lists.
+    if (typeof PROJECTS === 'undefined' || !Array.isArray(PROJECTS)) {
+        console.error('js/projects.js did not load or contains a syntax error.');
+        document.getElementById('featured-projects').innerHTML =
+            '<p class="data-error">The project list could not be loaded. My <a href="documents/cv-kajetan-newes.pdf">CV</a> lists my projects as well.</p>';
+        document.querySelectorAll('.project-group').forEach(group => { group.hidden = true; });
+        return;
+    }
+
+    const projectsById = new Map(PROJECTS.map(p => [p.id, p]));
 
     // ---- Rendering ---------------------------------------------------------
 
@@ -46,7 +97,7 @@
 
     const metaText = project => [project.type === 'client' ? 'Client' : 'University', project.org].filter(Boolean).join(' · ');
 
-    const tagsHtml = tags => `<ul class="tags">${tags.map(t => `<li>${escapeHtml(t)}</li>`).join('')}</ul>`;
+    const tagsHtml = (tags = []) => `<ul class="tags">${tags.map(t => `<li>${escapeHtml(t)}</li>`).join('')}</ul>`;
 
     const linkHtml = project =>
         `<button type="button" class="card-link" data-project="${project.id}" aria-haspopup="dialog">${escapeHtml(project.title)}</button>`;
@@ -56,8 +107,8 @@
             <div class="card-body">
                 <h3>${linkHtml(project)}</h3>
                 <p class="meta">${escapeHtml(metaText(project))}</p>
-                <p class="outcome">${escapeHtml(project.outcome)}</p>
-                <p>${escapeHtml(project.summary)}</p>
+                ${project.outcome ? `<p class="outcome">${escapeHtml(project.outcome)}</p>` : ''}
+                ${project.summary ? `<p>${escapeHtml(project.summary)}</p>` : ''}
                 ${tagsHtml(project.tags)}
                 <span class="read-more" aria-hidden="true">Open project ${icon('arrow')}</span>
             </div>
@@ -69,8 +120,8 @@
                 ${project.org ? `<p class="meta">${escapeHtml(project.org)}</p>` : ''}
             </div>
             <div class="row-detail">
-                <p class="row-outcome">${escapeHtml(project.outcome)}</p>
-                ${tagsHtml(project.tags.slice(0, 3))}
+                <p class="row-outcome">${escapeHtml(project.outcome || project.summary || '')}</p>
+                ${tagsHtml((project.tags || []).slice(0, 3))}
             </div>
             <span class="row-arrow" aria-hidden="true">${icon('arrow')}</span>
         </li>`;
@@ -139,7 +190,7 @@
         slot('media').innerHTML = diagramHtml(project, 'dialog-media');
         slot('title').textContent = project.title;
         slot('meta').textContent = metaText(project);
-        slot('summary').textContent = project.summary;
+        slot('summary').textContent = project.summary || '';
 
         for (const key of ['details', 'results']) {
             slot(key).textContent = project[key] || '';
@@ -224,45 +275,5 @@
     if (projectsById.has(linkedId)) {
         document.getElementById(linkedId)?.scrollIntoView({ block: 'center', behavior: 'instant' });
         openProject(linkedId, { updateUrl: false });
-    }
-
-    // ---- Header and mobile menu --------------------------------------------
-
-    const header = document.querySelector('.site-header');
-    const toggle = header.querySelector('.nav-toggle');
-
-    function setMenu(open) {
-        header.toggleAttribute('data-open', open);
-        toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    }
-
-    toggle.addEventListener('click', () => setMenu(!header.hasAttribute('data-open')));
-    // A tap outside the open menu (on the dimmed page) closes it.
-    document.addEventListener('click', e => {
-        if (header.hasAttribute('data-open') && !e.target.closest('.nav-links, .nav-toggle')) setMenu(false);
-    });
-    header.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => setMenu(false)));
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') setMenu(false);
-    });
-
-    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    // The navigation marks the section currently in view.
-    const navLinks = [...header.querySelectorAll('.nav-links a[href^="#"]')];
-    if ('IntersectionObserver' in window) {
-        const spy = new IntersectionObserver(entries => {
-            for (const entry of entries) {
-                if (!entry.isIntersecting) continue;
-                for (const link of navLinks) {
-                    if (link.getAttribute('href') === `#${entry.target.id}`) link.setAttribute('aria-current', 'true');
-                    else link.removeAttribute('aria-current');
-                }
-            }
-        }, { rootMargin: '-35% 0px -60% 0px' });
-        document.querySelectorAll('main > section').forEach(s => spy.observe(s));
     }
 })();
