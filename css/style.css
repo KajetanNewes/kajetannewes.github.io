@@ -302,7 +302,25 @@ main:focus {
 /* ---- Hero --------------------------------------------------------------- */
 
 .hero {
+    position: relative;
+    isolation: isolate;
     padding-block: clamp(40px, 6vw, 96px) var(--section-space);
+}
+
+/* Drawn by js/hero-field.js: faint behind the text column, fading out before Projects */
+.hero-field {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    color: var(--text-muted);
+    opacity: 0.45;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent), linear-gradient(to right, rgba(0, 0, 0, 0.35) 30%, #000 65%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to bottom, #000 55%, transparent), linear-gradient(to right, rgba(0, 0, 0, 0.35) 30%, #000 65%);
+    mask-composite: intersect;
 }
 
 .hero-grid {
@@ -1073,6 +1091,13 @@ main:focus {
     .hero-grid,
     .contact-card {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* One column: the text runs full width, so the whole field stays faint */
+    .hero-field {
+        opacity: 0.3;
+        -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+        mask-image: linear-gradient(to bottom, #000 60%, transparent);
     }
 
     /* Dims the page behind the open menu; tapping it closes the menu */
