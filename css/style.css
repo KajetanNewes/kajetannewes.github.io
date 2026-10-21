@@ -1,0 +1,1230 @@
+/* ---- Tokens ------------------------------------------------------------- */
+
+:root {
+    color-scheme: dark;
+
+    /* Surfaces are separated by tone steps, not lines or shadows */
+    --bg: #07090d;
+    --surface: #0e1219;
+    --surface-hover: #121822;
+    --surface-2: #161c26;
+    --surface-3: #1e2531;
+    --surface-4: #28303d;
+
+    --text: #e9eef4;
+    --text-muted: #a3adbb;
+
+    /* Sky blue is kept for the main action and each pipeline's result step */
+    --accent: #87ceeb;
+    --accent-hover: #a9ddf3;
+    --accent-ink: #061520;
+    --accent-soft: rgba(135, 206, 235, 0.1);
+    --accent-line: rgba(135, 206, 235, 0.4);
+
+    /* Dividers between sections, project groups and list rows */
+    --line: rgba(255, 255, 255, 0.12);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --scrim: rgba(2, 4, 8, 0.8);
+    --selection: rgba(135, 206, 235, 0.3);
+    --shadow-float: 0 30px 80px rgba(0, 0, 0, 0.6);
+
+    --font-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    /* Only for the pipeline diagrams, which show data flowing through steps */
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Five type sizes: display, heading, lead, body, small */
+    --fs-display: clamp(44px, 5.6vw, 80px);
+    --fs-heading: clamp(30px, 3.4vw, 48px);
+    --fs-lead: clamp(20px, 1.7vw, 24px);
+    --fs-body: 17px;
+    --fs-small: 14px;
+
+    --radius: 14px;
+    --container: 1120px;
+    --gutter: clamp(16px, 4vw, 32px);
+    /* More room above a divider than below it, so each section starts clearly */
+    --section-space: clamp(72px, 9vw, 120px);
+    --section-head-space: clamp(36px, 4vw, 56px);
+    --header-h: 64px;
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ---- Base --------------------------------------------------------------- */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+    scrollbar-color: var(--surface-3) var(--bg);
+    accent-color: var(--accent);
+    caret-color: var(--accent);
+    -webkit-text-size-adjust: 100%;
+}
+
+html:has(dialog[open]) {
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-underline-offset: 0.2em;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+::selection {
+    background: var(--selection);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 700;
+    text-decoration: none;
+    translate: 0 -200%;
+}
+
+.skip-link:focus-visible {
+    translate: none;
+}
+
+main:focus {
+    outline: none;
+}
+
+.container {
+    width: min(100% - 2 * var(--gutter), var(--container));
+    margin-inline: auto;
+}
+
+.icon {
+    width: 1.1em;
+    height: 1.1em;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.meta {
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+    font-weight: 600;
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 10px;
+    font-size: var(--fs-body);
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s, translate 0.15s var(--ease);
+}
+
+.btn:hover {
+    translate: 0 -1px;
+}
+
+.btn:active {
+    translate: 0 1px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+}
+
+.btn-secondary {
+    background: var(--surface-2);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    background: var(--surface-3);
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    font-size: var(--fs-small);
+}
+
+.icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.icon-btn:hover {
+    background: var(--surface-3);
+    color: var(--text);
+}
+
+/* ---- Header ------------------------------------------------------------- */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    transition: background-color 0.2s;
+}
+
+.site-header.is-scrolled {
+    background: var(--surface);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: var(--header-h);
+}
+
+.brand {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-links a:not(.btn) {
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.nav-links a:not(.btn):hover,
+.nav-links a[aria-current] {
+    color: var(--text);
+}
+
+.nav-links a[aria-current] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.45em;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+/* ---- Hero --------------------------------------------------------------- */
+
+.hero {
+    padding-block: clamp(40px, 6vw, 96px) var(--section-space);
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+}
+
+.hero h1 {
+    margin-bottom: 24px;
+    font-size: var(--fs-display);
+    line-height: 1;
+    letter-spacing: -0.035em;
+}
+
+.hero-tagline {
+    max-width: 26ch;
+    margin-bottom: 20px;
+    font-size: var(--fs-lead);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.hero-facts {
+    max-width: 44ch;
+    margin-bottom: 36px;
+    color: var(--text-muted);
+}
+
+.hero-facts strong {
+    color: var(--text);
+    font-weight: 700;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+/* The current project, shown with its pipeline */
+.hero-flow {
+    padding: 10px;
+    border-radius: calc(var(--radius) + 4px);
+    background: var(--surface);
+}
+
+/* Title, label and outcome sit above the diagram, so the panel is named before it is read */
+.flow-head {
+    display: grid;
+    gap: 4px;
+    padding: 8px 10px 18px;
+}
+
+.flow-outcome {
+    margin-top: 6px;
+    font-weight: 700;
+}
+
+.flow-stage {
+    border-radius: var(--radius);
+}
+
+.flow-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px 16px;
+    padding: 14px 10px 6px;
+}
+
+.flow-title {
+    font-size: var(--fs-lead);
+    line-height: 1.25;
+}
+
+/* ---- Sections ----------------------------------------------------------- */
+
+.section {
+    padding-block: var(--section-head-space) var(--section-space);
+    border-top: 1px solid var(--line);
+}
+
+.section h2 {
+    font-size: var(--fs-heading);
+}
+
+.section-head {
+    margin-bottom: clamp(32px, 4vw, 48px);
+}
+
+.section-head p {
+    margin-top: 12px;
+    color: var(--text-muted);
+}
+
+.data-error {
+    color: var(--text-muted);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+    gap: clamp(20px, 6vw, 80px);
+    align-items: start;
+}
+
+.about-text {
+    max-width: 58ch;
+}
+
+/* ---- Featured project cards --------------------------------------------- */
+
+.featured {
+    display: grid;
+    gap: clamp(28px, 3.5vw, 40px);
+}
+
+.feature-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition: background-color 0.2s;
+}
+
+.feature-card:hover {
+    background: var(--surface-hover);
+    outline: 1px solid var(--line-strong);
+    outline-offset: -1px;
+}
+
+.feature-card:has(.card-link:focus-visible),
+.project-row:has(.card-link:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* The title button covers the whole card or row, so it is one big click target */
+.card-link {
+    all: unset;
+    cursor: pointer;
+}
+
+.card-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.feature-card .media {
+    aspect-ratio: auto;
+    min-height: 320px;
+}
+
+.feature-card:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+}
+
+.feature-card:nth-child(even) .media {
+    order: 2;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    padding: clamp(24px, 3vw, 40px);
+}
+
+.card-body h3 {
+    font-size: var(--fs-lead);
+}
+
+.card-body .meta {
+    margin-top: -6px;
+}
+
+.outcome {
+    font-weight: 700;
+}
+
+.read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-weight: 700;
+}
+
+.read-more .icon {
+    transition: translate 0.2s var(--ease);
+}
+
+.feature-card:hover .read-more .icon {
+    translate: 3px 0;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    list-style: none;
+}
+
+.tags li {
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+    font-weight: 600;
+}
+
+/* ---- Project lists ------------------------------------------------------ */
+
+.project-group {
+    margin-top: clamp(64px, 8vw, 96px);
+    padding-top: clamp(24px, 3vw, 32px);
+    border-top: 1px solid var(--line);
+}
+
+.project-group h3 {
+    margin-bottom: 4px;
+    font-size: var(--fs-lead);
+}
+
+.project-list {
+    padding: 0;
+    list-style: none;
+}
+
+.project-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr) 24px;
+    gap: 4px 32px;
+    align-items: start;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.project-row:last-child {
+    border-bottom: 0;
+}
+
+.project-row:hover h4 {
+    text-decoration: underline;
+    text-decoration-color: var(--text-muted);
+    text-underline-offset: 0.2em;
+}
+
+.project-row h4 {
+    font-size: var(--fs-body);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.project-row .meta {
+    margin-top: 2px;
+}
+
+.row-detail {
+    display: grid;
+    gap: 8px;
+}
+
+.row-arrow {
+    align-self: center;
+    color: var(--text-muted);
+    transition: translate 0.2s var(--ease), color 0.15s;
+}
+
+.project-row:hover .row-arrow {
+    translate: 3px 0;
+    color: var(--text);
+}
+
+/* Only shown on phones, where a long list starts with its first four rows */
+.list-more {
+    display: none;
+}
+
+/* ---- Project diagrams --------------------------------------------------- */
+
+.media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--surface-2);
+}
+
+/* The diagram sits in normal flow, so a narrow frame grows to fit its steps instead of cropping them */
+.media--diagram {
+    display: grid;
+    place-items: center;
+    padding: 20px 16px;
+    overflow: visible;
+    container-type: inline-size;
+}
+
+.pipeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+}
+
+.pipeline li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    padding: 0.38em 0.95em;
+    border: 1px solid var(--accent-line);
+    border-radius: 6px;
+    background: var(--bg);
+    line-height: 1.3;
+    text-align: center;
+    text-wrap: balance;
+}
+
+/* A second input joining at this step */
+.step-input {
+    margin-top: 0.15em;
+    color: var(--text-muted);
+}
+
+.pipeline li + li::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 1px;
+    height: 0.6em;
+    background: var(--accent-line);
+}
+
+.step.is-input {
+    border-color: var(--line-strong);
+    color: var(--text-muted);
+}
+
+.step.is-result {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+/* Steps that repeat: a bracket on the right returns to the first of them */
+.loop-steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0;
+    list-style: none;
+}
+
+.loop::after {
+    content: '';
+    position: absolute;
+    top: 0.95em;
+    bottom: 0.95em;
+    left: calc(100% + 0.5em);
+    width: 0.8em;
+    border: 1px solid var(--accent-line);
+    border-left: 0;
+    border-radius: 0 6px 6px 0;
+}
+
+.loop-arrow {
+    position: absolute;
+    top: calc(0.95em - 4px);
+    left: calc(100% + 0.5em - 6px);
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-right: 6px solid var(--accent-line);
+}
+
+.loop-label {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 1.7em);
+    translate: 0 -50%;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+@container (max-width: 440px) {
+    .loop-label {
+        display: none;
+    }
+}
+
+/* The one authored motion: steps light up in order, like data passing through */
+.flow-ready .pipeline:not(.is-flowing) .step,
+.flow-ready .pipeline:not(.is-flowing) li::before,
+.flow-ready .pipeline:not(.is-flowing) .loop::after,
+.flow-ready .pipeline:not(.is-flowing) .loop-arrow,
+.flow-ready .pipeline:not(.is-flowing) .loop-label {
+    opacity: 0;
+}
+
+.flow-ready .pipeline.is-flowing .step {
+    animation: step-in 0.5s var(--ease) backwards;
+    animation-delay: calc(var(--step, 0) * 110ms);
+}
+
+.flow-ready .pipeline.is-flowing li::before {
+    animation: fade-in 0.3s ease backwards;
+    animation-delay: calc(var(--step, 0) * 110ms);
+}
+
+.flow-ready .pipeline.is-flowing .loop::after,
+.flow-ready .pipeline.is-flowing .loop-arrow,
+.flow-ready .pipeline.is-flowing .loop-label {
+    animation: fade-in 0.4s ease backwards;
+    animation-delay: calc(var(--step-end, 0) * 110ms + 250ms);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes step-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+}
+
+/* ---- Skills ------------------------------------------------------------- */
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 36px 40px;
+}
+
+.skill-group h3 {
+    margin-bottom: 12px;
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.skill-group ul {
+    display: grid;
+    gap: 14px;
+    padding: 0;
+    list-style: none;
+}
+
+.skill-group li {
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-name {
+    font-weight: 700;
+}
+
+.skill-detail {
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+}
+
+/* ---- Contact ------------------------------------------------------------ */
+
+.contact-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px clamp(32px, 6vw, 80px);
+    align-items: start;
+    padding: clamp(28px, 6vw, 72px);
+    border-radius: calc(var(--radius) + 6px);
+    background: var(--surface);
+}
+
+.contact-intro p {
+    max-width: 44ch;
+    margin-top: 14px;
+}
+
+.contact-email {
+    display: inline-block;
+    font-size: var(--fs-lead);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-decoration: underline;
+    text-decoration-color: var(--text-muted);
+    text-decoration-thickness: 2px;
+    overflow-wrap: anywhere;
+    transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.contact-email:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+
+.contact-email-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+
+.site-footer {
+    padding: 32px 0 40px;
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+}
+
+.site-footer .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.site-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.icon-up {
+    rotate: -90deg;
+}
+
+.site-footer a:hover {
+    color: var(--text);
+}
+
+/* ---- Project dialog ----------------------------------------------------- */
+
+.project-dialog {
+    width: min(780px, 100% - 32px);
+    max-width: none;
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    padding: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 0;
+    border-radius: 18px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow-float);
+}
+
+.project-dialog::backdrop {
+    background: var(--scrim);
+}
+
+.project-dialog[open] {
+    animation: dialog-in 0.22s var(--ease);
+}
+
+@keyframes dialog-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+}
+
+/* Zero-height sticky row keeps the close button visible while scrolling */
+.dialog-close-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: flex-end;
+    height: 0;
+}
+
+.dialog-close {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin: 12px 12px 0 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--surface-3);
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.15s;
+}
+
+.dialog-close:hover {
+    background: var(--surface-4);
+}
+
+.dialog-media {
+    aspect-ratio: auto;
+    margin: 22px 0 24px;
+    border-radius: var(--radius);
+}
+
+/* The top padding leaves room for the close button beside the title */
+.dialog-body {
+    padding: 64px clamp(24px, 4vw, 44px) clamp(24px, 4vw, 44px);
+}
+
+.dialog-body h2 {
+    font-size: clamp(24px, 3vw, 36px);
+}
+
+.dialog-body > .meta {
+    margin-top: 8px;
+}
+
+.dialog-outcome {
+    margin-top: 12px;
+    font-weight: 700;
+}
+
+.dialog-lead,
+.dialog-section p,
+.dialog-section li {
+    max-width: 60ch;
+}
+
+.dialog-section {
+    margin-top: 28px;
+}
+
+.dialog-section h3 {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.bullets {
+    padding: 0;
+    list-style: none;
+}
+
+.bullets li {
+    position: relative;
+    margin-top: 6px;
+    padding-left: 20px;
+}
+
+.bullets li::before {
+    content: '';
+    position: absolute;
+    top: 0.68em;
+    left: 2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--text-muted);
+}
+
+.next-word {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .next-word {
+        display: inline;
+    }
+}
+
+.dialog-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 clamp(24px, 4vw, 44px) clamp(24px, 4vw, 44px);
+}
+
+.dialog-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+/* Reduced motion keeps every state change (colours, the open dialog, the pipeline) but nothing moves */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .project-dialog[open] {
+        animation: none;
+    }
+
+    .btn:hover,
+    .btn:active,
+    .feature-card:hover .read-more .icon,
+    .project-row:hover .row-arrow {
+        translate: none;
+    }
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (min-width: 701px) {
+    .feature-card .pipeline,
+    .flow-stage .pipeline {
+        font-size: var(--fs-body);
+    }
+}
+
+@media (max-width: 900px) {
+    .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px 24px;
+    }
+}
+
+@media (max-width: 760px), (pointer: coarse) {
+    .btn-sm,
+    .brand,
+    .contact-email,
+    .site-footer a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 760px) {
+    .hero-grid,
+    .contact-card {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Dims the page behind the open menu; tapping it closes the menu */
+    .js .site-header[data-open]::after {
+        content: '';
+        position: fixed;
+        inset: var(--header-h) 0 0;
+        z-index: -1;
+        background: var(--scrim);
+    }
+
+    .next-name {
+        display: none;
+    }
+
+    .dialog-foot {
+        position: sticky;
+        bottom: 0;
+        padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+        border-top: 1px solid var(--line);
+        background: var(--surface);
+    }
+
+    .dialog-foot .btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-row {
+        grid-template-columns: minmax(0, 1fr) 24px;
+        gap: 4px 12px;
+    }
+
+    .row-detail {
+        grid-column: 1;
+    }
+
+    .row-arrow {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+
+    .js .nav-toggle {
+        display: inline-grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border: 0;
+        border-radius: 10px;
+        background: var(--surface-2);
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .nav-toggle .icon-close,
+    .site-header[data-open] .nav-toggle .icon-menu {
+        display: none;
+    }
+
+    .site-header[data-open] .nav-toggle .icon-close {
+        display: block;
+    }
+
+    .js .nav-links {
+        position: absolute;
+        top: var(--header-h);
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 4px var(--gutter) 20px;
+        background: var(--surface);
+    }
+
+    .js .site-header[data-open] .nav-links {
+        display: flex;
+    }
+
+    .js .nav-links a:not(.btn) {
+        display: block;
+        padding: 14px 0;
+        font-size: var(--fs-body);
+    }
+
+    .js .nav-links .btn {
+        justify-content: center;
+        width: 100%;
+        margin-top: 12px;
+        padding-block: 12px;
+    }
+
+    /* Without JavaScript the links simply wrap under the name */
+    .no-js .nav {
+        flex-wrap: wrap;
+        height: auto;
+        padding-block: 12px;
+    }
+
+    .no-js .nav-links {
+        flex-wrap: wrap;
+        gap: 12px 20px;
+    }
+
+    .project-dialog {
+        width: calc(100% - 20px);
+        max-height: calc(100dvh - 20px);
+        border-radius: 14px;
+    }
+
+    /* No X on phones, so the title can start near the top */
+    .dialog-body {
+        padding-top: 28px;
+    }
+
+    /* The bottom bar has Close, so the X would only cover the picture and the text */
+    .dialog-close-wrap {
+        display: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .feature-card,
+    .feature-card:nth-child(even) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .feature-card:nth-child(even) .media {
+        order: 0;
+    }
+
+    .feature-card .media {
+        aspect-ratio: 16 / 10;
+        min-height: auto;
+    }
+
+    /* A shorter page on phones: the popup still has the summary and every tag */
+    .card-summary,
+    .project-row .tags,
+    .project-list:not([data-expanded]) > [data-extra] {
+        display: none;
+    }
+
+    .list-more {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 16px;
+    }
+}
