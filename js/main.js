@@ -112,7 +112,7 @@
                 <h3>${linkHtml(project)}</h3>
                 <p class="meta">${escapeHtml(metaText(project))}</p>
                 ${project.outcome ? `<p class="outcome">${escapeHtml(project.outcome)}</p>` : ''}
-                ${project.summary ? `<p>${escapeHtml(project.summary)}</p>` : ''}
+                ${project.summary ? `<p class="card-summary">${escapeHtml(project.summary)}</p>` : ''}
                 ${tagsHtml(project.tags)}
                 <span class="read-more" aria-hidden="true">Open project ${icon('arrow')}</span>
             </div>
@@ -134,6 +134,24 @@
     document.getElementById('featured-projects').innerHTML = PROJECTS.filter(p => p.featured).map(featureHtml).join('');
     document.getElementById('client-projects').innerHTML = others.filter(p => p.type === 'client').map(rowHtml).join('');
     document.getElementById('university-projects').innerHTML = others.filter(p => p.type !== 'client').map(rowHtml).join('');
+
+    // On phones a long list shows its first rows and a button for the rest (the CSS hides [data-extra] rows).
+    const ROWS_SHOWN = 4;
+    function expandList(list) {
+        list.toggleAttribute('data-expanded', true);
+        const more = list.nextElementSibling;
+        if (more?.matches('.list-more')) more.remove();
+    }
+    document.querySelectorAll('.project-list').forEach(list => {
+        const extra = [...list.children].slice(ROWS_SHOWN);
+        if (extra.length < 2) return;
+        extra.forEach(row => row.toggleAttribute('data-extra', true));
+        list.insertAdjacentHTML('afterend', `<button type="button" class="list-more">Show ${extra.length} more projects</button>`);
+        list.nextElementSibling.addEventListener('click', () => {
+            expandList(list);
+            extra[0].querySelector('.card-link').focus();
+        });
+    });
 
     // ---- Pipeline motion ---------------------------------------------------
 
@@ -279,7 +297,9 @@
     // A link like kajetannewes.github.io/#app-deployment opens that project directly.
     const linkedId = location.hash.slice(1);
     if (projectsById.has(linkedId)) {
-        document.getElementById(linkedId)?.scrollIntoView({ block: 'center', behavior: 'instant' });
+        const target = document.getElementById(linkedId);
+        if (target?.hasAttribute('data-extra')) expandList(target.parentElement);
+        target?.scrollIntoView({ block: 'center', behavior: 'instant' });
         openProject(linkedId, { updateUrl: false });
     }
 })();

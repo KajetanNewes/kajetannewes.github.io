@@ -581,6 +581,11 @@ main:focus {
     color: var(--text);
 }
 
+/* Only shown on phones, where a long list starts with its first four rows */
+.list-more {
+    display: none;
+}
+
 /* ---- Project diagrams --------------------------------------------------- */
 
 .media {
@@ -1184,5 +1189,32 @@ main:focus {
     .feature-card .media {
         aspect-ratio: 16 / 10;
         min-height: auto;
+    }
+
+    /* A shorter page on phones: the popup still has the summary and every tag */
+    .card-summary,
+    .project-row .tags,
+    .project-list:not([data-expanded]) > [data-extra] {
+        display: none;
+    }
+
+    .list-more {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 48px;
+        margin-top: 16px;
+        border: 0;
+        border-radius: 10px;
+        background: var(--surface-2);
+        color: var(--text);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .list-more:hover {
+        background: var(--surface-3);
     }
 }
