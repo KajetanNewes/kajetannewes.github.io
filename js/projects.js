@@ -52,14 +52,14 @@ const PROJECTS = [
         loop: { from: 2, to: 3, label: 'refine' },
         outcome: 'Teams spot common themes in review comments quickly',
         summary: 'Groups review comments into themes with unsupervised clustering, so the team spends less time reading and sorting them by hand.',
-        details: 'Built a system that clusters analytical review comments by theme. Unsupervised learning finds the patterns in large volumes of feedback, and a Streamlit interface allows users to explore the results. A semi-supervised module adds a human-in-the-loop step: users assign categories by hand, and the clustering model learns from them.',
+        details: 'Built a system that clusters analytical review comments by theme. Unsupervised learning finds the patterns in large volumes of feedback, and a Streamlit interface lets users explore the results. A semi-supervised module adds a human-in-the-loop step: users assign categories by hand, and the clustering model learns from them.',
         challenges: [
             'Processing and cleaning unstructured text data from various sources',
             'Selecting appropriate clustering algorithms for comment categorization',
             'Determining optimal number of clusters for meaningful groupings',
             'Creating an intuitive interface for non-technical users to explore results'
         ],
-        results: 'Teams use it to find recurring themes in review feedback, and the clusters become more accurate as users refine them over time.',
+        results: 'Teams use it to find recurring themes in review feedback, and the clusters get more accurate as users refine them over time.',
         tags: ['Python', 'Machine Learning', 'NLP', 'Clustering', 'Streamlit'],
         links: []
     },
@@ -78,7 +78,7 @@ const PROJECTS = [
             'Ensuring scalability and reliability of the deployed application on cloud infrastructure',
             'Containerizing the application for consistent deployment across environments'
         ],
-        results: 'Users upload an image to the Streamlit app on Azure and receive the root segmentation. The project covers the full MLOps cycle, from training to monitoring in production.',
+        results: 'Users upload an image to the Streamlit app on Azure and get the root segmentation back. The project covers the full MLOps cycle, from training to monitoring in production.',
         tags: ['Python', 'MLOps', 'Cloud', 'CI/CD', 'Docker'],
         links: []
     },
@@ -111,7 +111,7 @@ const PROJECTS = [
         loop: { from: 0, to: 3, label: 'revise + resubmit' },
         outcome: 'Core app built; runs on standard Microsoft 365 licenses',
         summary: 'A Power Apps app, designed to run inside Microsoft Teams, that replaces a shared Excel purchase order template with a guided form and an amount-based, multi-stage approval workflow.',
-        details: 'Purchase orders were raised in Excel, with supplier details typed by hand, PO numbers assigned manually and approvals followed up by email. In a regulated (GMP) environment that meant inconsistent data, no enforced approval authority and no reliable record of who approved what, and when. I translated the stakeholders\' requirements into a data model and routing design and built the app end to end on SharePoint lists. A supplier search across several thousand suppliers fills in the order details, PO numbers are assigned automatically without duplicates, and a quotation must be attached before approval. The approver list only shows people whose approval authority covers the order value, self-approval is blocked, and high-value orders receive an additional review before Purchasing and Finance. A rejection needs a comment, and any edit restarts the approval chain.',
+        details: 'Purchase orders were raised in Excel, with supplier details typed by hand, PO numbers assigned manually and approvals chased over email. In a regulated (GMP) environment that meant inconsistent data, no enforced approval authority and no reliable record of who approved what, and when. I translated the stakeholders\' requirements into a data model and routing design and built the app end to end on SharePoint lists. A supplier search across several thousand suppliers fills in the order details, PO numbers are assigned automatically without duplicates, and a quotation must be attached before approval. The approver list only shows people whose approval authority covers the order value, self-approval is blocked, and high-value orders get an extra review before Purchasing and Finance. A rejection needs a comment, and any edit restarts the approval chain.',
         challenges: [
             'Working within SharePoint delegation limits, so supplier search and approval queues stay correct across thousands of rows',
             'Repairing lists imported from Excel, with wrong column types and names that collided with SharePoint system columns',
@@ -133,7 +133,7 @@ const PROJECTS = [
         summary: 'A kanban-style web app where sales logs urgent orders and the warehouse moves them through a fixed workflow, with role-based access, a full audit trail and live KPIs.',
         details: 'Priority orders were coordinated between sales and the warehouse without a shared overview. I designed, built and deployed a board that is the single source of truth. Orders move from New to In progress to Done, split by order category, and each transition is enforced and logged: starting an order needs a working status, and closing one needs an outcome and at least one comment. Viewers can only browse, sales can add orders and delete ones that are still new, and the warehouse controls the workflow. Permissions are checked per capability, and credentials are hashed with PBKDF2.',
         challenges: [
-            'Ensuring the board records what actually happened, not only what was moved between columns',
+            'Making the board show what actually happened, not just what someone dragged into a column',
             'Measuring time to close in working hours only (Monday to Friday, 08:00 to 17:00)',
             'Keeping the history of every change, even after an order is deleted',
             'Upgrading the live database in place on startup, keeping all existing data and IDs'
@@ -149,7 +149,7 @@ const PROJECTS = [
         org: 'FreshBrains',
         diagram: ['E-boekhouden API', 'Python sync in Docker', 'Data transformation', 'Power BI dashboard'],
         loop: { from: 0, to: 3, label: 'runs continuously' },
-        outcome: 'Power BI updates automatically, without manual data entry',
+        outcome: 'Power BI now updates itself, with no manual data entry',
         summary: 'Feeds accounting data from E-boekhouden into a Power BI dashboard automatically, through the E-boekhouden API.',
         details: 'A Python service calls the accounting API, transforms the data into the format Power BI needs, and updates the dashboards. It runs continuously in Docker.',
         challenges: [
@@ -195,7 +195,7 @@ const PROJECTS = [
             'Implementing data validation to ensure accurate time tracking',
             'Integrating with existing data systems and reporting requirements'
         ],
-        results: 'Lab staff adopted it quickly. The time data is more accurate, there is less administrative work, and management can see how lab time is used.',
+        results: 'Lab staff adopted it quickly. The time data is more accurate, there is less admin work, and management can see how lab time is used.',
         tags: ['Power Apps', 'Low-Code', 'Workflow Automation'],
         links: []
     },
@@ -249,7 +249,7 @@ const PROJECTS = [
             'Ensuring the model could generalize well beyond the training data',
             'Creating a prototype that was both functional and user-friendly for non-technical users'
         ],
-        results: 'The model reached high accuracy on images it had not seen during training, and the prototype app is fully functional.',
+        results: 'The model reached high accuracy on images it had not seen during training, and the prototype app works end to end.',
         tags: ['Python', 'Computer Vision', 'Deep Learning', 'CNN'],
         links: []
     },
@@ -258,7 +258,7 @@ const PROJECTS = [
         title: 'NLP Video Processing Pipeline',
         type: 'university',
         diagram: ['French video', 'Transcribe', 'Translate to English', 'Classify emotion', 'Emotion-tagged transcript'],
-        outcome: 'Turns French video into emotion-tagged English transcripts',
+        outcome: 'French video in, emotion-tagged English transcript out',
         summary: 'Transcribes French video, translates it to English and tags each sentence with an emotion, using traditional NLP instead of large language models.',
         details: 'The pipeline extracts the audio, transcribes it, translates the French transcript to English and classifies the emotion of each sentence. Every step uses traditional NLP techniques rather than large language models.',
         challenges: [
@@ -267,7 +267,7 @@ const PROJECTS = [
             'Developing reliable emotion detection that works across different speaking styles',
             'Integrating multiple NLP components into a cohesive pipeline'
         ],
-        results: 'The complete pipeline converts a French video into an emotion-tagged English transcript.',
+        results: 'The full pipeline works end to end, from a French video to an emotion-tagged English transcript.',
         tags: ['Python', 'NLP', 'Transcription', 'Emotion Analysis'],
         links: []
     },
